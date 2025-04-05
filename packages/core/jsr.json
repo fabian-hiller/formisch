@@ -1,0 +1,9 @@
+{
+  "name": "@formisch/core",
+  "version": "0.1.0",
+  "exports": "./src/index.ts",
+  "publish": {
+    "include": ["src/**/*.ts", "README.md"],
+    "exclude": ["src/**/*.test.ts", "src/**/*.test-d.ts", "src/vitest/**/*.ts"]
+  }
+}
