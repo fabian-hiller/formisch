@@ -1,0 +1,26 @@
+{
+  "name": "formisch-playground-solid",
+  "type": "module",
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start"
+  },
+  "dependencies": {
+    "@formisch/solid": "workspace:*",
+    "@formkit/auto-animate": "^0.8.2",
+    "@solid-primitives/event-listener": "^2.4.3",
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.15.3",
+    "@solidjs/start": "^1.1.6",
+    "@tailwindcss/vite": "^4.1.11",
+    "clsx": "^2.1.1",
+    "solid-js": "^1.9.7",
+    "tailwindcss": "^4.1.11",
+    "valibot": "^1.1.0",
+    "vinxi": "^0.5.8"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

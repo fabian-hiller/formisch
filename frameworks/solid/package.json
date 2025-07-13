@@ -1,0 +1,92 @@
+{
+  "name": "@formisch/solid",
+  "description": "The modular and type-safe form library for SolidJS",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Fabian Hiller",
+  "homepage": "https://formisch.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabian-hiller/formisch"
+  },
+  "keywords": [
+    "solidjs",
+    "modular",
+    "typescript",
+    "schema",
+    "validation",
+    "parsing",
+    "bundle-size",
+    "type-safe"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "solid": {
+      "development": "./dist/dev.jsx",
+      "import": "./dist/index.jsx"
+    },
+    "development": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/dev.js"
+      }
+    },
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "vitest --typecheck",
+    "coverage": "vitest run --coverage --isolate",
+    "lint": "eslint \"src/**/*.ts*\" && tsc --noEmit && deno check ./src/index.ts",
+    "lint.fix": "eslint \"src/**/*.ts*\" --fix",
+    "format": "prettier --write ./src",
+    "format.check": "prettier --check ./src",
+    "build": "tsup"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@formisch/core": "workspace:*",
+    "@formisch/methods": "workspace:*",
+    "@vitest/coverage-v8": "^3.1.1",
+    "eslint": "^9.24.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsdoc": "^50.6.9",
+    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-solid": "^0.14.5",
+    "jsdom": "^26.0.0",
+    "rollup": "^4.44.0",
+    "rollup-preset-solid": "^3.0.0",
+    "solid-js": "^1.9.5",
+    "tsdown": "^0.12.8",
+    "tsup": "^8.0.2",
+    "tsup-preset-solid": "^2.2.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.0",
+    "valibot": "^1.1.0",
+    "vitest": "3.1.1"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.6.0",
+    "typescript": ">=5",
+    "valibot": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "browser": {},
+  "typesVersions": {}
+}
