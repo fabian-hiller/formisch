@@ -13,7 +13,7 @@ Formisch is a schema-based, headless form library for JS frameworks. It manages 
 
 ## Example
 
-I SolidJS a form starts with the `createForm` primitive. It initializes your form's store based on the provided Valibot schema and infers its types. Next, wrap your form in the `<Form />` component. It's a thin layer around the native `<form />` element that handles form validation and submission. Then, you can access the state of a field with the `useField` primitive or the `<Field />` component to connect your inputs.
+In SolidJS a form starts with the `createForm` primitive. It initializes your form's store based on the provided Valibot schema and infers its types. Next, wrap your form in the `<Form />` component. It's a thin layer around the native `<form />` element that handles form validation and submission. Then, you can access the state of a field with the `useField` primitive or the `<Field />` component to connect your inputs.
 
 ```tsx
 import { createForm, Field, Form } from '@formisch/solid';
