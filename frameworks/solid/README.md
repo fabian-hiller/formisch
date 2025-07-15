@@ -57,7 +57,7 @@ export default function LoginPage() {
 }
 ```
 
-In addition, Formisch offers several functions (we call them "methods") that can be used to manipulate the form state. These include `reset`, `setInput`, and `setErrors`. These methods allow you to control the form programmatically.
+In addition, Formisch offers several functions (we call them "methods") that can be used to manipulate the form state. These include `focus`, `getErrors`, `getAllErrors`, `getInput`, `insert`, `move`, `remove`, `replace`, `reset`, `setErrors`, `setInput`, `submit`, `swap` and `validate`. These methods allow you to control the form programmatically.
 
 ## Feedback
 
