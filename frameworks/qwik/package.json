@@ -11,13 +11,10 @@
   },
   "keywords": [
     "qwik",
-    "modular",
+    "form",
     "typescript",
     "schema",
-    "validation",
-    "parsing",
-    "bundle-size",
-    "type-safe"
+    "validation"
   ],
   "type": "module",
   "main": "./dist/index.qwik.js",
