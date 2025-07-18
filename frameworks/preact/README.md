@@ -13,10 +13,10 @@ Formisch is a schema-based, headless form library for Preact. It manages form st
 
 ## Example
 
-Every form starts with the `useForm$` hook. It initializes your form's store based on the provided Valibot schema and infers its types. Next, wrap your form in the `<Form />` component. It's a thin layer around the native `<form />` element that handles form validation and submission. Then, you can access the state of a field with the `useField` hook or the `<Field />` component to connect your inputs.
+Every form starts with the `useForm` hook. It initializes your form's store based on the provided Valibot schema and infers its types. Next, wrap your form in the `<Form />` component. It's a thin layer around the native `<form />` element that handles form validation and submission. Then, you can access the state of a field with the `useField` hook or the `<Field />` component to connect your inputs.
 
 ```tsx
-import { Field, Form, useForm$ } from '@formisch/preact';
+import { Field, Form, useForm } from '@formisch/preact';
 import * as v from 'valibot';
 
 const LoginSchema = v.object({
