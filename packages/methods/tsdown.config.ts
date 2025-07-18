@@ -1,7 +1,7 @@
 import { RolldownPluginOption } from 'rolldown';
 import { defineConfig, UserConfig, UserConfigFn } from 'tsdown';
 
-type Framework = 'qwik' | 'solid';
+type Framework = 'preact' | 'qwik' | 'solid';
 
 /**
  * Rolldown plugin to rewrite framework-specific imports.
@@ -28,6 +28,7 @@ function defineFrameworkConfig(
     external: [
       '@formisch/core',
       `@formisch/core/${framework}`,
+      '@preact/signals',
       '@qwik.dev/core',
       'solid-js',
       'valibot',
@@ -46,6 +47,7 @@ function defineFrameworkConfig(
 }
 
 const config: (UserConfig | UserConfigFn)[] = [
+  defineFrameworkConfig('preact'),
   defineFrameworkConfig('qwik'),
   defineFrameworkConfig('solid'),
 ];

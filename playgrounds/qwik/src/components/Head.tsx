@@ -33,16 +33,6 @@ export const Head = component$(() => {
           dangerouslySetInnerHTML={style.style}
         />
       ))}
-
-      <script
-        // Add "dark" class for theming before browser has chance to paint to
-        // prevent screen from flashing between two color modes
-        dangerouslySetInnerHTML={`
-          if (!window.matchMedia('(prefers-color-scheme: light)').matches) {
-            document.documentElement.classList.add('dark');
-          }
-        `}
-      />
     </>
   );
 });

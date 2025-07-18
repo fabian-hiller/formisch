@@ -1,6 +1,6 @@
 import type { Signal } from '../types/index.ts';
 
-export type Framework = 'solid' | 'qwik';
+export type Framework = 'preact' | 'qwik' | 'solid';
 
 export const framework: Framework = '' as Framework;
 

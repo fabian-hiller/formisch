@@ -52,7 +52,7 @@ export default function NestedPage() {
       <Form
         of={nestedForm}
         class="space-y-12 md:space-y-14 lg:space-y-16"
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(output) => console.log(output)}
       >
         <FormHeader of={nestedForm} heading="Nested form" />
 

@@ -1,13 +1,6 @@
 import { makeEventListener } from '@solid-primitives/event-listener';
 import clsx from 'clsx';
-import {
-  createEffect,
-  createSignal,
-  JSX,
-  on,
-  onCleanup,
-  untrack,
-} from 'solid-js';
+import { createEffect, createSignal, JSX, onCleanup, untrack } from 'solid-js';
 import { isServer } from 'solid-js/web';
 
 type ExpandableProps = {
@@ -21,7 +14,7 @@ type ExpandableProps = {
  * Wrapper component to vertically expand or collapse content.
  */
 export function Expandable(props: ExpandableProps) {
-  // Use element signal
+  // Use element and frozen children signals
   const [getElement, setElement] = createSignal<HTMLDivElement>();
   const [getFrozenChildren, setFrozenChildren] = createSignal<JSX.Element>(
     props.children

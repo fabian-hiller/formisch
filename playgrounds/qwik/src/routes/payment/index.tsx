@@ -1,8 +1,8 @@
+import { Field, Form, getInput, useForm$ } from '@formisch/qwik';
 import { component$, useComputed$ } from '@qwik.dev/core';
 import { type DocumentHead } from '@qwik.dev/router';
-import { Field, Form, useForm$, getInput } from '@formisch/qwik';
 import * as v from 'valibot';
-import { FormHeader, TextInput, Select, FormFooter } from '~/components';
+import { FormFooter, FormHeader, Select, TextInput } from '~/components';
 
 const PaymentFormSchema = v.intersect([
   v.object({
@@ -58,7 +58,7 @@ export default component$(() => {
     <Form
       of={paymentForm}
       class="space-y-12 md:space-y-14 lg:space-y-16"
-      onSubmit$={(values) => console.log(values)}
+      onSubmit$={(output) => console.log(output)}
     >
       <FormHeader of={paymentForm} heading="Payment form" />
       <div class="space-y-8 md:space-y-10 lg:space-y-12">

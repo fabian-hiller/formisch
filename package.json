@@ -12,6 +12,8 @@
   "type": "module",
   "private": true,
   "devDependencies": {
+    "@babel/plugin-syntax-class-properties": "^7.12.13",
+    "@babel/plugin-syntax-jsx": "^7.27.1",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",

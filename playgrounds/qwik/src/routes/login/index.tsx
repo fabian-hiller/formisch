@@ -1,8 +1,8 @@
+import { Field, Form, useForm$ } from '@formisch/qwik';
 import { component$ } from '@qwik.dev/core';
 import { type DocumentHead } from '@qwik.dev/router';
-import { Field, Form, useForm$ } from '@formisch/qwik';
 import * as v from 'valibot';
-import { FormHeader, TextInput, FormFooter } from '~/components';
+import { FormFooter, FormHeader, TextInput } from '~/components';
 
 const LoginSchema = v.object({
   email: v.pipe(
@@ -26,7 +26,7 @@ export default component$(() => {
     <Form
       of={loginForm}
       class="space-y-12 md:space-y-14 lg:space-y-16"
-      onSubmit$={(values) => console.log(values)}
+      onSubmit$={(output) => console.log(output)}
     >
       <FormHeader of={loginForm} heading="Login form" />
       <div class="space-y-8 md:space-y-10 lg:space-y-12">

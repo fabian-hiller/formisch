@@ -26,6 +26,10 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./preact": {
+      "types": "./dist/index.preact.d.ts",
+      "default": "./dist/index.preact.js"
+    },
     "./qwik": {
       "types": "./dist/index.qwik.d.ts",
       "default": "./dist/index.qwik.js"
@@ -53,6 +57,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
+    "@preact/signals": "^2.2.1",
     "@qwik.dev/core": "2.0.0-beta.5",
     "@types/node": "24.0.13",
     "@vitest/coverage-v8": "^3.2.4",
@@ -77,6 +82,9 @@
     "valibot": "^1.0.0"
   },
   "peerDependenciesMeta": {
+    "@preact/signals": {
+      "optional": true
+    },
     "@qwik.dev/core": {
       "optional": true
     },

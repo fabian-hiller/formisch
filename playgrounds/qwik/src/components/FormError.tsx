@@ -1,6 +1,6 @@
+import type { FormStore } from '@formisch/qwik';
 import { component$, useSignal, useTask$ } from '@qwik.dev/core';
 import { isBrowser } from '@qwik.dev/core/build';
-import type { FormStore } from '@formisch/qwik';
 import clsx from 'clsx';
 import { Expandable } from './Expandable';
 
@@ -40,7 +40,7 @@ export const FormError = component$(
             props.class
           )}
         >
-          {frozenFormError.value}
+          {frozenFormError.value?.[0]}
         </div>
       </Expandable>
     );

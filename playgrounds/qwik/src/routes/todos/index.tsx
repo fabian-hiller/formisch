@@ -1,5 +1,3 @@
-import { component$, useSignal, useVisibleTask$ } from '@qwik.dev/core';
-import { type DocumentHead } from '@qwik.dev/router';
 import {
   Field,
   FieldArray,
@@ -12,14 +10,16 @@ import {
   useForm$,
 } from '@formisch/qwik';
 import autoAnimate from '@formkit/auto-animate';
+import { component$, useSignal, useVisibleTask$ } from '@qwik.dev/core';
+import { type DocumentHead } from '@qwik.dev/router';
 import * as v from 'valibot';
 import {
-  FormHeader,
-  TextInput,
-  InputLabel,
   ColorButton,
-  InputErrors,
   FormFooter,
+  FormHeader,
+  InputErrors,
+  InputLabel,
+  TextInput,
 } from '~/components';
 
 const TodoFormSchema = v.object({
@@ -65,7 +65,7 @@ export default component$(() => {
     <Form
       of={todoForm}
       class="space-y-12 md:space-y-14 lg:space-y-16"
-      onSubmit$={(values) => console.log(values)}
+      onSubmit$={(output) => console.log(output)}
     >
       <FormHeader of={todoForm} heading="Todo form" />
 

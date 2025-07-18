@@ -20,7 +20,7 @@ export function FormError(props: FormErrorProps) {
           props.class
         )}
       >
-        {props.of.errors}
+        {props.of.errors?.[0]}
       </div>
     </Expandable>
   );

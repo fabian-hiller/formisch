@@ -1,15 +1,15 @@
+import { Field, Form, useForm$ } from '@formisch/qwik';
 import { component$, createComputed$ } from '@qwik.dev/core';
 import { type DocumentHead } from '@qwik.dev/router';
-import { Field, useForm$, Form } from '@formisch/qwik';
 import * as v from 'valibot';
 import {
-  FormHeader,
-  TextInput,
-  Slider,
-  Select,
+  Checkbox,
   FileInput,
   FormFooter,
-  Checkbox,
+  FormHeader,
+  Select,
+  Slider,
+  TextInput,
 } from '~/components';
 
 const SpecialFormSchema = v.object({
@@ -38,7 +38,7 @@ export default component$(() => {
     <Form
       of={specialForm}
       class="space-y-12 md:space-y-14 lg:space-y-16"
-      onSubmit$={(values) => console.log(values)}
+      onSubmit$={(output) => console.log(output)}
     >
       <FormHeader of={specialForm} heading="Special form" />
       <div class="space-y-8 md:space-y-10 lg:space-y-12">

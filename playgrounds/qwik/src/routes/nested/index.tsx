@@ -1,5 +1,3 @@
-import { $, component$, useSignal, useVisibleTask$ } from '@qwik.dev/core';
-import { type DocumentHead } from '@qwik.dev/router';
 import {
   Field,
   FieldArray,
@@ -11,9 +9,11 @@ import {
   swap,
   useForm$,
 } from '@formisch/qwik';
-import * as v from 'valibot';
-import { FormHeader, TextInput, ColorButton, FormFooter } from '~/components';
 import autoAnimate from '@formkit/auto-animate';
+import { $, component$, useSignal, useVisibleTask$ } from '@qwik.dev/core';
+import { type DocumentHead } from '@qwik.dev/router';
+import * as v from 'valibot';
+import { ColorButton, FormFooter, FormHeader, TextInput } from '~/components';
 
 const NestedFormSchema = v.object({
   items: v.array(
@@ -64,7 +64,7 @@ export default component$(() => {
     <Form
       of={nestedForm}
       class="space-y-12 md:space-y-14 lg:space-y-16"
-      onSubmit$={(values) => console.log(values)}
+      onSubmit$={(output) => console.log(output)}
     >
       <FormHeader of={nestedForm} heading="Nested form" />
 
