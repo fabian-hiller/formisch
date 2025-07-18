@@ -1,7 +1,7 @@
 {
   "name": "@formisch/qwik",
   "description": "The modular and type-safe form library for Qwik",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "author": "Fabian Hiller",
   "homepage": "https://formisch.dev",
@@ -20,19 +20,17 @@
     "type-safe"
   ],
   "type": "module",
-  "main": "./lib/index.qwik.mjs",
-  "qwik": "./lib/index.qwik.mjs",
-  "types": "./lib-types/index.d.ts",
+  "main": "./dist/index.qwik.js",
+  "qwik": "./dist/index.qwik.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./lib-types/index.d.ts",
-      "import": "./lib/index.qwik.mjs",
-      "require": "./lib/index.qwik.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.qwik.js"
     }
   },
   "files": [
-    "lib",
-    "lib-types"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -41,17 +39,10 @@
     "node": "^18.17.0 || ^20.3.0 || >=21.0.0"
   },
   "scripts": {
-    "build": "qwik build",
-    "build.lib": "vite build --mode lib",
-    "build.types": "tsc --emitDeclarationOnly",
-    "dev": "vite --mode ssr",
-    "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
+    "build": "tsdown",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
     "lint": "eslint \"src/**/*.ts*\"",
-    "release": "np",
-    "start": "vite --open --mode ssr",
-    "test": "echo \"No test specified\" && exit 0",
     "qwik": "qwik"
   },
   "devDependencies": {
@@ -64,6 +55,7 @@
     "eslint-plugin-qwik": "2.0.0-beta.5",
     "globals": "16.3.0",
     "prettier": "3.6.2",
+    "tsdown": "^0.12.9",
     "typescript": "5.8.3",
     "typescript-eslint": "8.36.0",
     "valibot": "^1.1.0",

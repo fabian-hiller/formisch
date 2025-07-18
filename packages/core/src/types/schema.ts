@@ -1,3 +1,3 @@
-import type { GenericSchema, GenericSchemaAsync } from 'valibot';
+import type * as v from 'valibot';
 
-export type Schema = GenericSchema | GenericSchemaAsync;
+export type Schema = v.GenericSchema | v.GenericSchemaAsync;
