@@ -34,7 +34,10 @@
   },
   "scripts": {
     "build": "tsdown",
-    "lint": "eslint \"src/**/*.ts*\""
+    "lint": "eslint \"src/**/*.ts*\" && tsc --noEmit",
+    "lint.fix": "eslint \"src/**/*.ts*\" --fix",
+    "format": "prettier --write ./src",
+    "format.check": "prettier --check ./src"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
