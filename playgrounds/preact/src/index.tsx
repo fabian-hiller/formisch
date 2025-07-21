@@ -3,13 +3,17 @@ import { LocationProvider, Route, Router, useLocation } from 'preact-iso';
 import { useEffect } from 'preact/hooks';
 import { Tabs } from './components';
 import './global.css';
+import { useEventListener } from './hooks';
 import Login from './routes/login';
 import Nested from './routes/nested';
 import Payment from './routes/payment';
 import Special from './routes/special';
 import Todos from './routes/todos';
+import { disableTransitions } from './utils';
 
 export function App() {
+  useEventListener('resize', disableTransitions);
+
   return (
     <LocationProvider>
       <Redirect />

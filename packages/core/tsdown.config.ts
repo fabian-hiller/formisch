@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { RolldownPluginOption } from 'rolldown';
 import { defineConfig, UserConfig, UserConfigFn } from 'tsdown';
 
-type Framework = 'preact' | 'qwik' | 'solid';
+type Framework = 'preact' | 'qwik' | 'solid' | 'vue';
 
 /**
  * Rolldown plugin to rewrite framework-specific imports.
@@ -79,7 +79,13 @@ function defineFrameworkConfig(
 ): UserConfig | UserConfigFn {
   return defineConfig({
     entry: ['./src/index.ts'],
-    external: ['@preact/signals', '@qwik.dev/core', 'solid-js', 'valibot'],
+    external: [
+      '@preact/signals',
+      '@qwik.dev/core',
+      'solid-js',
+      'valibot',
+      'vue',
+    ],
     clean: true,
     format: ['es'],
     minify: false,
@@ -106,6 +112,7 @@ const config: (UserConfig | UserConfigFn)[] = [
   defineFrameworkConfig('preact'),
   defineFrameworkConfig('qwik'),
   defineFrameworkConfig('solid'),
+  defineFrameworkConfig('vue'),
 ];
 
 export default config;

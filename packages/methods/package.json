@@ -31,6 +31,10 @@
     "./solid": {
       "types": "./dist/index.solid.d.ts",
       "default": "./dist/index.solid.js"
+    },
+    "./vue": {
+      "types": "./dist/index.vue.d.ts",
+      "default": "./dist/index.vue.js"
     }
   },
   "sideEffects": false,

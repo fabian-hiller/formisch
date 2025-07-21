@@ -62,6 +62,7 @@ export default tseslint.config(
 
       // Import
       'import/no-unresolved': 'off',
+      'import/named': 'off',
 
       // Security
       'security/detect-object-injection': 'off',

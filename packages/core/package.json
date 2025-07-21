@@ -37,6 +37,10 @@
     "./solid": {
       "types": "./dist/index.solid.d.ts",
       "default": "./dist/index.solid.js"
+    },
+    "./vue": {
+      "types": "./dist/index.vue.d.ts",
+      "default": "./dist/index.vue.js"
     }
   },
   "sideEffects": false,
@@ -73,13 +77,15 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.36.0",
     "valibot": "^1.1.0",
-    "vitest": "3.2.4"
+    "vitest": "3.2.4",
+    "vue": "^3.5.17"
   },
   "peerDependencies": {
     "@qwik.dev/core": "^2.0.0",
     "solid-js": "^1.6.0",
     "typescript": ">=5",
-    "valibot": "^1.0.0"
+    "valibot": "^1.0.0",
+    "vue": "^3.3.0"
   },
   "peerDependenciesMeta": {
     "@preact/signals": {
@@ -92,6 +98,9 @@
       "optional": true
     },
     "typescript": {
+      "optional": true
+    },
+    "vue": {
       "optional": true
     }
   }

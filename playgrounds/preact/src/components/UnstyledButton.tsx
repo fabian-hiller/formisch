@@ -12,7 +12,7 @@ type LinkProps = {
 
 type ButtonProps = {
   type: 'button' | 'reset' | 'submit';
-  onClick$?: () => unknown;
+  onClick?: () => unknown;
   loading?: boolean;
   form?: string;
 };
@@ -48,10 +48,10 @@ export function UnstyledButton(props: UnstyledButtonProps) {
       disabled={loading.value || props.loading}
       // Start and stop loading if function is async
       onClick={
-        props.onClick$ &&
+        props.onClick &&
         (async () => {
           loading.value = true;
-          await props.onClick$!();
+          await props.onClick!();
           loading.value = false;
         })
       }

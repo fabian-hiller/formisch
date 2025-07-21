@@ -16,7 +16,7 @@ export function FormFooter({ of: form }: FormFooterProps) {
         variant="secondary"
         label="Reset"
         type="button"
-        onClick$={() => reset(form)}
+        onClick={() => reset(form)}
       />
     </footer>
   );

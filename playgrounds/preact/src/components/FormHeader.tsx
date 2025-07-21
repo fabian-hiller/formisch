@@ -20,7 +20,7 @@ export function FormHeader({ of: form, heading }: FormHeaderProps) {
           variant="secondary"
           label="Reset"
           type="button"
-          onClick$={() => reset(form)}
+          onClick={() => reset(form)}
         />
         <ActionButton variant="primary" label="Submit" type="submit" />
       </div>
