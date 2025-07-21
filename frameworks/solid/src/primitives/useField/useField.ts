@@ -39,24 +39,35 @@ export function useField(
     getFieldStore(getInternalFormStore(), unwrap(config).path)
   );
 
+  const getInput = createMemo(() => getFieldInput(getInternalFieldStore()));
+  const getIsTouched = createMemo(() =>
+    getFieldBool(getInternalFieldStore(), 'isTouched')
+  );
+  const getIsDirty = createMemo(() =>
+    getFieldBool(getInternalFieldStore(), 'isDirty')
+  );
+  const getIsValid = createMemo(
+    () => !getFieldBool(getInternalFieldStore(), 'errors')
+  );
+
   return {
     get path() {
       return unwrap(config).path;
     },
     get input() {
-      return getFieldInput(getInternalFieldStore());
+      return getInput();
     },
     get errors() {
       return getInternalFieldStore().errors.value;
     },
     get isTouched() {
-      return getFieldBool(getInternalFieldStore(), 'isTouched');
+      return getIsTouched();
     },
     get isDirty() {
-      return getFieldBool(getInternalFieldStore(), 'isDirty');
+      return getIsDirty();
     },
     get isValid() {
-      return !getFieldBool(getInternalFieldStore(), 'errors');
+      return getIsValid();
     },
     props: {
       get name() {
@@ -83,11 +94,10 @@ export function useField(
       },
       onInput(event) {
         const internalFieldStore = getInternalFieldStore();
-        const nextValue = getElementInput(
-          event.currentTarget,
-          internalFieldStore
+        setFieldInput(
+          internalFieldStore,
+          getElementInput(event.currentTarget, internalFieldStore)
         );
-        setFieldInput(internalFieldStore, nextValue);
         validateIfRequired(getInternalFormStore(), internalFieldStore, 'input');
       },
       onChange() {

@@ -42,6 +42,16 @@ export function useFieldArray(
       ) as InternalArrayStore
   );
 
+  const getIsTouched = createMemo(() =>
+    getFieldBool(getInternalFieldStore(), 'isTouched')
+  );
+  const getIsDirty = createMemo(() =>
+    getFieldBool(getInternalFieldStore(), 'isDirty')
+  );
+  const getIsValid = createMemo(
+    () => !getFieldBool(getInternalFieldStore(), 'errors')
+  );
+
   return {
     get path() {
       return unwrap(config).path;
@@ -53,13 +63,13 @@ export function useFieldArray(
       return getInternalFieldStore().errors.value;
     },
     get isTouched() {
-      return getFieldBool(getInternalFieldStore(), 'isTouched');
+      return getIsTouched();
     },
     get isDirty() {
-      return getFieldBool(getInternalFieldStore(), 'isDirty');
+      return getIsDirty();
     },
     get isValid() {
-      return !getFieldBool(getInternalFieldStore(), 'errors');
+      return getIsValid();
     },
   };
 }

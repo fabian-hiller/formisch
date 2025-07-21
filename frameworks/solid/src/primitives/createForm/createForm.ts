@@ -6,6 +6,7 @@ import {
   type Schema,
   validateFormInput,
 } from '@formisch/core/solid';
+import { createMemo } from 'solid-js';
 import * as v from 'valibot';
 import type { FormStore } from '../../types/index.ts';
 
@@ -15,6 +16,16 @@ export function createForm<TSchema extends Schema>(
 export function createForm(config: FormConfig): FormStore {
   const internalFormStore = createFormStore(config, async (input: unknown) =>
     v.safeParseAsync(config.schema, input)
+  );
+
+  const getIsTouched = createMemo(() =>
+    getFieldBool(internalFormStore, 'isTouched')
+  );
+  const getIsDirty = createMemo(() =>
+    getFieldBool(internalFormStore, 'isDirty')
+  );
+  const getIsValid = createMemo(
+    () => !getFieldBool(internalFormStore, 'errors')
   );
 
   const form = {
@@ -29,13 +40,13 @@ export function createForm(config: FormConfig): FormStore {
       return internalFormStore.isValidating.value;
     },
     get isTouched() {
-      return getFieldBool(internalFormStore, 'isTouched');
+      return getIsTouched();
     },
     get isDirty() {
-      return getFieldBool(internalFormStore, 'isDirty');
+      return getIsDirty();
     },
     get isValid() {
-      return !getFieldBool(internalFormStore, 'errors');
+      return getIsValid();
     },
     get errors() {
       return internalFormStore.errors.value;

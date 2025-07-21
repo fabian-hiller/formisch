@@ -66,18 +66,19 @@ export function useField(form: FormStore, config: UseFieldConfig): FieldStore {
         },
         autofocus: !!internalFieldStore.value.errors.value,
         ref(element) {
-          internalFieldStore.value.elements.push(element);
+          if (element) {
+            internalFieldStore.value.elements.push(element);
+          }
         },
         onFocus() {
           setFieldBool(internalFieldStore.value, 'isTouched', true);
           validateIfRequired(form[INTERNAL], internalFieldStore.value, 'touch');
         },
         onInput(event) {
-          const nextValue = getElementInput(
-            event.currentTarget,
-            internalFieldStore.value
+          setFieldInput(
+            internalFieldStore.value,
+            getElementInput(event.currentTarget, internalFieldStore.value)
           );
-          setFieldInput(internalFieldStore.value, nextValue);
           validateIfRequired(form[INTERNAL], internalFieldStore.value, 'input');
         },
         onChange() {

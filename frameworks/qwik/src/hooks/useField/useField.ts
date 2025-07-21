@@ -78,8 +78,10 @@ export function useField(form: FormStore, config: UseFieldConfig): FieldStore {
         validateIfRequired(form[INTERNAL], internalFieldStore.value, 'touch');
       }),
       onInput$: $((_, element) => {
-        const nextValue = getElementInput(element, internalFieldStore.value);
-        setFieldInput(internalFieldStore.value, nextValue);
+        setFieldInput(
+          internalFieldStore.value,
+          getElementInput(element, internalFieldStore.value)
+        );
         validateIfRequired(form[INTERNAL], internalFieldStore.value, 'input');
       }),
       onChange$: $(() => {
