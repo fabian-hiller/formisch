@@ -6,6 +6,7 @@ All notable changes to the library will be documented in this file.
 
 - Add `SubmitHandler` type from `@formisch/core` to exports
 - Refactor useField and useFieldArray to improve implementation
+- Fix bug when resetting dynamic field array items
 
 ## v0.1.1 (July 17, 2025)
 

@@ -15,6 +15,7 @@ export function resetItemState(
   initialInput: unknown
 ): void {
   batch(() => {
+    internalFieldStore.errors.value = null;
     if (internalFieldStore.kind === 'array') {
       internalFieldStore.isTouched.value = false;
       internalFieldStore.isDirty.value = false;
