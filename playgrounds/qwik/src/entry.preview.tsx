@@ -10,10 +10,10 @@
  * - https://vitejs.dev/config/preview-options.html#preview-options
  *
  */
-import qwikRouterConfig from "@qwik-router-config";
-import { createQwikRouter } from "@qwik.dev/router/middleware/node";
+import qwikRouterConfig from '@qwik-router-config';
+import { createQwikRouter } from '@qwik.dev/router/middleware/node';
 // make sure qwikRouterConfig is imported before entry
-import render from "./entry.ssr";
+import render from './entry.ssr';
 
 /**
  * The default export is the QwikRouter adapter used by Vite preview.

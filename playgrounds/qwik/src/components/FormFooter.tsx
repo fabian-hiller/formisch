@@ -1,6 +1,6 @@
 import { type FormStore, reset } from '@formisch/qwik';
-import { ActionButton } from './ActionButton';
 import { component$ } from '@qwik.dev/core';
+import { ActionButton } from './ActionButton';
 
 type FormFooterProps = {
   of: FormStore;

@@ -1,5 +1,5 @@
 import { RefObject } from 'preact';
-import { useRef, useEffect } from 'preact/hooks';
+import { useEffect, useRef } from 'preact/hooks';
 
 // MediaQueryList Event based useEventListener interface
 export function useEventListener<K extends keyof MediaQueryListEventMap>(
@@ -20,7 +20,7 @@ export function useEventListener<K extends keyof WindowEventMap>(
 // Element Event based useEventListener interface
 export function useEventListener<
   K extends keyof HTMLElementEventMap,
-  T extends HTMLElement = HTMLDivElement
+  T extends HTMLElement = HTMLDivElement,
 >(
   eventName: K,
   handler: (event: HTMLElementEventMap[K]) => void,
@@ -40,7 +40,7 @@ export function useEventListener<
   KW extends keyof WindowEventMap,
   KH extends keyof HTMLElementEventMap,
   KM extends keyof MediaQueryListEventMap,
-  T extends HTMLElement | MediaQueryList | void = void
+  T extends HTMLElement | MediaQueryList | void = void,
 >(
   eventName: KW | KH | KM,
   handler: (

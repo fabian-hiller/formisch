@@ -51,8 +51,8 @@ export const Expandable = component$(
     return (
       <div
         class={clsx(
-          '!m-0 origin-top duration-200',
-          !expanded && 'invisible h-0 -translate-y-2 scale-y-75 opacity-0',
+          '!m-0 h-0 origin-top duration-200',
+          !expanded && 'invisible -translate-y-2 scale-y-75 opacity-0',
           props.class
         )}
         id={id}

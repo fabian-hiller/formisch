@@ -1,4 +1,4 @@
-import { component$, ReadonlySignal, type QRL } from '@qwik.dev/core';
+import { component$, type QRL, ReadonlySignal } from '@qwik.dev/core';
 import clsx from 'clsx';
 import { InputErrors } from './InputErrors';
 

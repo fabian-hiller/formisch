@@ -17,7 +17,7 @@ export const ColorButton = component$(
   ({ type = 'button', color, label, onClick$, width }: ColorButtonProps) => (
     <button
       class={clsx(
-        'h-14 rounded-2xl border-2 bg-white px-5 font-medium dark:bg-gray-900 md:h-16 md:text-lg lg:h-[70px] lg:px-6 lg:text-xl',
+        'h-14 rounded-2xl border-2 bg-white px-5 font-medium md:h-16 md:text-lg lg:h-[70px] lg:px-6 lg:text-xl dark:bg-gray-900',
         color === 'green' &&
           'border-emerald-600/20 text-emerald-600 hover:bg-emerald-600/10 dark:border-emerald-400/20 dark:text-emerald-400 dark:hover:bg-emerald-400/10',
         color === 'yellow' &&
