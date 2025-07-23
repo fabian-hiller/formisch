@@ -1,4 +1,8 @@
-<script lang="ts">
+<script
+  setup
+  lang="ts"
+  generic="TSchema extends Schema, TFieldArrayPath extends RequiredPath"
+>
 import { RequiredPath, Schema, ValidArrayPath } from '@formisch/core/vue';
 import * as v from 'valibot';
 import { toRef } from 'vue';
@@ -15,16 +19,6 @@ export interface FieldArrayProps<
   readonly of: FormStore<TSchema>;
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
 }
-</script>
-
-<script
-  setup
-  lang="ts"
-  generic="TSchema extends Schema, TFieldArrayPath extends RequiredPath"
->
-defineOptions({
-  inheritAttrs: false,
-});
 
 const props = defineProps<FieldArrayProps<TSchema, TFieldArrayPath>>();
 defineSlots<{

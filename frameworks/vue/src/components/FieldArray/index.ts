@@ -1,1 +1,1 @@
-export { default as FieldArray, type FieldArrayProps } from './FieldArray.vue';
+export { default as FieldArray } from './FieldArray.vue';
