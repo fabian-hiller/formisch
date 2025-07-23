@@ -12,6 +12,10 @@ export type FormProps<TSchema extends Schema = Schema> = {
   onSubmit: SubmitHandler<TSchema>;
 };
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<FormProps<TSchema>>();
 
 async function handleSubmit(event: Event) {

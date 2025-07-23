@@ -20,6 +20,10 @@ export interface FieldProps<
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<FieldProps<TSchema, TFieldPath>>();
 defineSlots<{
   default(props: FieldStore<TSchema, TFieldPath>): any;
