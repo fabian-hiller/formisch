@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="TSchema extends Schema = Schema">
+<script lang="ts">
 import {
   INTERNAL,
   Schema,
@@ -11,6 +11,12 @@ export type FormProps<TSchema extends Schema = Schema> = {
   of: FormStore<TSchema>;
   onSubmit: SubmitHandler<TSchema>;
 };
+</script>
+
+<script setup lang="ts" generic="TSchema extends Schema = Schema">
+defineOptions({
+  inheritAttrs: false,
+});
 
 const props = defineProps<FormProps<TSchema>>();
 

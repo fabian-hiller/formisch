@@ -1,5 +1,5 @@
-import { RolldownPluginOption } from 'rolldown';
-import { defineConfig, UserConfig, UserConfigFn } from 'tsdown';
+import type { RolldownPluginOption } from 'rolldown';
+import { defineConfig, type  UserConfig, type  UserConfigFn } from 'tsdown';
 
 type Framework = 'preact' | 'qwik' | 'solid' | 'vue';
 
