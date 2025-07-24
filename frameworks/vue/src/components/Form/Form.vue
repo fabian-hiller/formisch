@@ -12,13 +12,10 @@ export type FormProps<TSchema extends Schema = Schema> = {
   onSubmit: SubmitHandler<TSchema>;
 };
 
-defineOptions({
-  inheritAttrs: false,
-})
-
 const props = defineProps<FormProps<TSchema>>();
 
 async function handleSubmit(event: Event) {
+  event.preventDefault();
   // Get internal form store
   const internalFormStore = props.of[INTERNAL];
 
@@ -49,7 +46,7 @@ async function handleSubmit(event: Event) {
 </script>
 
 <template>
-  <form novalidate @submit.prevent="handleSubmit">
+  <form novalidate @submit="handleSubmit">
     <slot></slot>
   </form>
 </template>
