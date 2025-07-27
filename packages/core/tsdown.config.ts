@@ -1,8 +1,8 @@
 /* eslint-disable security/detect-non-literal-fs-filename */
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { RolldownPluginOption } from 'rolldown';
-import { defineConfig, UserConfig, UserConfigFn } from 'tsdown';
+import type { RolldownPluginOption } from 'rolldown';
+import { defineConfig, type UserConfig, type UserConfigFn } from 'tsdown';
 
 type Framework = 'preact' | 'qwik' | 'solid' | 'vue';
 

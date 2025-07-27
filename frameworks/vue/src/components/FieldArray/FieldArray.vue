@@ -20,6 +20,10 @@ export interface FieldArrayProps<
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
 }
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<FieldArrayProps<TSchema, TFieldArrayPath>>();
 defineSlots<{
   default(props: FieldArrayStore<TSchema, TFieldArrayPath>): any;
