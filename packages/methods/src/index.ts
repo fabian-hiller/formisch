@@ -2,6 +2,7 @@ export * from './focus/index.ts';
 export * from './getAllErrors/index.ts';
 export * from './getErrors/index.ts';
 export * from './getInput/index.ts';
+export * from './handleSubmit/index.ts';
 export * from './insert/index.ts';
 export * from './move/index.ts';
 export * from './remove/index.ts';

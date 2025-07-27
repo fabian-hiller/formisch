@@ -1,9 +1,5 @@
-import {
-  INTERNAL,
-  type Schema,
-  type SubmitHandler,
-  validateFormInput,
-} from '@formisch/core/qwik';
+import { INTERNAL, type Schema, type SubmitHandler } from '@formisch/core/qwik';
+import { handleSubmit } from '@formisch/methods/qwik';
 import { component$, JSXOutput, PropsOf, QRL, Slot } from '@qwik.dev/core';
 import type { FormStore } from '../../types/index.ts';
 
@@ -29,36 +25,7 @@ export const Form = component$(
         ref={(element) => {
           of[INTERNAL].element = element;
         }}
-        onSubmit$={async (event) => {
-          // Get internal form store
-          const internalFormStore = of[INTERNAL];
-
-          // Update submit state of form
-          internalFormStore.isSubmitted.value = true;
-          internalFormStore.isSubmitting.value = true;
-
-          // Try to run submit actions if form is valid
-          try {
-            const result = await validateFormInput(internalFormStore, {
-              shouldFocus: true,
-            });
-            if (result.success) {
-              await onSubmit$(result.output, event);
-            }
-
-            // If an error occurred, set form errors
-          } catch (error) {
-            internalFormStore.errors.value = [
-              error instanceof Error
-                ? error.message
-                : 'An unknown error has occurred.',
-            ];
-
-            // Finally set submitting back to "false"
-          } finally {
-            internalFormStore.isSubmitting.value = false;
-          }
-        }}
+        onSubmit$={(event) => handleSubmit(of, onSubmit$)(event)}
       >
         <Slot />
       </form>
