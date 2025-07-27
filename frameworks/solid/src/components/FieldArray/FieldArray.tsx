@@ -30,10 +30,9 @@ export function FieldArray<
   TFieldArrayPath extends RequiredPath,
 >(props: FieldArrayProps<TSchema, TFieldArrayPath>): JSX.Element;
 export function FieldArray(props: FieldArrayProps): JSX.Element {
-  const field = useFieldArray<Schema, RequiredPath>(() => props.of, {
-    get path() {
-      return props.path;
-    },
-  });
+  const field = useFieldArray<Schema, RequiredPath>(
+    () => props.of,
+    () => ({ path: props.path })
+  );
   return <>{props.children(field)}</>;
 }

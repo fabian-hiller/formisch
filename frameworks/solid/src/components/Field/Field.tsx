@@ -27,10 +27,9 @@ export function Field<TSchema extends Schema, TFieldPath extends RequiredPath>(
   props: FieldProps<TSchema, TFieldPath>
 ): JSX.Element;
 export function Field(props: FieldProps): JSX.Element {
-  const field = useField(() => props.of, {
-    get path() {
-      return props.path;
-    },
-  });
+  const field = useField(
+    () => props.of,
+    () => ({ path: props.path })
+  );
   return <>{props.children(field)}</>;
 }
