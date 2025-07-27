@@ -142,7 +142,7 @@ export function reset(
         }
 
         // Validate form input if configured
-        if (internalFormStore.validateOn === 'initial') {
+        if (internalFormStore.validate === 'initial') {
           validateFormInput(internalFormStore);
         }
       }

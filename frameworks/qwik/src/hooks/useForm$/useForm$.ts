@@ -52,9 +52,9 @@ export function useFormQrl(configQrl: QRL<FormConfig>): FormStore {
     };
   });
 
-  const validateOn = config.validateOn;
+  const validate = config.validate;
   useTask$(async () => {
-    if (validateOn === 'initial') {
+    if (validate === 'initial') {
       await validateFormInput(form[INTERNAL]);
     }
   });

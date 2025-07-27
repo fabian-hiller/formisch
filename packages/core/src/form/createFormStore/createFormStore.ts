@@ -9,7 +9,7 @@ import type {
 
 export function createFormStore(
   config: FormConfig,
-  validate: (input: unknown) => Promise<v.SafeParseResult<Schema>>
+  parse: (input: unknown) => Promise<v.SafeParseResult<Schema>>
 ): InternalFormStore {
   // Create store object
   const store: Partial<InternalFormStore> = {};
@@ -23,9 +23,9 @@ export function createFormStore(
   );
 
   // Set form config and validation
-  store.validateOn = config.validateOn ?? 'submit';
-  store.revalidateOn = config.revalidateOn ?? 'input';
-  store.validate = validate;
+  store.validate = config.validate ?? 'submit';
+  store.revalidate = config.revalidate ?? 'input';
+  store.parse = parse;
 
   // Initialize form signals
   store.isSubmitting = createSignal(false);

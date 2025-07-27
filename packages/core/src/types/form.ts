@@ -19,8 +19,8 @@ export type ValidationMode =
 export interface FormConfig<TSchema extends Schema = Schema> {
   readonly schema: TSchema;
   readonly initialInput?: DeepPartial<v.InferInput<TSchema>> | undefined;
-  readonly validateOn?: ValidationMode | undefined;
-  readonly revalidateOn?: Exclude<ValidationMode, 'initial'> | undefined;
+  readonly validate?: ValidationMode | undefined;
+  readonly revalidate?: Exclude<ValidationMode, 'initial'> | undefined;
 }
 
 export interface InternalFormStore<TSchema extends Schema = Schema>
@@ -28,9 +28,9 @@ export interface InternalFormStore<TSchema extends Schema = Schema>
   element?: HTMLFormElement;
 
   validators: number;
-  validateOn: ValidationMode;
-  revalidateOn: Exclude<ValidationMode, 'initial'>;
-  validate: (input: unknown) => Promise<v.SafeParseResult<TSchema>>;
+  validate: ValidationMode;
+  revalidate: Exclude<ValidationMode, 'initial'>;
+  parse: (input: unknown) => Promise<v.SafeParseResult<TSchema>>;
 
   isSubmitting: Signal<boolean>;
   isSubmitted: Signal<boolean>;

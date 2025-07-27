@@ -53,7 +53,7 @@ export function createForm(config: FormConfig): FormStore {
     },
   };
 
-  if (config.validateOn === 'initial') {
+  if (config.validate === 'initial') {
     validateFormInput(form[INTERNAL]);
   }
 

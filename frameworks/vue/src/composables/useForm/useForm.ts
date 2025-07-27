@@ -19,7 +19,7 @@ export function useForm(config: FormConfig): FormStore {
   );
 
   onBeforeMount(async () => {
-    if (config.validateOn === 'initial') {
+    if (config.validate === 'initial') {
       await validateFormInput(internalFormStore);
     }
   });

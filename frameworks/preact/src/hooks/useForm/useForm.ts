@@ -33,7 +33,7 @@ export function useForm(config: FormConfig): FormStore {
   }, []);
 
   useLayoutEffect(() => {
-    if (config.validateOn === 'initial') {
+    if (config.validate === 'initial') {
       validateFormInput(form[INTERNAL]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -14,12 +14,12 @@ export function validateIfRequired(
 ): void {
   if (
     validationModes ===
-    (internalFormStore.validateOn === 'initial' ||
-    (internalFormStore.validateOn === 'submit'
+    (internalFormStore.validate === 'initial' ||
+    (internalFormStore.validate === 'submit'
       ? untrack(() => internalFormStore.isSubmitted.value)
       : untrack(() => getFieldBool(internalFieldStore, 'errors')))
-      ? internalFormStore.revalidateOn
-      : internalFormStore.validateOn)
+      ? internalFormStore.revalidate
+      : internalFormStore.validate)
   ) {
     validateFormInput(internalFormStore);
   }

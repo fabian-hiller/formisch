@@ -14,7 +14,7 @@ export async function validateFormInput(
   internalFormStore.validators++;
   internalFormStore.isValidating.value = true;
 
-  const result = await internalFormStore.validate(
+  const result = await internalFormStore.parse(
     untrack(() => getFieldInput(internalFormStore))
   );
 
