@@ -28,10 +28,8 @@ export default function LoginPage() {
     >
       <FormHeader of={loginForm} heading="Login form" />
       <div class="space-y-8 md:space-y-10 lg:space-y-12">
-        <Field
-          of={loginForm}
-          path={['email']}
-          render={(field) => (
+        <Field of={loginForm} path={['email']}>
+          {(field) => (
             <TextInput
               {...field.props}
               input={field.input}
@@ -42,11 +40,9 @@ export default function LoginPage() {
               required
             />
           )}
-        />
-        <Field
-          of={loginForm}
-          path={['password']}
-          render={(field) => (
+        </Field>
+        <Field of={loginForm} path={['password']}>
+          {(field) => (
             <TextInput
               {...field.props}
               input={field.input}
@@ -57,7 +53,7 @@ export default function LoginPage() {
               required
             />
           )}
-        />
+        </Field>
       </div>
       <FormFooter of={loginForm} />
     </Form>

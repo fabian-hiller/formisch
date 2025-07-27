@@ -61,10 +61,8 @@ export default function Page() {
       <FormHeader of={todoForm} heading="Todo form" />
 
       <div class="space-y-8 md:space-y-10 lg:space-y-12">
-        <Field
-          of={todoForm}
-          path={['heading']}
-          render={(field) => (
+        <Field of={todoForm} path={['heading']}>
+          {(field) => (
             <TextInput
               {...field.props}
               input={field.input}
@@ -75,12 +73,10 @@ export default function Page() {
               required
             />
           )}
-        />
+        </Field>
 
-        <FieldArray
-          of={todoForm}
-          path={['todos']}
-          render={(fieldArray) => (
+        <FieldArray of={todoForm} path={['todos']}>
+          {(fieldArray) => (
             <div class="space-y-5 px-8 lg:px-10">
               <InputLabel label="Todos" margin="none" required />
 
@@ -91,10 +87,8 @@ export default function Page() {
                       key={item}
                       class="flex flex-wrap gap-5 rounded-2xl border-2 border-slate-200 bg-slate-100/25 p-5 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-800/10 dark:hover:border-slate-700"
                     >
-                      <Field
-                        of={todoForm}
-                        path={['todos', index, 'label']}
-                        render={(field) => (
+                      <Field of={todoForm} path={['todos', index, 'label']}>
+                        {(field) => (
                           <TextInput
                             {...field.props}
                             class="w-full !p-0 md:w-auto md:flex-1"
@@ -105,12 +99,10 @@ export default function Page() {
                             required
                           />
                         )}
-                      />
+                      </Field>
 
-                      <Field
-                        of={todoForm}
-                        path={['todos', index, 'deadline']}
-                        render={(field) => (
+                      <Field of={todoForm} path={['todos', index, 'deadline']}>
+                        {(field) => (
                           <TextInput
                             {...field.props}
                             class="flex-1 !p-0"
@@ -120,7 +112,7 @@ export default function Page() {
                             required
                           />
                         )}
-                      />
+                      </Field>
 
                       <ColorButton
                         color="red"
@@ -182,7 +174,7 @@ export default function Page() {
               </div>
             </div>
           )}
-        />
+        </FieldArray>
       </div>
 
       <FormFooter of={todoForm} />

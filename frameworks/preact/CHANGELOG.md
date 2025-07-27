@@ -5,6 +5,7 @@ All notable changes to the library will be documented in this file.
 ## vX.X.X (Month DD, YYYY)
 
 - Add `SubmitHandler` type from `@formisch/core` to exports
+- Change `render` prop to `children` in `Field` and `FieldArray` component
 - Refactor useField and useFieldArray to improve implementation
 - Fix bug when resetting dynamic field array items
 

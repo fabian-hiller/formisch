@@ -41,10 +41,8 @@ export default function Page() {
     >
       <FormHeader of={specialForm} heading="Special form" />
       <div class="space-y-8 md:space-y-10 lg:space-y-12">
-        <Field
-          of={specialForm}
-          path={['number']}
-          render={(field) => (
+        <Field of={specialForm} path={['number']}>
+          {(field) => (
             <TextInput
               {...field.props}
               input={field.input}
@@ -53,12 +51,10 @@ export default function Page() {
               label="Number"
             />
           )}
-        />
+        </Field>
 
-        <Field
-          of={specialForm}
-          path={['range']}
-          render={(field) => (
+        <Field of={specialForm} path={['range']}>
+          {(field) => (
             <Slider
               {...field.props}
               input={field.input}
@@ -66,7 +62,7 @@ export default function Page() {
               label="Range"
             />
           )}
-        />
+        </Field>
 
         <label class="block px-8 font-medium md:text-lg lg:mb-5 lg:px-10 lg:text-xl">
           Checkbox array
@@ -78,11 +74,8 @@ export default function Page() {
             { label: 'Option 2', value: 'option_2' },
             { label: 'Option 3', value: 'option_3' },
           ].map(({ label, value }) => (
-            <Field
-              of={specialForm}
-              path={['checkbox', 'array']}
-              key={value}
-              render={(field) => (
+            <Field of={specialForm} path={['checkbox', 'array']} key={value}>
+              {(field) => (
                 <Checkbox
                   {...field.props}
                   class="!p-0"
@@ -92,14 +85,12 @@ export default function Page() {
                   errors={field.errors}
                 />
               )}
-            />
+            </Field>
           ))}
         </div>
 
-        <Field
-          of={specialForm}
-          path={['checkbox', 'boolean']}
-          render={(field) => (
+        <Field of={specialForm} path={['checkbox', 'boolean']}>
+          {(field) => (
             <Checkbox
               {...field.props}
               input={field.input}
@@ -107,12 +98,10 @@ export default function Page() {
               label="Checkbox boolean"
             />
           )}
-        />
+        </Field>
 
-        <Field
-          of={specialForm}
-          path={['select', 'array']}
-          render={(field) => (
+        <Field of={specialForm} path={['select', 'array']}>
+          {(field) => (
             <Select
               {...field.props}
               input={field.input}
@@ -126,12 +115,10 @@ export default function Page() {
               multiple
             />
           )}
-        />
+        </Field>
 
-        <Field
-          of={specialForm}
-          path={['select', 'string']}
-          render={(field) => (
+        <Field of={specialForm} path={['select', 'string']}>
+          {(field) => (
             <Select
               {...field.props}
               input={field.input}
@@ -144,12 +131,10 @@ export default function Page() {
               label="Select string"
             />
           )}
-        />
+        </Field>
 
-        <Field
-          of={specialForm}
-          path={['file', 'list']}
-          render={(field) => (
+        <Field of={specialForm} path={['file', 'list']}>
+          {(field) => (
             <FileInput
               {...field.props}
               input={field.input}
@@ -158,12 +143,10 @@ export default function Page() {
               multiple
             />
           )}
-        />
+        </Field>
 
-        <Field
-          of={specialForm}
-          path={['file', 'item']}
-          render={(field) => (
+        <Field of={specialForm} path={['file', 'item']}>
+          {(field) => (
             <FileInput
               {...field.props}
               input={field.input}
@@ -171,7 +154,7 @@ export default function Page() {
               label="File item"
             />
           )}
-        />
+        </Field>
       </div>
       <FormFooter of={specialForm} />
     </Form>

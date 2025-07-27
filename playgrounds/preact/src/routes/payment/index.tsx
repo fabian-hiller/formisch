@@ -61,10 +61,8 @@ export default function PaymentPage() {
     >
       <FormHeader of={paymentForm} heading="Payment form" />
       <div class="space-y-8 md:space-y-10 lg:space-y-12">
-        <Field
-          of={paymentForm}
-          path={['owner']}
-          render={(field) => (
+        <Field of={paymentForm} path={['owner']}>
+          {(field) => (
             <TextInput
               {...field.props}
               input={field.input}
@@ -75,11 +73,9 @@ export default function PaymentPage() {
               required
             />
           )}
-        />
-        <Field
-          of={paymentForm}
-          path={['type']}
-          render={(field) => (
+        </Field>
+        <Field of={paymentForm} path={['type']}>
+          {(field) => (
             <Select
               {...field.props}
               input={field.input}
@@ -93,13 +89,11 @@ export default function PaymentPage() {
               required
             />
           )}
-        />
+        </Field>
         {type.value === 'card' && (
           <>
-            <Field
-              of={paymentForm}
-              path={['card', 'number']}
-              render={(field) => (
+            <Field of={paymentForm} path={['card', 'number']}>
+              {(field) => (
                 <TextInput
                   {...field.props}
                   input={field.input}
@@ -110,11 +104,9 @@ export default function PaymentPage() {
                   required
                 />
               )}
-            />
-            <Field
-              of={paymentForm}
-              path={['card', 'expiration']}
-              render={(field) => (
+            </Field>
+            <Field of={paymentForm} path={['card', 'expiration']}>
+              {(field) => (
                 <TextInput
                   {...field.props}
                   input={field.input}
@@ -125,14 +117,12 @@ export default function PaymentPage() {
                   required
                 />
               )}
-            />
+            </Field>
           </>
         )}
         {type.value === 'paypal' && (
-          <Field
-            of={paymentForm}
-            path={['paypal', 'email']}
-            render={(field) => (
+          <Field of={paymentForm} path={['paypal', 'email']}>
+            {(field) => (
               <TextInput
                 {...field.props}
                 input={field.input}
@@ -143,7 +133,7 @@ export default function PaymentPage() {
                 required
               />
             )}
-          />
+          </Field>
         )}
       </div>
       <FormFooter of={paymentForm} />

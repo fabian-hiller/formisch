@@ -17,7 +17,7 @@ export interface FieldProps<
 > {
   readonly of: FormStore<TSchema>;
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
-  readonly render: (store: FieldStore<TSchema, TFieldPath>) => JSX.Element;
+  readonly children: (store: FieldStore<TSchema, TFieldPath>) => JSX.Element;
 }
 
 /**
@@ -26,8 +26,8 @@ export interface FieldProps<
 export function Field<TSchema extends Schema, TFieldPath extends RequiredPath>({
   of,
   path,
-  render,
+  children,
 }: FieldProps<TSchema, TFieldPath>): JSX.Element {
   const field = useField(of, { path });
-  return render(field);
+  return children(field);
 }

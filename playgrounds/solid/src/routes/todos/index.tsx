@@ -90,7 +90,7 @@ export default function TodosPage() {
                     class="space-y-5"
                   >
                     <For each={fieldArray.items}>
-                      {(item, getIndex) => (
+                      {(_, getIndex) => (
                         <div class="flex flex-wrap gap-5 rounded-2xl border-2 border-slate-200 bg-slate-100/25 p-5 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-800/10 dark:hover:border-slate-700">
                           <Field
                             of={todoForm}
