@@ -56,10 +56,8 @@ export default function NestedPage() {
       >
         <FormHeader of={nestedForm} heading="Nested form" />
 
-        <FieldArray
-          of={nestedForm}
-          path={['items']}
-          render={(fieldArray) => (
+        <FieldArray of={nestedForm} path={['items']}>
+          {(fieldArray) => (
             <div class="space-y-7 px-10 lg:px-12">
               <div
                 class="space-y-5"
@@ -72,7 +70,8 @@ export default function NestedPage() {
                         <Field
                           of={nestedForm}
                           path={['items', getItemIndex(), 'label']}
-                          render={(field) => (
+                        >
+                          {(field) => (
                             <TextInput
                               {...field.props}
                               input={field.input}
@@ -82,7 +81,7 @@ export default function NestedPage() {
                               placeholder="Enter item"
                             />
                           )}
-                        />
+                        </Field>
 
                         <ColorButton
                           color="red"
@@ -105,7 +104,8 @@ export default function NestedPage() {
                       <FieldArray
                         of={nestedForm}
                         path={['items', getItemIndex(), 'options']}
-                        render={(fieldArray) => (
+                      >
+                        {(fieldArray) => (
                           <div
                             class="space-y-5 px-6"
                             ref={(element) =>
@@ -123,7 +123,8 @@ export default function NestedPage() {
                                       'options',
                                       getOptionIndex(),
                                     ]}
-                                    render={(field) => (
+                                  >
+                                    {(field) => (
                                       <TextInput
                                         {...field.props}
                                         input={field.input}
@@ -133,7 +134,7 @@ export default function NestedPage() {
                                         placeholder="Enter option"
                                       />
                                     )}
-                                  />
+                                  </Field>
 
                                   <ColorButton
                                     color="red"
@@ -190,7 +191,7 @@ export default function NestedPage() {
                             </div>
                           </div>
                         )}
-                      />
+                      </FieldArray>
                     </div>
                   )}
                 </For>
@@ -242,7 +243,7 @@ export default function NestedPage() {
               </div>
             </div>
           )}
-        />
+        </FieldArray>
 
         <FormFooter of={nestedForm} />
       </Form>

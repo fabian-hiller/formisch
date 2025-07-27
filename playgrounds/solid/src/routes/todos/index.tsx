@@ -65,10 +65,8 @@ export default function TodosPage() {
         <FormHeader of={todoForm} heading="Todo form" />
 
         <div class="space-y-8 md:space-y-10 lg:space-y-12">
-          <Field
-            of={todoForm}
-            path={['heading']}
-            render={(field) => (
+          <Field of={todoForm} path={['heading']}>
+            {(field) => (
               <TextInput
                 {...field.props}
                 input={field.input}
@@ -79,12 +77,10 @@ export default function TodosPage() {
                 required
               />
             )}
-          />
+          </Field>
 
-          <FieldArray
-            of={todoForm}
-            path={['todos']}
-            render={(fieldArray) => (
+          <FieldArray of={todoForm} path={['todos']}>
+            {(fieldArray) => (
               <div class="space-y-5 px-8 lg:px-10">
                 <InputLabel label="Todos" margin="none" required />
 
@@ -99,7 +95,8 @@ export default function TodosPage() {
                           <Field
                             of={todoForm}
                             path={['todos', getIndex(), 'label']}
-                            render={(field) => (
+                          >
+                            {(field) => (
                               <TextInput
                                 {...field.props}
                                 class="w-full !p-0 md:w-auto md:flex-1"
@@ -110,12 +107,13 @@ export default function TodosPage() {
                                 required
                               />
                             )}
-                          />
+                          </Field>
 
                           <Field
                             of={todoForm}
                             path={['todos', getIndex(), 'deadline']}
-                            render={(field) => (
+                          >
+                            {(field) => (
                               <TextInput
                                 {...field.props}
                                 class="flex-1 !p-0"
@@ -125,7 +123,7 @@ export default function TodosPage() {
                                 required
                               />
                             )}
-                          />
+                          </Field>
 
                           <ColorButton
                             color="red"
@@ -191,7 +189,7 @@ export default function TodosPage() {
                 </div>
               </div>
             )}
-          />
+          </FieldArray>
         </div>
 
         <FormFooter of={todoForm} />

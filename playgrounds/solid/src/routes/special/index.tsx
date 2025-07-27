@@ -44,10 +44,8 @@ export default function SpecialPage() {
       >
         <FormHeader of={specialForm} heading="Special form" />
         <div class="space-y-8 md:space-y-10 lg:space-y-12">
-          <Field
-            of={specialForm}
-            path={['number']}
-            render={(field) => (
+          <Field of={specialForm} path={['number']}>
+            {(field) => (
               <TextInput
                 {...field.props}
                 input={field.input}
@@ -56,12 +54,10 @@ export default function SpecialPage() {
                 label="Number"
               />
             )}
-          />
+          </Field>
 
-          <Field
-            of={specialForm}
-            path={['range']}
-            render={(field) => (
+          <Field of={specialForm} path={['range']}>
+            {(field) => (
               <Slider
                 {...field.props}
                 input={field.input}
@@ -69,7 +65,7 @@ export default function SpecialPage() {
                 label="Range"
               />
             )}
-          />
+          </Field>
 
           <label class="block px-8 font-medium md:text-lg lg:mb-5 lg:px-10 lg:text-xl">
             Checkbox array
@@ -84,10 +80,8 @@ export default function SpecialPage() {
               ]}
             >
               {({ label, value }) => (
-                <Field
-                  of={specialForm}
-                  path={['checkbox', 'array']}
-                  render={(field) => (
+                <Field of={specialForm} path={['checkbox', 'array']}>
+                  {(field) => (
                     <Checkbox
                       {...field.props}
                       class="!p-0"
@@ -97,15 +91,13 @@ export default function SpecialPage() {
                       errors={field.errors}
                     />
                   )}
-                />
+                </Field>
               )}
             </For>
           </div>
 
-          <Field
-            of={specialForm}
-            path={['checkbox', 'boolean']}
-            render={(field) => (
+          <Field of={specialForm} path={['checkbox', 'boolean']}>
+            {(field) => (
               <Checkbox
                 {...field.props}
                 input={field.input}
@@ -113,12 +105,10 @@ export default function SpecialPage() {
                 label="Checkbox boolean"
               />
             )}
-          />
+          </Field>
 
-          <Field
-            of={specialForm}
-            path={['select', 'array']}
-            render={(field) => (
+          <Field of={specialForm} path={['select', 'array']}>
+            {(field) => (
               <Select
                 {...field.props}
                 input={field.input}
@@ -132,12 +122,10 @@ export default function SpecialPage() {
                 multiple
               />
             )}
-          />
+          </Field>
 
-          <Field
-            of={specialForm}
-            path={['select', 'string']}
-            render={(field) => (
+          <Field of={specialForm} path={['select', 'string']}>
+            {(field) => (
               <Select
                 {...field.props}
                 input={field.input}
@@ -150,12 +138,10 @@ export default function SpecialPage() {
                 label="Select string"
               />
             )}
-          />
+          </Field>
 
-          <Field
-            of={specialForm}
-            path={['file', 'list']}
-            render={(field) => (
+          <Field of={specialForm} path={['file', 'list']}>
+            {(field) => (
               <FileInput
                 {...field.props}
                 input={field.input}
@@ -164,12 +150,10 @@ export default function SpecialPage() {
                 multiple
               />
             )}
-          />
+          </Field>
 
-          <Field
-            of={specialForm}
-            path={['file', 'item']}
-            render={(field) => (
+          <Field of={specialForm} path={['file', 'item']}>
+            {(field) => (
               <FileInput
                 {...field.props}
                 input={field.input}
@@ -177,7 +161,7 @@ export default function SpecialPage() {
                 label="File item"
               />
             )}
-          />
+          </Field>
         </div>
         <FormFooter of={specialForm} />
       </Form>

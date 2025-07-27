@@ -31,26 +31,22 @@ export default function LoginPage() {
 
   return (
     <Form of={loginForm} onSubmit={(output) => console.log(output)}>
-      <Field
-        of={loginForm}
-        path={['email']}
-        render={(field) => (
+      <Field of={loginForm} path={['email']}>
+        {(field) => (
           <div>
             <input {...field.props} value={field.input} type="email" />
             {field.errors && <div>{field.errors[0]}</div>}
           </div>
         )}
-      />
-      <Field
-        of={loginForm}
-        path={['password']}
-        render={(field) => (
+      </Field>
+      <Field of={loginForm} path={['password']}>
+        {(field) => (
           <div>
             <input {...field.props} value={field.input} type="password" />
             {field.errors && <div>{field.errors[0]}</div>}
           </div>
         )}
-      />
+      </Field>
       <button type="submit">Login</button>
     </Form>
   );

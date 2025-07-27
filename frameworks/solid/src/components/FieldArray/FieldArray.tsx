@@ -17,7 +17,7 @@ export interface FieldArrayProps<
 > {
   readonly of: FormStore<TSchema>;
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
-  readonly render: (
+  readonly children: (
     store: FieldArrayStore<TSchema, TFieldArrayPath>
   ) => JSX.Element;
 }
@@ -35,5 +35,5 @@ export function FieldArray(props: FieldArrayProps): JSX.Element {
       return props.path;
     },
   });
-  return <>{props.render(field)}</>;
+  return <>{props.children(field)}</>;
 }
