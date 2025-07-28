@@ -2,7 +2,7 @@
 
 All notable changes to the library will be documented in this file.
 
-## vX.X.X (Month DD, YYYY)
+## v0.2.0 (July 27, 2025)
 
 - Fix bug in `resetItemState` by also resetting `.errors` signals
 - Change name of `validate` method to `parse` in internal form store

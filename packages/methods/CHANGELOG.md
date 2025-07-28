@@ -2,7 +2,7 @@
 
 All notable changes to the library will be documented in this file.
 
-## vX.X.X (Month DD, YYYY)
+## v0.2.0 (July 27, 2025)
 
 - Add `handleSubmit` method for form submission handling
 
