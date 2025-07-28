@@ -40,17 +40,13 @@ const nestedForm = useForm({
     ],
   },
 });
-
-const handleSubmit: SubmitHandler<NestedFormSchema> = (output) => {
-  console.log(output);
-};
 </script>
 
 <template>
   <Form
     :of="nestedForm"
     class="space-y-12 md:space-y-14 lg:space-y-16"
-    @submit="handleSubmit"
+    @submit="(output) => console.log(output)"
   >
     <FormHeader :of="nestedForm" heading="Nested form" />
 
@@ -69,8 +65,8 @@ const handleSubmit: SubmitHandler<NestedFormSchema> = (output) => {
                 v-slot="field"
               >
                 <TextInput
+                  v-model="field.input"
                   :props="field.props"
-                  :input="field.input"
                   :errors="field.errors"
                   type="text"
                   class="flex-1 !p-0"
@@ -110,8 +106,8 @@ const handleSubmit: SubmitHandler<NestedFormSchema> = (output) => {
                     v-slot="field"
                   >
                     <TextInput
+                      v-model="field.input"
                       :props="field.props"
-                      :input="field.input"
                       :errors="field.errors"
                       class="flex-1 !p-0"
                       type="text"

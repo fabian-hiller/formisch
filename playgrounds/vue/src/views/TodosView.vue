@@ -53,25 +53,21 @@ const todoForm = useForm({
     todos: [{ label: '', deadline: '' }],
   },
 });
-
-const handleSubmit: SubmitHandler<TodoFormSchema> = (output) => {
-  console.log(output);
-};
 </script>
 
 <template>
   <Form
     :of="todoForm"
     class="space-y-12 md:space-y-14 lg:space-y-16"
-    @submit="handleSubmit"
+    @submit="(output) => console.log(output)"
   >
     <FormHeader :of="todoForm" heading="Todo form" />
 
     <div class="space-y-8 md:space-y-10 lg:space-y-12">
       <Field :of="todoForm" :path="['heading']" v-slot="field">
         <TextInput
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :errors="field.errors"
           type="text"
           label="Heading"
@@ -97,9 +93,9 @@ const handleSubmit: SubmitHandler<TodoFormSchema> = (output) => {
                   v-slot="field"
                 >
                   <TextInput
+                    v-model="field.input"
                     :props="field.props"
                     class="w-full !p-0 md:w-auto md:flex-1"
-                    :input="field.input"
                     :errors="field.errors"
                     type="text"
                     placeholder="Enter task"
@@ -113,10 +109,10 @@ const handleSubmit: SubmitHandler<TodoFormSchema> = (output) => {
                   v-slot="field"
                 >
                   <TextInput
+                    v-model="field.input"
                     :props="field.props"
                     class="flex-1 !p-0"
                     type="date"
-                    :input="field.input"
                     :errors="field.errors"
                     required
                   />

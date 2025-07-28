@@ -63,6 +63,14 @@ export function useField(
     get input() {
       return input.value;
     },
+    set input(value) {
+      setFieldInput(internalFieldStore.value, value);
+      validateIfRequired(
+        toValue(form)[INTERNAL],
+        internalFieldStore.value,
+        'input'
+      );
+    },
     get errors() {
       return internalFieldStore.value.errors.value;
     },
@@ -91,21 +99,6 @@ export function useField(
           toValue(form)[INTERNAL],
           internalFieldStore.value,
           'touch'
-        );
-      },
-      onInput(event) {
-        // TODO: Remove this and replace it with v-model
-        setFieldInput(
-          internalFieldStore.value,
-          getElementInput(
-            event.currentTarget as FieldElement,
-            internalFieldStore.value
-          )
-        );
-        validateIfRequired(
-          toValue(form)[INTERNAL],
-          internalFieldStore.value,
-          'input'
         );
       },
       onChange() {

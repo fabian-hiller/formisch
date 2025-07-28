@@ -7,7 +7,12 @@ import type {
   ValidPath,
 } from '@formisch/core/vue';
 import type * as v from 'valibot';
-import { ComponentPublicInstance } from 'vue';
+import {
+  ComponentPublicInstance,
+  ComputedRef,
+  ShallowRef,
+  WritableComputedRef,
+} from 'vue';
 
 /**
  * Value type of the field element props.
@@ -17,7 +22,6 @@ export interface FieldElementProps {
   readonly autofocus: boolean;
   readonly ref: (element: Element | ComponentPublicInstance | null) => void;
   readonly onFocus: (event: FocusEvent) => void;
-  readonly onInput: (event: Event) => void;
   readonly onChange: (event: Event) => void;
   readonly onBlur: (event: FocusEvent) => void;
 }
@@ -30,7 +34,8 @@ export interface FieldStore<
   TFieldPath extends RequiredPath = RequiredPath,
 > {
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
-  readonly input: PartialValues<PathValue<v.InferInput<TSchema>, TFieldPath>>;
+  get input(): PartialValues<PathValue<v.InferInput<TSchema>, TFieldPath>>;
+  set input(value: PartialValues<PathValue<v.InferInput<TSchema>, TFieldPath>>);
   readonly errors: [string, ...string[]] | null;
   readonly isTouched: boolean;
   readonly isDirty: boolean;

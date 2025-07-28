@@ -10,17 +10,29 @@ interface FileInputProps {
   accept?: string;
   required?: boolean;
   multiple?: boolean;
-  input: File | File[] | null | undefined;
   errors: [string, ...string[]] | null;
   props: FieldElementProps;
 }
 
 const props = defineProps<FileInputProps>();
+const model = defineModel<File | File[] | null | undefined>({ required: true });
 
-// Create computed value of selected files
 const files = computed(() =>
-  props.input ? (Array.isArray(props.input) ? props.input : [props.input]) : []
+  model.value ? (Array.isArray(model.value) ? model.value : [model.value]) : []
 );
+
+const handleInput = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files) {
+    if (props.multiple) {
+      model.value = Array.from(target.files);
+    } else {
+      model.value = target.files[0];
+    }
+  } else {
+    model.value = undefined;
+  }
+};
 </script>
 
 <template>
@@ -41,6 +53,7 @@ const files = computed(() =>
       }}
       <input
         v-bind="props.props"
+        @input="handleInput"
         :id="props.props.name"
         class="absolute h-full w-full cursor-pointer opacity-0"
         :accept="accept"

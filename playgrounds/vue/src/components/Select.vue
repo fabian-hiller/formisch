@@ -13,19 +13,21 @@ interface SelectProps {
   size?: number;
   placeholder?: string;
   required?: boolean;
-  input: string | string[] | null | undefined;
   errors: [string, ...string[]] | null;
   props: FieldElementProps;
 }
 
 const props = defineProps<SelectProps>();
+const model = defineModel<string | string[] | null | undefined>({
+  required: true,
+});
 
 // Create computed value of selected values
 const values = computed(() =>
-  Array.isArray(props.input)
-    ? props.input
-    : props.input && typeof props.input === 'string'
-      ? [props.input]
+  Array.isArray(model.value)
+    ? model.value
+    : model.value && typeof model.value === 'string'
+      ? [model.value]
       : []
 );
 </script>
@@ -35,6 +37,7 @@ const values = computed(() =>
     <InputLabel :name="props.props.name" :label="label" :required="required" />
     <div class="relative flex items-center">
       <select
+        v-model="model"
         v-bind="props.props"
         :id="props.props.name"
         :class="[
@@ -51,7 +54,7 @@ const values = computed(() =>
         :aria-invalid="!!errors"
         :aria-errormessage="`${props.props.name}-error`"
       >
-        <option value="" disabled hidden :selected="!input">
+        <option value="" disabled hidden :selected="!model">
           {{ placeholder }}
         </option>
         <option

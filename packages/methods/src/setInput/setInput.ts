@@ -6,7 +6,6 @@ import {
   type PathValue,
   type RequiredPath,
   type Schema,
-  setFieldBool,
   setFieldInput,
   validateIfRequired,
   type ValidPath,
@@ -48,7 +47,6 @@ export function setInput(
     const internalFieldStore = config.path
       ? getFieldStore(internalFormStore, config.path)
       : internalFormStore;
-    setFieldBool(internalFieldStore, 'isTouched', true);
     setFieldInput(internalFieldStore, config.input);
     validateIfRequired(internalFormStore, internalFieldStore, 'input');
   });

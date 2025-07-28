@@ -72,6 +72,7 @@ export function setFieldInput(
       }
     } else {
       internalFieldStore.input.value = input;
+      internalFieldStore.isTouched.value = true;
       // TODO: Should we add support for Dates and Files?
       const startInput = untrack(() => internalFieldStore.startInput.value);
       internalFieldStore.isDirty.value =

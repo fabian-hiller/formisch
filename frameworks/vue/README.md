@@ -30,23 +30,19 @@ type LoginSchema = typeof LoginSchema;
 const loginForm = useForm({
   schema: LoginSchema,
 });
-
-const handleSubmit: SubmitHandler<LoginSchema> = (output) => {
-  console.log(output);
-};
 </script>
 
 <template>
-  <Form :of="loginForm" @submit="handleSubmit">
+  <Form :of="loginForm" @submit="(output) => console.log(output)">
     <Field :of="loginForm" :path="['email']" v-slot="field">
       <div>
-        <input v-bind="field.props" :value="field.input" type="email" />
+        <input v-model="field.input" v-bind="field.props" type="email" />
         <div v-if="field.errors">{{ field.errors[0] }}</div>
       </div>
     </Field>
     <Field :of="loginForm" :path="['password']" v-slot="field">
       <div>
-        <input v-bind="field.props" :value="field.input" type="password" />
+        <input v-model="field.input" v-bind="field.props" type="password" />
         <div v-if="field.errors">{{ field.errors[0] }}</div>
       </div>
     </Field>

@@ -12,8 +12,8 @@ import {
 } from '../components';
 
 const SpecialFormSchema = v.object({
-  number: v.optional(v.string()),
-  range: v.optional(v.string(), '50'),
+  number: v.optional(v.number()),
+  range: v.optional(v.number(), 50),
   checkbox: v.object({
     array: v.array(v.string()),
     boolean: v.optional(v.boolean(), false),
@@ -33,24 +33,20 @@ type SpecialFormSchema = typeof SpecialFormSchema;
 const specialForm = useForm({
   schema: SpecialFormSchema,
 });
-
-const handleSubmit: SubmitHandler<SpecialFormSchema> = (output) => {
-  console.log(output);
-};
 </script>
 
 <template>
   <Form
     :of="specialForm"
     class="space-y-12 md:space-y-14 lg:space-y-16"
-    @submit="handleSubmit"
+    @submit="(output) => console.log(output)"
   >
     <FormHeader :of="specialForm" heading="Special form" />
     <div class="space-y-8 md:space-y-10 lg:space-y-12">
       <Field :of="specialForm" :path="['number']" v-slot="field">
         <TextInput
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :errors="field.errors"
           type="number"
           label="Number"
@@ -59,8 +55,8 @@ const handleSubmit: SubmitHandler<SpecialFormSchema> = (output) => {
 
       <Field :of="specialForm" :path="['range']" v-slot="field">
         <Slider
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :errors="field.errors"
           label="Range"
         />
@@ -88,6 +84,7 @@ const handleSubmit: SubmitHandler<SpecialFormSchema> = (output) => {
         >
           <Checkbox
             class="!p-0"
+            v-model="field.input"
             :props="field.props"
             :label="label"
             :value="value"
@@ -99,8 +96,8 @@ const handleSubmit: SubmitHandler<SpecialFormSchema> = (output) => {
 
       <Field :of="specialForm" :path="['checkbox', 'boolean']" v-slot="field">
         <Checkbox
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :errors="field.errors"
           label="Checkbox boolean"
         />
@@ -108,8 +105,8 @@ const handleSubmit: SubmitHandler<SpecialFormSchema> = (output) => {
 
       <Field :of="specialForm" :path="['select', 'array']" v-slot="field">
         <Select
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :options="[
             { label: 'Option 1', value: 'option_1' },
             { label: 'Option 2', value: 'option_2' },
@@ -123,8 +120,8 @@ const handleSubmit: SubmitHandler<SpecialFormSchema> = (output) => {
 
       <Field :of="specialForm" :path="['select', 'string']" v-slot="field">
         <Select
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :options="[
             { label: 'Option 1', value: 'option_1' },
             { label: 'Option 2', value: 'option_2' },
@@ -137,8 +134,8 @@ const handleSubmit: SubmitHandler<SpecialFormSchema> = (output) => {
 
       <Field :of="specialForm" :path="['file', 'list']" v-slot="field">
         <FileInput
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :errors="field.errors"
           label="File list"
           multiple
@@ -147,8 +144,8 @@ const handleSubmit: SubmitHandler<SpecialFormSchema> = (output) => {
 
       <Field :of="specialForm" :path="['file', 'item']" v-slot="field">
         <FileInput
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :errors="field.errors"
           label="File item"
         />

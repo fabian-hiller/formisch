@@ -60,24 +60,20 @@ const paymentForm = useForm({
 });
 
 const type = computed(() => getInput(paymentForm, { path: ['type'] }));
-
-const handleSubmit: SubmitHandler<PaymentFormSchema> = (output) => {
-  console.log(output);
-};
 </script>
 
 <template>
   <Form
     :of="paymentForm"
     class="space-y-12 md:space-y-14 lg:space-y-16"
-    @submit="handleSubmit"
+    @submit="(output) => console.log(output)"
   >
     <FormHeader :of="paymentForm" heading="Payment form" />
     <div class="space-y-8 md:space-y-10 lg:space-y-12">
       <Field :of="paymentForm" :path="['owner']" v-slot="field">
         <TextInput
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :errors="field.errors"
           type="text"
           label="Owner"
@@ -87,8 +83,8 @@ const handleSubmit: SubmitHandler<PaymentFormSchema> = (output) => {
       </Field>
       <Field :of="paymentForm" :path="['type']" v-slot="field">
         <Select
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :options="[
             { label: 'Card', value: 'card' },
             { label: 'PayPal', value: 'paypal' },
@@ -102,8 +98,8 @@ const handleSubmit: SubmitHandler<PaymentFormSchema> = (output) => {
       <template v-if="type === 'card'">
         <Field :of="paymentForm" :path="['card', 'number']" v-slot="field">
           <TextInput
+            v-model="field.input"
             :props="field.props"
-            :input="field.input"
             :errors="field.errors"
             type="text"
             label="Number"
@@ -113,8 +109,8 @@ const handleSubmit: SubmitHandler<PaymentFormSchema> = (output) => {
         </Field>
         <Field :of="paymentForm" :path="['card', 'expiration']" v-slot="field">
           <TextInput
+            v-model="field.input"
             :props="field.props"
-            :input="field.input"
             :errors="field.errors"
             type="text"
             label="Expiration"
@@ -130,8 +126,8 @@ const handleSubmit: SubmitHandler<PaymentFormSchema> = (output) => {
         v-slot="field"
       >
         <TextInput
+          v-model="field.input"
           :props="field.props"
-          :input="field.input"
           :errors="field.errors"
           type="email"
           label="Email"

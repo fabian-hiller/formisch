@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { FieldElementProps } from '@formisch/vue';
-import { shallowRef, watch } from 'vue';
 import InputErrors from './InputErrors.vue';
 import InputLabel from './InputLabel.vue';
 
@@ -10,29 +9,19 @@ interface TextInputProps {
   label?: string;
   placeholder?: string;
   required?: boolean;
-  input: string | number | undefined;
   errors: [string, ...string[]] | null;
   props: FieldElementProps;
 }
 
 const props = defineProps<TextInputProps>();
-const input = shallowRef<string | number>();
-
-watch(
-  () => props.input,
-  (newValue) => {
-    if (!Number.isNaN(props.input)) {
-      input.value = newValue;
-    }
-  },
-  { immediate: true }
-);
+const model = defineModel<string | number | undefined>({ required: true });
 </script>
 
 <template>
   <div :class="['px-8 lg:px-10', props.class]">
     <InputLabel :name="props.props.name" :label="label" :required="required" />
     <input
+      v-model="model"
       v-bind="props.props"
       :id="props.props.name"
       :class="[
@@ -44,7 +33,6 @@ watch(
       :type="type"
       :placeholder="placeholder"
       :required="required"
-      :value="input"
       :aria-invalid="!!errors"
       :aria-errormessage="`${props.props.name}-error`"
     />
