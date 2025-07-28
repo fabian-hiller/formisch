@@ -5,7 +5,6 @@
 >
 import { RequiredPath, Schema, ValidPath } from '@formisch/core/vue';
 import * as v from 'valibot';
-import { toRef } from 'vue';
 import { useField } from '../../composables';
 import { FieldStore, FormStore } from '../../types';
 
@@ -20,16 +19,14 @@ export interface FieldProps<
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
 }
 
-defineOptions({
-  inheritAttrs: false,
-})
-
+defineOptions({ inheritAttrs: false });
+defineSlots<{ default(props: FieldStore<TSchema, TFieldPath>): any }>();
 const props = defineProps<FieldProps<TSchema, TFieldPath>>();
-defineSlots<{
-  default(props: FieldStore<TSchema, TFieldPath>): any;
-}>();
 
-const field = useField(props.of, { path: toRef(() => props.path) });
+const field = useField(
+  () => props.of,
+  () => ({ path: props.path })
+);
 </script>
 
 <template>

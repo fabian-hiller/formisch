@@ -5,7 +5,6 @@
 >
 import { RequiredPath, Schema, ValidArrayPath } from '@formisch/core/vue';
 import * as v from 'valibot';
-import { toRef } from 'vue';
 import { useFieldArray } from '../../composables';
 import { FieldArrayStore, FormStore } from '../../types';
 
@@ -20,16 +19,16 @@ export interface FieldArrayProps<
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
 }
 
-defineOptions({
-  inheritAttrs: false,
-})
-
-const props = defineProps<FieldArrayProps<TSchema, TFieldArrayPath>>();
+defineOptions({ inheritAttrs: false });
 defineSlots<{
   default(props: FieldArrayStore<TSchema, TFieldArrayPath>): any;
 }>();
+const props = defineProps<FieldArrayProps<TSchema, TFieldArrayPath>>();
 
-const field = useFieldArray(props.of, { path: toRef(() => props.path) });
+const field = useFieldArray(
+  () => props.of,
+  () => ({ path: props.path })
+);
 </script>
 
 <template>

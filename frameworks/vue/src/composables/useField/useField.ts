@@ -13,26 +13,29 @@ import {
   type ValidPath,
 } from '@formisch/core/vue';
 import type * as v from 'valibot';
-import { computed, onUnmounted, unref } from 'vue';
-import type { FieldStore, FormStore, MaybeRef } from '../../types/index.ts';
+import { computed, MaybeRefOrGetter, onUnmounted, toValue } from 'vue';
+import type { FieldStore, FormStore } from '../../types/index.ts';
 
 export interface UseFieldConfig<
   TSchema extends Schema = Schema,
   TFieldPath extends RequiredPath = RequiredPath,
 > {
-  readonly path: MaybeRef<ValidPath<v.InferInput<TSchema>, TFieldPath>>;
+  readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
 }
 
 export function useField<
   TSchema extends Schema,
   TFieldPath extends RequiredPath,
 >(
-  form: FormStore<TSchema>,
-  config: UseFieldConfig<TSchema, TFieldPath>
+  form: MaybeRefOrGetter<FormStore<TSchema>>,
+  config: MaybeRefOrGetter<UseFieldConfig<TSchema, TFieldPath>>
 ): FieldStore<TSchema, TFieldPath>;
-export function useField(form: FormStore, config: UseFieldConfig): FieldStore {
+export function useField(
+  form: MaybeRefOrGetter<FormStore>,
+  config: MaybeRefOrGetter<UseFieldConfig>
+): FieldStore {
   const internalFieldStore = computed(() =>
-    getFieldStore(form[INTERNAL], unref(config.path))
+    getFieldStore(toValue(form)[INTERNAL], toValue(config).path)
   );
 
   onUnmounted(() => {
@@ -55,7 +58,7 @@ export function useField(form: FormStore, config: UseFieldConfig): FieldStore {
 
   return {
     get path() {
-      return unref(config.path);
+      return toValue(config).path;
     },
     get input() {
       return input.value;
@@ -84,9 +87,14 @@ export function useField(form: FormStore, config: UseFieldConfig): FieldStore {
       },
       onFocus() {
         setFieldBool(internalFieldStore.value, 'isTouched', true);
-        validateIfRequired(form[INTERNAL], internalFieldStore.value, 'touch');
+        validateIfRequired(
+          toValue(form)[INTERNAL],
+          internalFieldStore.value,
+          'touch'
+        );
       },
       onInput(event) {
+        // TODO: Remove this and replace it with v-model
         setFieldInput(
           internalFieldStore.value,
           getElementInput(
@@ -94,13 +102,25 @@ export function useField(form: FormStore, config: UseFieldConfig): FieldStore {
             internalFieldStore.value
           )
         );
-        validateIfRequired(form[INTERNAL], internalFieldStore.value, 'input');
+        validateIfRequired(
+          toValue(form)[INTERNAL],
+          internalFieldStore.value,
+          'input'
+        );
       },
       onChange() {
-        validateIfRequired(form[INTERNAL], internalFieldStore.value, 'change');
+        validateIfRequired(
+          toValue(form)[INTERNAL],
+          internalFieldStore.value,
+          'change'
+        );
       },
       onBlur() {
-        validateIfRequired(form[INTERNAL], internalFieldStore.value, 'blur');
+        validateIfRequired(
+          toValue(form)[INTERNAL],
+          internalFieldStore.value,
+          'blur'
+        );
       },
     },
   };
