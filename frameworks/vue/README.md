@@ -17,7 +17,7 @@ Every form starts with the `useForm` composable. It initializes your form's stor
 
 ```vue
 <script setup lang="ts">
-import { Field, Form, type SubmitHandler, useForm } from '@formisch/vue';
+import { Field, Form, useForm } from '@formisch/vue';
 import * as v from 'valibot';
 
 const LoginSchema = v.object({
