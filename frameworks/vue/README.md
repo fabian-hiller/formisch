@@ -25,11 +25,7 @@ const LoginSchema = v.object({
   password: v.pipe(v.string(), v.minLength(8)),
 });
 
-type LoginSchema = typeof LoginSchema;
-
-const loginForm = useForm({
-  schema: LoginSchema,
-});
+const loginForm = useForm({ schema: LoginSchema });
 </script>
 
 <template>
