@@ -35,9 +35,9 @@ export function handleSubmit(
       }
 
       // If an error occurred, set form errors
-    } catch (error) {
+    } catch (error: unknown) {
       internalFormStore.errors.value = [
-        error instanceof Error
+        error && typeof error === 'object' && 'message' in error && typeof error.message === 'string'
           ? error.message
           : 'An unknown error has occurred.',
       ];
