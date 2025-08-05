@@ -55,6 +55,12 @@ In addition, Formisch offers several functions (we call them "methods") that can
 
 What makes Formisch unique is its framework-agnostic core, which is fully native to the framework you are using. It works by inserting framework-specific reactivity blocks when the core package is built. The result is a small bundle size and native performance for any UI update. This feature, along with a few others, distinguishes Formisch from other form libraries. My vision for Formisch is to create a framework-agnostic platform similar to [Vite](https://vite.dev/), but for forms.
 
+## Partners
+
+Thanks to our partners who support the development! [Join them](https://github.com/sponsors/fabian-hiller) and contribute to the sustainability of open source software!
+
+![Partners of Formisch](https://github.com/fabian-hiller/formisch/blob/main/partners.webp?raw=true)
+
 ## Feedback
 
 Find a bug or have an idea how to improve the library? Please fill out an [issue](https://github.com/fabian-hiller/formisch/issues/new). Together we can make forms even better!
