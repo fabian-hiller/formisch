@@ -2,6 +2,8 @@
 
 Formisch is a schema-based, headless form library for Vue. It manages form state and validation. It is type-safe, fast by default and its bundle size is small due to its modular design. Try it out in our [playground](https://stackblitz.com/edit/formisch-playground-vue)!
 
+Formisch is also available for [Preact][formisch-preact], [Qwik][formisch-qwik], and [SolidJS][formisch-solid]. Svelte will follow soon.
+
 ## Highlights
 
 - Small bundle size starting at 2.5 kB
@@ -49,6 +51,10 @@ const loginForm = useForm({ schema: LoginSchema });
 
 In addition, Formisch offers several functions (we call them "methods") that can be used to read and manipulate the form state. These include `focus`, `getErrors`, `getAllErrors`, `getInput`, `insert`, `move`, `remove`, `replace`, `reset`, `setErrors`, `setInput`, `submit`, `swap` and `validate`. These methods allow you to control the form programmatically.
 
+## Comparison
+
+What makes Formisch unique is its framework-agnostic core, which is fully native to the framework you are using. It works by inserting framework-specific reactivity blocks when the core package is built. The result is a small bundle size and native performance for any UI update. This feature, along with a few others, distinguishes Formisch from other form libraries. My vision for Formisch is to create a framework-agnostic platform similar to [Vite](https://vite.dev/), but for forms.
+
 ## Feedback
 
 Find a bug or have an idea how to improve the library? Please fill out an [issue](https://github.com/fabian-hiller/formisch/issues/new). Together we can make forms even better!
@@ -56,3 +62,8 @@ Find a bug or have an idea how to improve the library? Please fill out an [issue
 ## License
 
 This project is available free of charge and licensed under the [MIT license](https://github.com/fabian-hiller/formisch/blob/main/LICENSE.md).
+
+[formisch-preact]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/preact
+[formisch-qwik]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/qwik
+[formisch-solid]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/solid
+[formisch-vue]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/vue
