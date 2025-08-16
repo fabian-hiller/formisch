@@ -61,7 +61,7 @@ type LazyPath<
           ...infer TPathRest extends Path,
         ]
       ? LazyPath<
-          MergeUnion<TValue>[TFirstKey],
+          Required<MergeUnion<TValue>[TFirstKey]>,
           TPathRest,
           readonly [...TValidPath, TFirstKey]
         >
@@ -76,7 +76,9 @@ type LazyPath<
  * the given value.
  */
 export type ValidPath<TValue, TPath extends RequiredPath> =
-  TPath extends LazyPath<TValue, TPath> ? TPath : LazyPath<TValue, TPath>;
+  TPath extends LazyPath<Required<TValue>, TPath>
+    ? TPath
+    : LazyPath<Required<TValue>, TPath>;
 
 /**
  * Extracts the value type at the given path.
@@ -85,8 +87,8 @@ export type PathValue<TValue, TPath extends Path> = TPath extends readonly [
   infer TKey,
   ...infer TRest extends Path,
 ]
-  ? TKey extends KeyOf<TValue>
-    ? PathValue<MergeUnion<TValue>[TKey], TRest>
+  ? TKey extends KeyOf<Required<TValue>>
+    ? PathValue<MergeUnion<Required<TValue>>[TKey], TRest>
     : unknown
   : TValue;
 
@@ -119,14 +121,16 @@ type KeyOfArrayPath<TValue> =
           : never
         : {
             [TKey in keyof TValue]: TKey extends `${infer TIndex extends number}`
-              ? IsOrHasArray<TValue[TKey]> extends true
+              ? IsOrHasArray<NonNullable<TValue[TKey]>> extends true
                 ? TIndex
                 : never
               : never;
           }[number]
       : TValue extends Record<string, unknown>
         ? {
-            [TKey in keyof TValue]: IsOrHasArray<TValue[TKey]> extends true
+            [TKey in keyof TValue]: IsOrHasArray<
+              NonNullable<TValue[TKey]>
+            > extends true
               ? TKey
               : never;
           }[keyof TValue] &
@@ -152,7 +156,7 @@ type LazyArrayPath<
           ...infer TPathRest extends Path,
         ]
       ? LazyArrayPath<
-          MergeUnion<TValue>[TFirstKey],
+          Required<MergeUnion<TValue>[TFirstKey]>,
           TPathRest,
           readonly [...TValidPath, TFirstKey]
         >
@@ -167,6 +171,6 @@ type LazyArrayPath<
  * the given value.
  */
 export type ValidArrayPath<TValue, TPath extends RequiredPath> =
-  TPath extends LazyArrayPath<TValue, TPath>
+  TPath extends LazyArrayPath<Required<TValue>, TPath>
     ? TPath
-    : LazyArrayPath<TValue, TPath>;
+    : LazyArrayPath<Required<TValue>, TPath>;
