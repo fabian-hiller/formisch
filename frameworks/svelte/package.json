@@ -1,0 +1,75 @@
+{
+  "name": "@formisch/svelte",
+  "description": "The modular and type-safe form library for Svelte",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Fabian Hiller",
+  "homepage": "https://formisch.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabian-hiller/formisch"
+  },
+  "keywords": [
+    "vue",
+    "form",
+    "typescript",
+    "schema",
+    "validation"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "svelte": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "svelte-package --input src && node ./scripts/rewrite-imports.js",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "lint": "eslint \"src/**/*.ts*\" && tsc --noEmit",
+    "lint.fix": "eslint \"src/**/*.ts*\" --fix",
+    "format": "prettier --write ./src",
+    "format.check": "prettier --check ./src"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^1.3.2",
+    "@eslint/js": "^9.35.0",
+    "@formisch/core": "workspace:*",
+    "@formisch/methods": "workspace:*",
+    "@sveltejs/adapter-auto": "^6.1.0",
+    "@sveltejs/kit": "^2.37.1",
+    "@sveltejs/package": "^2.5.0",
+    "@sveltejs/vite-plugin-svelte": "^6.2.0",
+    "eslint": "^9.35.0",
+    "eslint-plugin-svelte": "^3.12.2",
+    "globals": "^16.4.0",
+    "publint": "^0.3.12",
+    "svelte": "^5.38.8",
+    "svelte-check": "^4.3.1",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.43.0",
+    "vite": "^7.1.5"
+  },
+  "peerDependencies": {
+    "svelte": "^5.29.0",
+    "typescript": ">=5",
+    "valibot": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  }
+}

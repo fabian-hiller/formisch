@@ -7,7 +7,6 @@ import {
   move,
   remove,
   replace,
-  type SubmitHandler,
   swap,
   useForm,
 } from '@formisch/vue';
@@ -22,8 +21,6 @@ const NestedFormSchema = v.object({
     })
   ),
 });
-
-type NestedFormSchema = typeof NestedFormSchema;
 
 const nestedForm = useForm({
   schema: NestedFormSchema,

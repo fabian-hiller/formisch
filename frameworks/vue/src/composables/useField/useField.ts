@@ -1,6 +1,5 @@
 import {
   type FieldElement,
-  getElementInput,
   getFieldBool,
   getFieldInput,
   getFieldStore,

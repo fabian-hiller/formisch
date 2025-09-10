@@ -16,7 +16,7 @@ export function useForm<TSchema extends Schema>(
 ): FormStore<TSchema>;
 export function useForm(config: FormConfig): FormStore {
   const form = useMemo(() => {
-    const internalFormStore = createFormStore(config, async (input: unknown) =>
+    const internalFormStore = createFormStore(config, (input: unknown) =>
       v.safeParseAsync(config.schema, input)
     );
     return {

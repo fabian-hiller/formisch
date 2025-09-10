@@ -68,7 +68,7 @@ export function Select(props: SelectProps) {
           aria-invalid={!!props.errors}
           aria-errormessage={`${props.name}-error`}
         >
-          <option value="" disabled hidden selected={!props.input}>
+          <option value="" disabled hidden selected={getValues().length === 0}>
             {props.placeholder}
           </option>
           <For each={props.options}>

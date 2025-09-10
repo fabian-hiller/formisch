@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Field, Form, type SubmitHandler, useForm } from '@formisch/vue';
+import { Field, Form, useForm } from '@formisch/vue';
 import * as v from 'valibot';
 import { FormFooter, FormHeader, TextInput } from '../components';
 
@@ -15,8 +15,6 @@ const LoginSchema = v.object({
     v.minLength(8, 'Your password must have 8 characters or more.')
   ),
 });
-
-type LoginSchema = typeof LoginSchema;
 
 const loginForm = useForm({
   schema: LoginSchema,

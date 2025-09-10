@@ -3,10 +3,10 @@ import { Schema, SubmitHandler } from '@formisch/core/vue';
 import { handleSubmit } from '@formisch/methods/vue';
 import { FormStore } from '../../types';
 
-export type FormProps<TSchema extends Schema = Schema> = {
+export interface FormProps<TSchema extends Schema = Schema> {
   of: FormStore<TSchema>;
   onSubmit: SubmitHandler<TSchema>;
-};
+}
 
 const props = defineProps<FormProps<TSchema>>();
 

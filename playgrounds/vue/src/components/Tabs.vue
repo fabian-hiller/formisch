@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useEventListener } from '@/hooks';
-import { nextTick, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 interface TabsProps {

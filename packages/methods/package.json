@@ -32,6 +32,10 @@
       "types": "./dist/index.solid.d.ts",
       "default": "./dist/index.solid.js"
     },
+    "./svelte": {
+      "types": "./dist/index.svelte.d.ts",
+      "default": "./dist/index.svelte.js"
+    },
     "./vue": {
       "types": "./dist/index.vue.d.ts",
       "default": "./dist/index.vue.js"
