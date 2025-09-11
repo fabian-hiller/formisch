@@ -5,7 +5,7 @@ import type { FormStore } from '../../types/index.ts';
 
 export type FormProps<TSchema extends Schema = Schema> = Omit<
   PropsOf<'form'>,
-  'onSubmit$'
+  'onSubmit$' | 'noValidate'
 > & {
   of: FormStore<TSchema>;
   onSubmit$: QRL<SubmitHandler<TSchema>>;

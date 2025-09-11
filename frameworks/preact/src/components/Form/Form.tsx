@@ -9,7 +9,7 @@ import type { FormStore } from '../../types/index.ts';
 
 export type FormProps<TSchema extends Schema = Schema> = Omit<
   JSX.FormHTMLAttributes<HTMLFormElement>,
-  'onSubmit'
+  'onSubmit' | 'novalidate' | 'noValidate'
 > & {
   of: FormStore<TSchema>;
   onSubmit: SubmitHandler<TSchema>;

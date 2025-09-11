@@ -11,7 +11,7 @@
 
   export type FormProps<TSchema extends Schema = Schema> = Omit<
     HTMLFormAttributes,
-    'on:submit' | 'onsubmit'
+    'on:submit' | 'onsubmit' | 'novalidate'
   > & {
     of: FormStore<TSchema>;
     onSubmit: SubmitHandler<TSchema>;
