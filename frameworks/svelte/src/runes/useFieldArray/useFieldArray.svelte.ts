@@ -36,11 +36,9 @@ export function useFieldArray<
   form: MaybeGetter<FormStore<TSchema>>,
   config: MaybeGetter<UseFieldArrayConfig<TSchema, TFieldArrayPath>>
 ): FieldArrayStore<TSchema, TFieldArrayPath> {
+  const path = $derived(unwrap(config).path);
   const internalFieldStore = $derived(
-    getFieldStore(
-      unwrap(form)[INTERNAL],
-      unwrap(config).path
-    ) as InternalArrayStore
+    getFieldStore(unwrap(form)[INTERNAL], path) as InternalArrayStore
   );
 
   const isTouched = $derived(getFieldBool(internalFieldStore, 'isTouched'));
@@ -49,7 +47,7 @@ export function useFieldArray<
 
   return {
     get path() {
-      return unwrap(config).path;
+      return path;
     },
     get items() {
       return internalFieldStore.items.value;

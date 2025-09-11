@@ -34,10 +34,9 @@ export function useField(
   form: MaybeGetter<FormStore>,
   config: MaybeGetter<UseFieldConfig>
 ): FieldStore {
+  const path = $derived(unwrap(config).path);
   const internalFormStore = $derived(unwrap(form)[INTERNAL]);
-  const internalFieldStore = $derived(
-    getFieldStore(internalFormStore, unwrap(config).path)
-  );
+  const internalFieldStore = $derived(getFieldStore(internalFormStore, path));
 
   const input = $derived(getFieldInput(internalFieldStore));
   const isTouched = $derived(getFieldBool(internalFieldStore, 'isTouched'));
@@ -46,7 +45,7 @@ export function useField(
 
   return {
     get path() {
-      return unwrap(config).path;
+      return path;
     },
     get input() {
       return input;
