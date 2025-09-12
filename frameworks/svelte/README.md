@@ -30,11 +30,11 @@ Every form starts with the `createForm` function. It initializes your form's sto
   const loginForm = createForm({ schema: LoginSchema });
 </script>
 
-<Form of={loginForm} onSubmit={(output) => console.log(output)}>
+<Form of={loginForm} onsubmit={(output) => console.log(output)}>
   <Field of={loginForm} path={['email']}>
     {#snippet children(field)}
       <div>
-        <input {...field.props} input={field.input} type="email" />
+        <input {...field.props} value={field.input} type="email" />
         {#if field.errors}
           <div>{field.errors[0]}</div>
         {/if}
@@ -44,7 +44,7 @@ Every form starts with the `createForm` function. It initializes your form's sto
   <Field of={loginForm} path={['password']}>
     {#snippet children(field)}
       <div>
-        <input {...field.props} input={field.input} type="password" />
+        <input {...field.props} value={field.input} type="password" />
         {#if field.errors}
           <div>{field.errors[0]}</div>
         {/if}
