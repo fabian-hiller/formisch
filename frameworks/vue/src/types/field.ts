@@ -7,12 +7,7 @@ import type {
   ValidPath,
 } from '@formisch/core/vue';
 import type * as v from 'valibot';
-import {
-  ComponentPublicInstance,
-  ComputedRef,
-  ShallowRef,
-  WritableComputedRef,
-} from 'vue';
+import { ComponentPublicInstance } from 'vue';
 
 /**
  * Value type of the field element props.
