@@ -10,7 +10,7 @@
     "url": "https://github.com/fabian-hiller/formisch"
   },
   "keywords": [
-    "vue",
+    "svelte",
     "form",
     "typescript",
     "schema",
