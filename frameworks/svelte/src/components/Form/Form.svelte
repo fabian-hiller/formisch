@@ -14,13 +14,13 @@
     'on:submit' | 'onsubmit' | 'novalidate'
   > & {
     of: FormStore<TSchema>;
-    onSubmit: SubmitHandler<TSchema>;
+    onsubmit: SubmitHandler<TSchema>;
     children: Snippet;
   };
 
-  let { of, onSubmit, children, ...other }: FormProps<TSchema> = $props();
+  let { of, onsubmit, children, ...other }: FormProps<TSchema> = $props();
 
-  const handler = handleSubmit(of, onSubmit);
+  const handler = handleSubmit(of, onsubmit);
 </script>
 
 <form {...other} novalidate onsubmit={handler} bind:this={of[INTERNAL].element}>

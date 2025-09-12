@@ -18,9 +18,9 @@ export function createForm(config: FormConfig): FormStore {
     v.safeParseAsync(config.schema, input)
   );
 
-  onMount(async () => {
+  onMount(() => {
     if (config.validate === 'initial') {
-      await validateFormInput(internalFormStore);
+      validateFormInput(internalFormStore);
     }
   });
 
