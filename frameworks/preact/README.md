@@ -2,7 +2,7 @@
 
 Formisch is a schema-based, headless form library for Preact. It manages form state and validation. It is type-safe, fast by default and its bundle size is small due to its modular design. Try it out in our [playground](https://stackblitz.com/edit/formisch-playground-preact)!
 
-Formisch is also available for [Qwik][formisch-qwik], [SolidJS][formisch-solid], and [Vue][formisch-vue]. Svelte will follow soon.
+Formisch is also available for [Qwik][formisch-qwik], [SolidJS][formisch-solid], [Svelte][formisch-svelte] and [Vue][formisch-vue].
 
 ## Highlights
 
@@ -77,4 +77,5 @@ This project is available free of charge and licensed under the [MIT license](ht
 
 [formisch-qwik]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/qwik
 [formisch-solid]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/solid
+[formisch-svelte]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/svelte
 [formisch-vue]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/vue
