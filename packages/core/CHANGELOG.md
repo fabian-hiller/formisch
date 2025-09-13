@@ -2,7 +2,7 @@
 
 All notable changes to the library will be documented in this file.
 
-## vX.X.X (Month DD, YYYY)
+## v0.3.1 (September 13, 2025)
 
 - Fix `setFieldInput` and `setInitialFieldInput` for nullish arrays and objects (issue #15)
 
