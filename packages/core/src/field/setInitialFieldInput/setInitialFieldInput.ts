@@ -8,15 +8,16 @@ export function setInitialFieldInput(
 ): void {
   batch(() => {
     if (internalFieldStore.kind === 'array') {
+      const initialArrayInput = initialInput ?? [];
       if (
         // @ts-expect-error
-        initialInput.length > internalFieldStore.children.length
+        initialArrayInput.length > internalFieldStore.children.length
       ) {
         const path = JSON.parse(internalFieldStore.name) as PathKey[];
         for (
           let index = internalFieldStore.children.length;
           // @ts-expect-error
-          index < initialInput.length;
+          index < initialArrayInput.length;
           index++
         ) {
           // @ts-expect-error
@@ -27,7 +28,7 @@ export function setInitialFieldInput(
             // @ts-expect-error
             internalFieldStore.schema.item,
             // @ts-expect-error
-            initialInput[index],
+            initialArrayInput[index],
             path
           );
           path.pop();
@@ -35,12 +36,12 @@ export function setInitialFieldInput(
       }
       internalFieldStore.initialItems.value =
         // @ts-expect-error
-        initialInput.map(createId);
+        initialArrayInput.map(createId);
       for (let index = 0; index < internalFieldStore.children.length; index++) {
         setInitialFieldInput(
           internalFieldStore.children[index],
           // @ts-expect-error
-          initialInput?.[index]
+          initialArrayInput[index]
         );
       }
     } else if (internalFieldStore.kind === 'object') {

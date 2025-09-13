@@ -150,7 +150,7 @@ export function initializeFieldStore(
               internalFieldStore.children[index],
               schema.items[index] as FieldSchema,
               // @ts-expect-error
-              initialInput && initialInput[index],
+              initialInput?.[index],
               path
             );
             path.pop();
@@ -186,7 +186,7 @@ export function initializeFieldStore(
             internalFieldStore.children[key],
             schema.entries[key] as FieldSchema,
             // @ts-expect-error
-            initialInput && initialInput[key],
+            initialInput?.[key],
             path
           );
           path.pop();

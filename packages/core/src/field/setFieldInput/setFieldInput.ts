@@ -8,28 +8,29 @@ export function setFieldInput(
 ): void {
   batch(() => {
     if (internalFieldStore.kind === 'array') {
+      const arrayInput = input ?? [];
       const items = untrack(() => internalFieldStore.items.value);
       if (
         // @ts-expect-error
-        input.length < items.length
+        arrayInput.length < items.length
       ) {
         internalFieldStore.items.value = items.slice(
           0,
           // @ts-expect-error
-          input.length
+          arrayInput.length
         );
       } else if (
         // @ts-expect-error
-        input.length > items.length
+        arrayInput.length > items.length
       ) {
         // @ts-expect-error
-        if (input.length > internalFieldStore.children.length) {
+        if (arrayInput.length > internalFieldStore.children.length) {
           // TODO: Check if we can merge this for loop with the one below
           const path = JSON.parse(internalFieldStore.name) as PathKey[];
           for (
             let index = internalFieldStore.children.length;
             // @ts-expect-error
-            index < input.length;
+            index < arrayInput.length;
             index++
           ) {
             // @ts-expect-error
@@ -40,7 +41,7 @@ export function setFieldInput(
               // @ts-expect-error
               internalFieldStore.schema.item,
               // @ts-expect-error
-              input[index],
+              arrayInput[index],
               path
             );
             path.pop();
@@ -49,14 +50,14 @@ export function setFieldInput(
         internalFieldStore.items.value = [
           ...items,
           // @ts-expect-error
-          ...input.slice(items.length).map(createId),
+          ...arrayInput.slice(items.length).map(createId),
         ];
       }
       for (let index = 0; index < items.length; index++) {
         setFieldInput(
           internalFieldStore.children[index],
           // @ts-expect-error
-          input[index]
+          arrayInput[index]
         );
       }
       internalFieldStore.isDirty.value =
@@ -67,7 +68,7 @@ export function setFieldInput(
         setFieldInput(
           internalFieldStore.children[key],
           // @ts-expect-error
-          input[key]
+          input?.[key]
         );
       }
     } else {

@@ -2,6 +2,10 @@
 
 All notable changes to the library will be documented in this file.
 
+## vX.X.X (Month DD, YYYY)
+
+- Fix `setFieldInput` and `setInitialFieldInput` for nullish arrays and objects (issue #15)
+
 ## v0.3.0 (August 17, 2025)
 
 - Change implementation of `setFieldInput` to set `isTouched` to `true`
