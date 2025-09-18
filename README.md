@@ -7,18 +7,22 @@ Supported frameworks: [Preact][formisch-preact], [Qwik][formisch-qwik], [SolidJS
 ## Highlights
 
 - Small bundle size starting at 2.5 kB
-- Schema-based validation with Valibot
+- Schema-based validation with Valibot or Zod
 - Type safety with autocompletion in editor
 - It's fast – DOM updates are fine-grained
 - Minimal, readable and well thought out API
 - Supports all native HTML form fields
+- Flexible schema adapter system
 
 ## Example
 
-In SolidJS a form starts with the `createForm` primitive. It initializes your form's store based on the provided Valibot schema and infers its types. Next, wrap your form in the `<Form />` component. It's a thin layer around the native `<form />` element that handles form validation and submission. Then, you can access the state of a field with the `useField` primitive or the `<Field />` component to connect your inputs.
+In SolidJS a form starts with the `createForm` primitive. It initializes your form's store based on the provided schema and infers its types. Next, wrap your form in the `<Form />` component. It's a thin layer around the native `<form />` element that handles form validation and submission. Then, you can access the state of a field with the `useField` primitive or the `<Field />` component to connect your inputs.
+
+### With Valibot
 
 ```tsx
 import { createForm, Field, Form } from '@formisch/solid';
+import { valibotForm } from '@formisch/adapters';
 import * as v from 'valibot';
 
 const LoginSchema = v.object({
@@ -28,7 +32,48 @@ const LoginSchema = v.object({
 
 export default function LoginPage() {
   const loginForm = createForm({
-    schema: LoginSchema,
+    validate: valibotForm(LoginSchema),
+  });
+
+  return (
+    <Form of={loginForm} onSubmit={(output) => console.log(output)}>
+      <Field of={loginForm} path={['email']}>
+        {(field) => (
+          <div>
+            <input {...field.props} value={field.input} type="email" />
+            {field.errors && <div>{field.errors[0]}</div>}
+          </div>
+        )}
+      </Field>
+      <Field of={loginForm} path={['password']}>
+        {(field) => (
+          <div>
+            <input {...field.props} value={field.input} type="password" />
+            {field.errors && <div>{field.errors[0]}</div>}
+          </div>
+        )}
+      </Field>
+      <button type="submit">Login</button>
+    </Form>
+  );
+}
+```
+
+### With Zod
+
+```tsx
+import { createForm, Field, Form } from '@formisch/solid';
+import { zodForm } from '@formisch/adapters';
+import { z } from 'zod';
+
+const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
+
+export default function LoginPage() {
+  const loginForm = createForm({
+    validate: zodForm(LoginSchema),
   });
 
   return (

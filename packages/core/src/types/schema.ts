@@ -1,3 +1,1 @@
-import type * as v from 'valibot';
-
-export type Schema = v.GenericSchema | v.GenericSchemaAsync;
+export type { Schema, ValibotSchema, SchemaAdapter } from "@formisch/types";

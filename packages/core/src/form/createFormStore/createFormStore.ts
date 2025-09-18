@@ -1,37 +1,38 @@
-import type * as v from 'valibot';
-import { type FieldSchema, initializeFieldStore } from '../../field/index.ts';
-import { createSignal } from '../../framework/index.ts';
+import { type FieldSchema, initializeFieldStore } from "../../field/index.ts";
+import { createSignal } from "../../framework/index.ts";
 import type {
-  FormConfig,
-  InternalFormStore,
-  Schema,
-} from '../../types/index.ts';
+	FormConfig,
+	InternalFormStore,
+	Schema,
+} from "../../types/index.ts";
+import { createParser } from "./createParser.ts";
 
-export function createFormStore(
-  config: FormConfig,
-  parse: (input: unknown) => Promise<v.SafeParseResult<Schema>>
-): InternalFormStore {
-  // Create store object
-  const store: Partial<InternalFormStore> = {};
+export function createFormStore<TSchema extends Schema>(
+	config: FormConfig<TSchema>,
+): InternalFormStore<TSchema> {
+	// Create store object
+	const store: Partial<InternalFormStore<TSchema>> = {};
 
-  // Initialize internal field store
-  initializeFieldStore(
-    store,
-    config.schema as FieldSchema,
-    config.initialInput,
-    []
-  );
+	// Initialize internal field store
+	// Check if it's a schema adapter and extract the Valibot schema
+	const fieldSchema = (config.schema as any)?.valibotSchema || config.schema;
+	initializeFieldStore(
+		store,
+		fieldSchema as FieldSchema,
+		config.initialInput,
+		[],
+	);
 
-  // Set form config and validation
-  store.validate = config.validate ?? 'submit';
-  store.revalidate = config.revalidate ?? 'input';
-  store.parse = parse;
+	// Set form config and validation
+	store.validate = config.validate ?? "submit";
+	store.revalidate = config.revalidate ?? "input";
+	store.parse = createParser(config.schema);
 
-  // Initialize form signals
-  store.isSubmitting = createSignal(false);
-  store.isSubmitted = createSignal(false);
-  store.isValidating = createSignal(false);
+	// Initialize form signals
+	store.isSubmitting = createSignal(false);
+	store.isSubmitted = createSignal(false);
+	store.isValidating = createSignal(false);
 
-  // Return store object
-  return store as InternalFormStore;
+	// Return store object
+	return store as InternalFormStore<TSchema>;
 }
