@@ -68,10 +68,8 @@ export function reset(
 
       // Reset state of fields by walking field store
       walkFieldStore(internalFieldStore, (internalFieldStore) => {
-        // FIXME: We need a way to reset `.elements` as they are moved around
-        // when using array methods. This could work by adding a new
-        // `.initialElements` prop that uses the same array reference as
-        // `.elements` initially.
+        // Reset elements to initial elements
+        internalFieldStore.elements = internalFieldStore.initialElements;
 
         // Reset errors if it is not to be kept
         if (!config?.keepErrors) {

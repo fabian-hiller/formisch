@@ -13,6 +13,7 @@ export interface InternalBaseStore {
   kind: 'array' | 'object' | 'value';
   name: string;
   schema: Schema;
+  initialElements: FieldElement[];
   elements: FieldElement[];
   errors: Signal<[string, ...string[]] | null>;
   isTouched: Signal<boolean>;

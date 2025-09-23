@@ -1,6 +1,10 @@
 import * as v from 'valibot';
 import { createId, createSignal, framework } from '../../framework/index.ts';
-import type { InternalFieldStore, PathKey } from '../../types/index.ts';
+import type {
+  FieldElement,
+  InternalFieldStore,
+  PathKey,
+} from '../../types/index.ts';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type FieldSchema =
@@ -113,7 +117,9 @@ export function initializeFieldStore(
   } else {
     internalFieldStore.schema = schema;
     internalFieldStore.name = JSON.stringify(path);
-    internalFieldStore.elements = [];
+    const initialElements: FieldElement[] = [];
+    internalFieldStore.initialElements = initialElements;
+    internalFieldStore.elements = initialElements;
     internalFieldStore.errors = createSignal(null);
     internalFieldStore.isTouched = createSignal(false);
     internalFieldStore.isDirty = createSignal(false);

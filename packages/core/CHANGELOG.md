@@ -4,8 +4,9 @@ All notable changes to the library will be documented in this file.
 
 ## vX.X.X (Month DD, YYYY)
 
-- Fix bug in `copyItemState`, `resetItemState` and `swapItemState` by including `elements` and `errors` state
+- Add new `initialElements` state to `InternalBaseStore` interface and update `initializeFieldStore`
 - Change interfaces of `InternalFieldStore` to support `null` and `undefined` values for arrays and objects (issue #15)
+- Fix bug in `copyItemState`, `resetItemState` and `swapItemState` by including `elements` and `errors` state
 
 ## v0.3.1 (September 13, 2025)
 
