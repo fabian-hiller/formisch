@@ -43,7 +43,8 @@ export function initializeFieldStore(
   internalFieldStore: Partial<InternalFieldStore>,
   schema: FieldSchema,
   initialInput: unknown,
-  path: PathKey[]
+  path: PathKey[],
+  nullish = false
 ): void {
   // Throw error for unsupported schemas
   if (
@@ -64,12 +65,9 @@ export function initializeFieldStore(
       path
     );
 
-    // Handle wrapped schemas
+    // Handle nullish wrapped schemas
   } else if (
     schema.type === 'exact_optional' ||
-    schema.type === 'non_nullable' ||
-    schema.type === 'non_nullish' ||
-    schema.type === 'non_optional' ||
     schema.type === 'nullable' ||
     schema.type === 'nullish' ||
     schema.type === 'optional' ||
@@ -79,6 +77,20 @@ export function initializeFieldStore(
       internalFieldStore,
       schema.wrapped,
       initialInput ?? v.getDefault(schema),
+      path,
+      true
+    );
+
+    // Handle non-nullish wrapped schemas
+  } else if (
+    schema.type === 'non_nullable' ||
+    schema.type === 'non_nullish' ||
+    schema.type === 'non_optional'
+  ) {
+    initializeFieldStore(
+      internalFieldStore,
+      schema.wrapped,
+      initialInput,
       path
     );
 
@@ -103,6 +115,8 @@ export function initializeFieldStore(
     internalFieldStore.name = JSON.stringify(path);
     internalFieldStore.elements = [];
     internalFieldStore.errors = createSignal(null);
+    internalFieldStore.isTouched = createSignal(false);
+    internalFieldStore.isDirty = createSignal(false);
 
     // Handle array schemas
     if (
@@ -119,7 +133,6 @@ export function initializeFieldStore(
       internalFieldStore.kind = 'array';
       if (internalFieldStore.kind === 'array') {
         internalFieldStore.children ??= [];
-
         if (schema.type === 'array') {
           if (initialInput) {
             for (
@@ -156,12 +169,15 @@ export function initializeFieldStore(
             path.pop();
           }
         }
+        const arrayInput =
+          nullish && initialInput == null ? initialInput : true;
+        internalFieldStore.initialInput = createSignal(arrayInput);
+        internalFieldStore.startInput = createSignal(arrayInput);
+        internalFieldStore.input = createSignal(arrayInput);
         const initialItems = internalFieldStore.children.map(createId);
         internalFieldStore.initialItems = createSignal(initialItems);
         internalFieldStore.startItems = createSignal(initialItems);
         internalFieldStore.items = createSignal(initialItems);
-        internalFieldStore.isTouched = createSignal(false);
-        internalFieldStore.isDirty = createSignal(false);
       }
 
       // Handle object schemas
@@ -191,6 +207,11 @@ export function initializeFieldStore(
           );
           path.pop();
         }
+        const objectInput =
+          nullish && initialInput == null ? initialInput : true;
+        internalFieldStore.initialInput = createSignal(objectInput);
+        internalFieldStore.startInput = createSignal(objectInput);
+        internalFieldStore.input = createSignal(objectInput);
       }
 
       // Handle value schemas (leaf nodes)
@@ -200,8 +221,6 @@ export function initializeFieldStore(
         internalFieldStore.initialInput = createSignal(initialInput);
         internalFieldStore.startInput = createSignal(initialInput);
         internalFieldStore.input = createSignal(initialInput);
-        internalFieldStore.isTouched = createSignal(false);
-        internalFieldStore.isDirty = createSignal(false);
       }
     }
   }

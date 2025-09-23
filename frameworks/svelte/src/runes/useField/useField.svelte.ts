@@ -81,7 +81,8 @@ export function useField(
       },
       oninput(event) {
         setFieldInput(
-          internalFieldStore,
+          internalFormStore,
+          path,
           getElementInput(event.currentTarget, internalFieldStore)
         );
         validateIfRequired(internalFormStore, internalFieldStore, 'input');

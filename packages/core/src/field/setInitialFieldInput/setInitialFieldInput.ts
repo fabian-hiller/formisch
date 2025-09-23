@@ -8,6 +8,8 @@ export function setInitialFieldInput(
 ): void {
   batch(() => {
     if (internalFieldStore.kind === 'array') {
+      internalFieldStore.input.value =
+        initialInput == null ? initialInput : true;
       const initialArrayInput = initialInput ?? [];
       if (
         // @ts-expect-error
@@ -45,6 +47,8 @@ export function setInitialFieldInput(
         );
       }
     } else if (internalFieldStore.kind === 'object') {
+      internalFieldStore.input.value =
+        initialInput == null ? initialInput : true;
       for (const key in internalFieldStore.children) {
         setInitialFieldInput(
           internalFieldStore.children[key],

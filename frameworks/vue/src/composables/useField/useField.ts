@@ -33,8 +33,10 @@ export function useField(
   form: MaybeRefOrGetter<FormStore>,
   config: MaybeRefOrGetter<UseFieldConfig>
 ): FieldStore {
+  const path = computed(() => toValue(config).path);
+  const internalFormStore = computed(() => toValue(form)[INTERNAL]);
   const internalFieldStore = computed(() =>
-    getFieldStore(toValue(form)[INTERNAL], toValue(config).path)
+    getFieldStore(internalFormStore.value, path.value)
   );
 
   onUnmounted(() => {
@@ -57,15 +59,15 @@ export function useField(
 
   return {
     get path() {
-      return toValue(config).path;
+      return path.value;
     },
     get input() {
       return input.value;
     },
     set input(value) {
-      setFieldInput(internalFieldStore.value, value);
+      setFieldInput(internalFormStore.value, path.value, value);
       validateIfRequired(
-        toValue(form)[INTERNAL],
+        internalFormStore.value,
         internalFieldStore.value,
         'input'
       );
@@ -95,21 +97,21 @@ export function useField(
       onFocus() {
         setFieldBool(internalFieldStore.value, 'isTouched', true);
         validateIfRequired(
-          toValue(form)[INTERNAL],
+          internalFormStore.value,
           internalFieldStore.value,
           'touch'
         );
       },
       onChange() {
         validateIfRequired(
-          toValue(form)[INTERNAL],
+          internalFormStore.value,
           internalFieldStore.value,
           'change'
         );
       },
       onBlur() {
         validateIfRequired(
-          toValue(form)[INTERNAL],
+          internalFormStore.value,
           internalFieldStore.value,
           'blur'
         );

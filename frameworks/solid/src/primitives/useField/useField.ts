@@ -34,9 +34,10 @@ export function useField(
   form: MaybeGetter<FormStore>,
   config: MaybeGetter<UseFieldConfig>
 ): FieldStore {
+  const getPath = createMemo(() => unwrap(config).path);
   const getInternalFormStore = createMemo(() => unwrap(form)[INTERNAL]);
   const getInternalFieldStore = createMemo(() =>
-    getFieldStore(getInternalFormStore(), unwrap(config).path)
+    getFieldStore(getInternalFormStore(), getPath())
   );
 
   const getInput = createMemo(() => getFieldInput(getInternalFieldStore()));
@@ -52,7 +53,7 @@ export function useField(
 
   return {
     get path() {
-      return unwrap(config).path;
+      return getPath();
     },
     get input() {
       return getInput();
@@ -95,7 +96,8 @@ export function useField(
       onInput(event) {
         const internalFieldStore = getInternalFieldStore();
         setFieldInput(
-          internalFieldStore,
+          getInternalFormStore(),
+          getPath(),
           getElementInput(event.currentTarget, internalFieldStore)
         );
         validateIfRequired(getInternalFormStore(), internalFieldStore, 'input');

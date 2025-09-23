@@ -33,8 +33,9 @@ export function useField<
 ): FieldStore<TSchema, TFieldPath>;
 export function useField(form: FormStore, config: UseFieldConfig): FieldStore {
   const pathSignal = usePathSignal(config.path);
+  const internalFormStore = form[INTERNAL];
   const internalFieldStore = useComputed(() =>
-    getFieldStore(form[INTERNAL], pathSignal.value)
+    getFieldStore(internalFormStore, pathSignal.value)
   );
 
   useSignalEffect(() => {
@@ -72,24 +73,37 @@ export function useField(form: FormStore, config: UseFieldConfig): FieldStore {
         },
         onFocus() {
           setFieldBool(internalFieldStore.value, 'isTouched', true);
-          validateIfRequired(form[INTERNAL], internalFieldStore.value, 'touch');
+          validateIfRequired(
+            internalFormStore,
+            internalFieldStore.value,
+            'touch'
+          );
         },
         onInput(event) {
           setFieldInput(
-            internalFieldStore.value,
+            internalFormStore,
+            pathSignal.value,
             getElementInput(event.currentTarget, internalFieldStore.value)
           );
-          validateIfRequired(form[INTERNAL], internalFieldStore.value, 'input');
+          validateIfRequired(
+            internalFormStore,
+            internalFieldStore.value,
+            'input'
+          );
         },
         onChange() {
           validateIfRequired(
-            form[INTERNAL],
+            internalFormStore,
             internalFieldStore.value,
             'change'
           );
         },
         onBlur() {
-          validateIfRequired(form[INTERNAL], internalFieldStore.value, 'blur');
+          validateIfRequired(
+            internalFormStore,
+            internalFieldStore.value,
+            'blur'
+          );
         },
       },
     }),

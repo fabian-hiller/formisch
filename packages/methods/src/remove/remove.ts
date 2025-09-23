@@ -60,6 +60,7 @@ export function remove<
         internalArrayStore.startItems.value.join() !== newItems.join();
 
       // Validate if required
+      // TODO: Should we validate on touch, change and blur too?
       validateIfRequired(internalFormStore, internalArrayStore, 'input');
     });
   }

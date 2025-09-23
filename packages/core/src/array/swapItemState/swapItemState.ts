@@ -16,6 +16,35 @@ export function swapItemState(
 ): void {
   batch(() => {
     untrack(() => {
+      const tempElements = firstInternalFieldStore.elements;
+      firstInternalFieldStore.elements = secondInternalFieldStore.elements;
+      secondInternalFieldStore.elements = tempElements;
+
+      const tempErrors = firstInternalFieldStore.errors.value;
+      firstInternalFieldStore.errors.value =
+        secondInternalFieldStore.errors.value;
+      secondInternalFieldStore.errors.value = tempErrors;
+
+      const tempStartInput = firstInternalFieldStore.startInput.value;
+      firstInternalFieldStore.startInput.value =
+        secondInternalFieldStore.startInput.value;
+      secondInternalFieldStore.startInput.value = tempStartInput;
+
+      const tempInput = firstInternalFieldStore.input.value;
+      firstInternalFieldStore.input.value =
+        secondInternalFieldStore.input.value;
+      secondInternalFieldStore.input.value = tempInput;
+
+      const tempIsTouched = firstInternalFieldStore.isTouched.value;
+      firstInternalFieldStore.isTouched.value =
+        secondInternalFieldStore.isTouched.value;
+      secondInternalFieldStore.isTouched.value = tempIsTouched;
+
+      const tempIsDirty = firstInternalFieldStore.isDirty.value;
+      firstInternalFieldStore.isDirty.value =
+        secondInternalFieldStore.isDirty.value;
+      secondInternalFieldStore.isDirty.value = tempIsDirty;
+
       if (
         firstInternalFieldStore.kind === 'array' &&
         secondInternalFieldStore.kind === 'array'
@@ -24,16 +53,6 @@ export function swapItemState(
         const secondItems = secondInternalFieldStore.items.value;
 
         // Swap array-specific properties
-        const tempIsTouched = firstInternalFieldStore.isTouched.value;
-        firstInternalFieldStore.isTouched.value =
-          secondInternalFieldStore.isTouched.value;
-        secondInternalFieldStore.isTouched.value = tempIsTouched;
-
-        const tempIsDirty = firstInternalFieldStore.isDirty.value;
-        firstInternalFieldStore.isDirty.value =
-          secondInternalFieldStore.isDirty.value;
-        secondInternalFieldStore.isDirty.value = tempIsDirty;
-
         const tempStartItems = firstInternalFieldStore.startItems.value;
         firstInternalFieldStore.startItems.value =
           secondInternalFieldStore.startItems.value;
@@ -97,30 +116,6 @@ export function swapItemState(
             secondInternalFieldStore.children[key]
           );
         }
-      } else if (
-        firstInternalFieldStore.kind === 'value' &&
-        secondInternalFieldStore.kind === 'value'
-      ) {
-        // Swap value-specific properties
-        const tempIsTouched = firstInternalFieldStore.isTouched.value;
-        firstInternalFieldStore.isTouched.value =
-          secondInternalFieldStore.isTouched.value;
-        secondInternalFieldStore.isTouched.value = tempIsTouched;
-
-        const tempIsDirty = firstInternalFieldStore.isDirty.value;
-        firstInternalFieldStore.isDirty.value =
-          secondInternalFieldStore.isDirty.value;
-        secondInternalFieldStore.isDirty.value = tempIsDirty;
-
-        const tempStartInput = firstInternalFieldStore.startInput.value;
-        firstInternalFieldStore.startInput.value =
-          secondInternalFieldStore.startInput.value;
-        secondInternalFieldStore.startInput.value = tempStartInput;
-
-        const tempInput = firstInternalFieldStore.input.value;
-        firstInternalFieldStore.input.value =
-          secondInternalFieldStore.input.value;
-        secondInternalFieldStore.input.value = tempInput;
       }
     });
   });

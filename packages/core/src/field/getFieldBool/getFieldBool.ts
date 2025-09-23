@@ -4,10 +4,11 @@ export function getFieldBool(
   internalFieldStore: InternalFieldStore,
   type: 'errors' | 'isTouched' | 'isDirty'
 ): boolean {
+  if (internalFieldStore[type].value) {
+    return true;
+  }
+
   if (internalFieldStore.kind === 'array') {
-    if (internalFieldStore[type].value) {
-      return true;
-    }
     for (
       let index = 0;
       index < internalFieldStore.items.value.length;
@@ -21,9 +22,6 @@ export function getFieldBool(
   }
 
   if (internalFieldStore.kind == 'object') {
-    if (type === 'errors' && internalFieldStore[type].value) {
-      return true;
-    }
     for (const key in internalFieldStore.children) {
       if (getFieldBool(internalFieldStore.children[key], type)) {
         return true;
@@ -32,5 +30,5 @@ export function getFieldBool(
     return false;
   }
 
-  return !!internalFieldStore[type].value;
+  return false;
 }

@@ -17,16 +17,23 @@ export function copyItemState(
 ): void {
   batch(() => {
     untrack(() => {
+      toInternalFieldStore.elements = fromInternalFieldStore.elements;
+      toInternalFieldStore.errors.value = fromInternalFieldStore.errors.value;
+
+      toInternalFieldStore.startInput.value =
+        fromInternalFieldStore.startInput.value;
+      toInternalFieldStore.input.value = fromInternalFieldStore.input.value;
+
+      toInternalFieldStore.isTouched.value =
+        fromInternalFieldStore.isTouched.value;
+      toInternalFieldStore.isDirty.value = fromInternalFieldStore.isDirty.value;
+
       if (
         fromInternalFieldStore.kind === 'array' &&
         toInternalFieldStore.kind === 'array'
       ) {
         const fromItems = fromInternalFieldStore.items.value;
 
-        toInternalFieldStore.isTouched.value =
-          fromInternalFieldStore.isTouched.value;
-        toInternalFieldStore.isDirty.value =
-          fromInternalFieldStore.isDirty.value;
         toInternalFieldStore.startItems.value =
           fromInternalFieldStore.startItems.value;
         toInternalFieldStore.items.value = fromItems;
@@ -63,17 +70,6 @@ export function copyItemState(
             toInternalFieldStore.children[key]
           );
         }
-      } else if (
-        fromInternalFieldStore.kind === 'value' &&
-        toInternalFieldStore.kind === 'value'
-      ) {
-        toInternalFieldStore.isTouched.value =
-          fromInternalFieldStore.isTouched.value;
-        toInternalFieldStore.isDirty.value =
-          fromInternalFieldStore.isDirty.value;
-        toInternalFieldStore.startInput.value =
-          fromInternalFieldStore.startInput.value;
-        toInternalFieldStore.input.value = fromInternalFieldStore.input.value;
       }
     });
   });

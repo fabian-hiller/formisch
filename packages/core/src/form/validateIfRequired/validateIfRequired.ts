@@ -10,10 +10,10 @@ import { validateFormInput } from '../validateFormInput/validateFormInput.ts';
 export function validateIfRequired(
   internalFormStore: InternalFormStore,
   internalFieldStore: InternalFieldStore,
-  validationModes: ValidationMode
+  validationMode: ValidationMode
 ): void {
   if (
-    validationModes ===
+    validationMode ===
     (internalFormStore.validate === 'initial' ||
     (internalFormStore.validate === 'submit'
       ? untrack(() => internalFormStore.isSubmitted.value)

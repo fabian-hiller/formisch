@@ -15,46 +15,58 @@ export function resetItemState(
   initialInput: unknown
 ): void {
   batch(() => {
+    internalFieldStore.elements = [];
     internalFieldStore.errors.value = null;
-    if (internalFieldStore.kind === 'array') {
-      internalFieldStore.isTouched.value = false;
-      internalFieldStore.isDirty.value = false;
+    internalFieldStore.isTouched.value = false;
+    internalFieldStore.isDirty.value = false;
 
-      if (initialInput) {
-        // @ts-expect-error
-        const newItems = initialInput.map(createId);
-        internalFieldStore.startItems.value = newItems;
-        internalFieldStore.items.value = newItems;
+    if (
+      internalFieldStore.kind === 'array' ||
+      internalFieldStore.kind === 'object'
+    ) {
+      const objectInput = initialInput == null ? initialInput : true;
+      internalFieldStore.startInput.value = objectInput;
+      internalFieldStore.input.value = objectInput;
 
-        for (
-          let index = 0;
+      if (internalFieldStore.kind === 'array') {
+        if (initialInput) {
           // @ts-expect-error
-          index < initialInput.length;
-          index++
-        ) {
-          if (internalFieldStore.children[index]) {
-            resetItemState(
-              internalFieldStore.children[index],
-              // @ts-expect-error
-              initialInput[index]
-            );
+          const newItems = initialInput.map(createId);
+          internalFieldStore.startItems.value = newItems;
+          internalFieldStore.items.value = newItems;
+
+          for (
+            let index = 0;
+            // @ts-expect-error
+            index < initialInput.length;
+            index++
+          ) {
+            if (internalFieldStore.children[index]) {
+              resetItemState(
+                internalFieldStore.children[index],
+                // @ts-expect-error
+                initialInput[index]
+              );
+            }
           }
+        } else {
+          internalFieldStore.startItems.value = [];
+          internalFieldStore.items.value = [];
         }
+
+        // If it is of kind 'object'
       } else {
-        internalFieldStore.startItems.value = [];
-        internalFieldStore.items.value = [];
+        for (const key in internalFieldStore.children) {
+          resetItemState(
+            internalFieldStore.children[key],
+            // @ts-expect-error
+            initialInput?.[key]
+          );
+        }
       }
-    } else if (internalFieldStore.kind === 'object') {
-      for (const key in internalFieldStore.children) {
-        resetItemState(
-          internalFieldStore.children[key],
-          // @ts-expect-error
-          initialInput?.[key]
-        );
-      }
+
+      // If it is of kind 'value'
     } else {
-      internalFieldStore.isTouched.value = false;
-      internalFieldStore.isDirty.value = false;
       internalFieldStore.startInput.value = initialInput;
       internalFieldStore.input.value = initialInput;
     }

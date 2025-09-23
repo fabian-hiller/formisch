@@ -2,6 +2,11 @@
 
 All notable changes to the library will be documented in this file.
 
+## vX.X.X (Month DD, YYYY)
+
+- Fix bug in `copyItemState`, `resetItemState` and `swapItemState` by including `elements` and `errors` state
+- Change interfaces of `InternalFieldStore` to support `null` and `undefined` values for arrays and objects (issue #15)
+
 ## v0.3.1 (September 13, 2025)
 
 - Fix `setFieldInput` and `setInitialFieldInput` for nullish arrays and objects (issue #15)

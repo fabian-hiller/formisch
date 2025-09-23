@@ -68,9 +68,29 @@ export function reset(
 
       // Reset state of fields by walking field store
       walkFieldStore(internalFieldStore, (internalFieldStore) => {
+        // FIXME: We need a way to reset `.elements` as they are moved around
+        // when using array methods. This could work by adding a new
+        // `.initialElements` prop that uses the same array reference as
+        // `.elements` initially.
+
         // Reset errors if it is not to be kept
         if (!config?.keepErrors) {
           internalFieldStore.errors.value = null;
+        }
+
+        // Reset is touched if it is not to be kept
+        if (!config?.keepTouched) {
+          internalFieldStore.isTouched.value = false;
+        }
+
+        // Reset start input to initial input
+        internalFieldStore.startInput.value =
+          internalFieldStore.initialInput.value;
+
+        // Reset input if it is not to be kept
+        if (!config?.keepInput) {
+          internalFieldStore.input.value =
+            internalFieldStore.initialInput.value;
         }
 
         // If it is an array, reset array specific state
@@ -93,37 +113,32 @@ export function reset(
               internalFieldStore.initialItems.value;
           }
 
-          // Reset is touched if it is not to be kept
-          if (!config?.keepTouched) {
-            internalFieldStore.isTouched.value = false;
-          }
-
           // Update is dirty to reflect changes
           internalFieldStore.isDirty.value =
+            internalFieldStore.startInput.value !==
+              internalFieldStore.input.value ||
             internalFieldStore.startItems.value !==
-            internalFieldStore.items.value;
+              internalFieldStore.items.value;
 
-          // If it is a value, reset value specific state
-        } else if (internalFieldStore.kind === 'value') {
-          // Reset start input to initial input
-          internalFieldStore.startInput.value =
-            internalFieldStore.initialInput.value;
-
-          // Reset input if it is not to be kept
-          if (!config?.keepInput) {
-            internalFieldStore.input.value =
-              internalFieldStore.initialInput.value;
-          }
-
-          // Reset is touched if it is not to be kept
-          if (!config?.keepTouched) {
-            internalFieldStore.isTouched.value = false;
-          }
-
+          // If it is an object, reset object specific state
+        } else if (internalFieldStore.kind === 'object') {
           // Update is dirty to reflect changes
           internalFieldStore.isDirty.value =
             internalFieldStore.startInput.value !==
             internalFieldStore.input.value;
+
+          // If it is a value, reset value specific state
+        } else {
+          // Update is dirty to reflect changes
+          // TODO: Should we add support for Dates and Files?
+          const startInput = internalFieldStore.startInput.value;
+          const input = internalFieldStore.input.value;
+          internalFieldStore.isDirty.value =
+            startInput !== input &&
+            // Hint: This check ensures that an empty string or `NaN` does not mark
+            // the field as dirty if the start input was `undefined`
+            (startInput !== undefined ||
+              (input !== '' && !Number.isNaN(input)));
 
           // Reset file inputs as they can't be controlled
           for (const element of internalFieldStore.elements) {
