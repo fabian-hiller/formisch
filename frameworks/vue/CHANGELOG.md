@@ -2,10 +2,10 @@
 
 All notable changes to the library will be documented in this file.
 
-## vX.X.X (Month DD, YYYY)
+## v0.3.0 (September 22, 2025)
 
-- Change `@formisch/core` to vX.X.X
-- Change `@formisch/methods` to vX.X.X
+- Change `@formisch/core` to v0.4.0
+- Change `@formisch/methods` to v0.3.0
 
 ## v0.2.1 (September 13, 2025)
 
