@@ -41,22 +41,26 @@ export default component$(() => {
     },
   });
 
-  const listElements = useSignal<HTMLDivElement[] | null>(null);
+  const allListElements = useSignal<HTMLDivElement[]>([]);
+  const newListElements = useSignal<HTMLDivElement[] | null>(null);
 
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(({ track }) => {
-    track(listElements);
-    if (listElements.value) {
-      listElements.value.forEach((element) => autoAnimate(element));
-      listElements.value = null;
+    track(newListElements);
+    if (newListElements.value) {
+      newListElements.value.forEach((element) => autoAnimate(element));
+      newListElements.value = null;
     }
   });
 
   const addListElements = $((element: HTMLDivElement) => {
-    if (listElements.value) {
-      listElements.value = [...listElements.value, element];
-    } else {
-      listElements.value = [element];
+    if (!allListElements.value.includes(element)) {
+      allListElements.value = [...allListElements.value, element];
+      if (newListElements.value) {
+        newListElements.value = [...newListElements.value, element];
+      } else {
+        newListElements.value = [element];
+      }
     }
   });
 

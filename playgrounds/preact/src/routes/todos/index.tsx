@@ -10,6 +10,7 @@ import {
   useForm,
 } from '@formisch/preact';
 import autoAnimate from '@formkit/auto-animate';
+import { useEffect, useRef } from 'preact/hooks';
 import * as v from 'valibot';
 import {
   ColorButton,
@@ -52,6 +53,11 @@ export default function Page() {
     },
   });
 
+  const listElement = useRef<HTMLDivElement>();
+  useEffect(() => {
+    listElement.current && autoAnimate(listElement.current);
+  }, []);
+
   return (
     <Form
       of={todoForm}
@@ -81,7 +87,7 @@ export default function Page() {
               <InputLabel label="Todos" margin="none" required />
 
               <div>
-                <div ref={(ref) => ref && autoAnimate(ref)} class="space-y-5">
+                <div ref={listElement} class="space-y-5">
                   {fieldArray.items.value.map((item, index) => (
                     <div
                       key={item}
