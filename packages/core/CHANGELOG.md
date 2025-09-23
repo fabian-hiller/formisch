@@ -2,7 +2,7 @@
 
 All notable changes to the library will be documented in this file.
 
-## vX.X.X (Month DD, YYYY)
+## v0.4.0 (September 22, 2025)
 
 - Add new `initialElements` state to `InternalBaseStore` interface and update `initializeFieldStore`
 - Change interfaces of `InternalFieldStore` to support `null` and `undefined` values for arrays and objects (issue #15)
