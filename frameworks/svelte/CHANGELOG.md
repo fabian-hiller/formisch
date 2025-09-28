@@ -2,6 +2,10 @@
 
 All notable changes to the library will be documented in this file.
 
+## vX.X.X (Month DD, YYYY)
+
+- Add `DeepPartial`, `FieldElement`, `FormConfig`, `PartialValues`, `PathValue`, `RequiredPath`, `Schema`, `ValidArrayPath`, `ValidationMode` and `ValidPath` type from `@formisch/core` to exports
+
 ## v0.2.0 (September 22, 2025)
 
 - Change `@formisch/core` to v0.4.0
