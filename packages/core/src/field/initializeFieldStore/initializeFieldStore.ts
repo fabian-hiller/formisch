@@ -40,8 +40,15 @@ export type FieldSchema =
   | v.VariantSchema<any, any, any>;
 
 /**
- * TODO: Add comment
- * TODO: Should this stay in /primitives or move to /utils?
+ * Initializes a field store recursively based on the schema structure. Handles
+ * array, object, and value schemas, setting up all necessary signals and
+ * children. Supports wrapped schemas and schema options.
+ *
+ * @param internalFieldStore The partial field store to initialize.
+ * @param schema The Valibot schema defining the field structure.
+ * @param initialInput The initial input value.
+ * @param path The path to the field in the form.
+ * @param nullish Whether the schema is wrapped in a nullish schema.
  */
 export function initializeFieldStore(
   internalFieldStore: Partial<InternalFieldStore>,
@@ -50,7 +57,7 @@ export function initializeFieldStore(
   path: PathKey[],
   nullish = false
 ): void {
-  // Throw error for unsupported schemas
+  // If schema is unsupported, throw error
   if (
     (framework === 'qwik' && schema.type === 'lazy') ||
     schema.type === 'object_with_rest' ||
@@ -60,7 +67,7 @@ export function initializeFieldStore(
   ) {
     throw new Error(`"${schema.type}" schema is not supported`);
 
-    // Handle lazy schemas
+    // Otherwise, if schema is lazy, unwrap and initialize
   } else if (schema.type === 'lazy') {
     initializeFieldStore(
       internalFieldStore,
@@ -69,7 +76,7 @@ export function initializeFieldStore(
       path
     );
 
-    // Handle nullish wrapped schemas
+    // Otherwise, if schema is nullish wrapper, unwrap and initialize
   } else if (
     schema.type === 'exact_optional' ||
     schema.type === 'nullable' ||
@@ -85,7 +92,7 @@ export function initializeFieldStore(
       true
     );
 
-    // Handle non-nullish wrapped schemas
+    // Otherwise, if schema is non-nullish wrapper, unwrap and initialize
   } else if (
     schema.type === 'non_nullable' ||
     schema.type === 'non_nullish' ||
@@ -98,12 +105,13 @@ export function initializeFieldStore(
       path
     );
 
-    // Handle schemas with options
+    // Otherwise, if schema has options, initialize for each option
   } else if (
     schema.type === 'intersect' ||
     schema.type === 'union' ||
     schema.type === 'variant'
   ) {
+    // Initialize field store for each schema option
     for (const schemaOption of schema.options) {
       initializeFieldStore(
         internalFieldStore,
@@ -113,43 +121,63 @@ export function initializeFieldStore(
       );
     }
 
-    // Handle supported schemas
+    // Otherwise, initialize as concrete schema
   } else {
+    // Set basic properties
     internalFieldStore.schema = schema;
     internalFieldStore.name = JSON.stringify(path);
+
+    // Initialize elements array
     const initialElements: FieldElement[] = [];
     internalFieldStore.initialElements = initialElements;
     internalFieldStore.elements = initialElements;
+
+    // Initialize common signals
     internalFieldStore.errors = createSignal(null);
     internalFieldStore.isTouched = createSignal(false);
     internalFieldStore.isDirty = createSignal(false);
 
-    // Handle array schemas
+    // If schema is array or tuple, initialize as array field
     if (
       schema.type === 'array' ||
       schema.type === 'loose_tuple' ||
       schema.type === 'strict_tuple' ||
       schema.type === 'tuple'
     ) {
+      // If already initialized as different kind, throw error
       if (internalFieldStore.kind && internalFieldStore.kind !== 'array') {
         throw new Error(
           `Store initialized as "${internalFieldStore.kind}" cannot be reinitialized as "array"`
         );
       }
+
+      // Set kind to array
       internalFieldStore.kind = 'array';
+
+      // Initialize array-specific properties
       if (internalFieldStore.kind === 'array') {
+        // Initialize children array if not exists
         internalFieldStore.children ??= [];
+
+        // If schema is dynamic array, initialize children from input
         if (schema.type === 'array') {
+          // If initial input provided, initialize children
           if (initialInput) {
+            // Initialize child for each input item
             for (
               let index = 0;
               // @ts-expect-error
               index < initialInput.length;
               index++
             ) {
+              // Create empty child object
               // @ts-expect-error
               internalFieldStore.children[index] = {};
+
+              // Add current index to path
               path.push(index);
+
+              // Initialize field store for child
               initializeFieldStore(
                 internalFieldStore.children[index],
                 schema.item as FieldSchema,
@@ -157,14 +185,24 @@ export function initializeFieldStore(
                 initialInput[index],
                 path
               );
+
+              // Remove index from path for next iteration
               path.pop();
             }
           }
+
+          // Otherwise, if schema is fixed tuple, initialize children from schema
         } else {
+          // Initialize child for each tuple item
           for (let index = 0; index < schema.items; index++) {
+            // Create empty child object
             // @ts-expect-error
             internalFieldStore.children[index] = {};
+
+            // Add current index to path
             path.push(index);
+
+            // Initialize field store for child
             initializeFieldStore(
               internalFieldStore.children[index],
               schema.items[index] as FieldSchema,
@@ -172,38 +210,57 @@ export function initializeFieldStore(
               initialInput?.[index],
               path
             );
+
+            // Remove index from path for next iteration
             path.pop();
           }
         }
+
+        // Set array input (nullish or true)
         const arrayInput =
           nullish && initialInput == null ? initialInput : true;
         internalFieldStore.initialInput = createSignal(arrayInput);
         internalFieldStore.startInput = createSignal(arrayInput);
         internalFieldStore.input = createSignal(arrayInput);
+
+        // Set items with unique IDs for each child
         const initialItems = internalFieldStore.children.map(createId);
         internalFieldStore.initialItems = createSignal(initialItems);
         internalFieldStore.startItems = createSignal(initialItems);
         internalFieldStore.items = createSignal(initialItems);
       }
 
-      // Handle object schemas
+      // Otherwise, if schema is object, initialize as object field
     } else if (
       schema.type === 'loose_object' ||
       schema.type === 'object' ||
       schema.type === 'strict_object'
     ) {
+      // If already initialized as different kind, throw error
       if (internalFieldStore.kind && internalFieldStore.kind !== 'object') {
         throw new Error(
           `Store initialized as "${internalFieldStore.kind}" cannot be reinitialized as "object"`
         );
       }
+
+      // Set kind to object
       internalFieldStore.kind = 'object';
+
+      // Initialize object-specific properties
       if (internalFieldStore.kind === 'object') {
+        // Initialize children object if not exists
         internalFieldStore.children ??= {};
+
+        // Initialize child for each object entry
         for (const key in schema.entries) {
+          // Create empty child object
           // @ts-expect-error
           internalFieldStore.children[key] = {};
+
+          // Add current key to path
           path.push(key);
+
+          // Initialize field store for child
           initializeFieldStore(
             internalFieldStore.children[key],
             schema.entries[key] as FieldSchema,
@@ -211,8 +268,12 @@ export function initializeFieldStore(
             initialInput?.[key],
             path
           );
+
+          // Remove key from path for next iteration
           path.pop();
         }
+
+        // Set object input (nullish or true)
         const objectInput =
           nullish && initialInput == null ? initialInput : true;
         internalFieldStore.initialInput = createSignal(objectInput);
@@ -220,12 +281,20 @@ export function initializeFieldStore(
         internalFieldStore.input = createSignal(objectInput);
       }
 
-      // Handle value schemas (leaf nodes)
+      // Otherwise, initialize as value field (leaf node)
     } else {
+      // Set kind to value
       internalFieldStore.kind = 'value';
+
+      // Initialize value-specific properties
       if (internalFieldStore.kind === 'value') {
+        // Set initial input
         internalFieldStore.initialInput = createSignal(initialInput);
+
+        // Set start input
         internalFieldStore.startInput = createSignal(initialInput);
+
+        // Set current input
         internalFieldStore.input = createSignal(initialInput);
       }
     }

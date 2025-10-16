@@ -45,7 +45,7 @@ type MergeUnion<T> = {
 };
 
 /**
- * Lazily evaluate only the first valid path segment based on the given value.
+ * Lazily evaluates only the first valid path segment based on the given value.
  */
 type LazyPath<
   TValue,
@@ -138,7 +138,7 @@ type KeyOfArrayPath<TValue> =
         : never;
 
 /**
- * Lazily evaluate only the first valid array path segment based on the given value.
+ * Lazily evaluates only the first valid array path segment based on the given value.
  */
 type LazyArrayPath<
   TValue,
@@ -167,8 +167,8 @@ type LazyArrayPath<
           never;
 
 /**
- * Returns the path if valid, otherwise the first possible valid array path based on
- * the given value.
+ * Returns the path if valid, otherwise the first possible valid array path
+ * based on the given value.
  */
 export type ValidArrayPath<TValue, TPath extends RequiredPath> =
   TPath extends LazyArrayPath<Required<TValue>, TPath>
