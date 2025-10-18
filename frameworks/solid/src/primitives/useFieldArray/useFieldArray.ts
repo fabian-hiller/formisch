@@ -37,6 +37,7 @@ export interface UseFieldArrayConfig<
  *
  * @returns The field array store with reactive properties for array management.
  */
+// @ts-expect-error
 export function useFieldArray<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,

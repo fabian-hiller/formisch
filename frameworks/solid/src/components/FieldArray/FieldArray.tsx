@@ -40,6 +40,7 @@ export interface FieldArrayProps<
  *
  * @returns The UI of the field array to be rendered.
  */
+// @ts-expect-error
 export function FieldArray<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,

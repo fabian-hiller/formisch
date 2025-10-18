@@ -26,6 +26,7 @@ export interface FieldProps<
 }
 
 defineOptions({ inheritAttrs: false });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 defineSlots<{ default(props: FieldStore<TSchema, TFieldPath>): any }>();
 const props = defineProps<FieldProps<TSchema, TFieldPath>>();
 

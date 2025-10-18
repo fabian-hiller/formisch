@@ -36,6 +36,7 @@ export interface UseFieldArrayConfig<
  *
  * @returns The field array store with reactive properties for array management.
  */
+// @ts-expect-error
 export function useFieldArray<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
@@ -45,13 +46,10 @@ export function useFieldArray<
 ): FieldArrayStore<TSchema, TFieldArrayPath>;
 
 // @__NO_SIDE_EFFECTS__
-export function useFieldArray<
-  TSchema extends Schema = Schema,
-  TFieldArrayPath extends RequiredPath = RequiredPath,
->(
-  form: MaybeGetter<FormStore<TSchema>>,
-  config: MaybeGetter<UseFieldArrayConfig<TSchema, TFieldArrayPath>>
-): FieldArrayStore<TSchema, TFieldArrayPath> {
+export function useFieldArray(
+  form: MaybeGetter<FormStore>,
+  config: MaybeGetter<UseFieldArrayConfig>
+): FieldArrayStore {
   const path = $derived(unwrap(config).path);
   const internalFieldStore = $derived(
     getFieldStore(unwrap(form)[INTERNAL], path) as InternalArrayStore

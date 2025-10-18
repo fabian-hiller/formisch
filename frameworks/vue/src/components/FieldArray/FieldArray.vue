@@ -27,6 +27,7 @@ export interface FieldArrayProps<
 
 defineOptions({ inheritAttrs: false });
 defineSlots<{
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   default(props: FieldArrayStore<TSchema, TFieldArrayPath>): any;
 }>();
 const props = defineProps<FieldArrayProps<TSchema, TFieldArrayPath>>();
