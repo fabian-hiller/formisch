@@ -16,13 +16,27 @@ import type * as v from 'valibot';
 import type { FieldStore, FormStore, MaybeGetter } from '../../types/index.ts';
 import { unwrap } from '../../utils/index.ts';
 
+/**
+ * Use field config interface.
+ */
 export interface UseFieldConfig<
   TSchema extends Schema = Schema,
   TFieldPath extends RequiredPath = RequiredPath,
 > {
+  /**
+   * The path to the field within the form schema.
+   */
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
 }
 
+/**
+ * Creates a reactive field store of a specific field within a form store.
+ *
+ * @param form The form store instance.
+ * @param config The field configuration.
+ *
+ * @returns The field store with reactive properties and element props.
+ */
 export function useField<
   TSchema extends Schema,
   TFieldPath extends RequiredPath,
@@ -30,6 +44,8 @@ export function useField<
   form: MaybeGetter<FormStore<TSchema>>,
   config: MaybeGetter<UseFieldConfig<TSchema, TFieldPath>>
 ): FieldStore<TSchema, TFieldPath>;
+
+// @__NO_SIDE_EFFECTS__
 export function useField(
   form: MaybeGetter<FormStore>,
   config: MaybeGetter<UseFieldConfig>

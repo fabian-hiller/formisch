@@ -3,14 +3,29 @@ import { handleSubmit } from '@formisch/methods/qwik';
 import { component$, JSXOutput, PropsOf, QRL, Slot } from '@qwik.dev/core';
 import type { FormStore } from '../../types/index.ts';
 
+/**
+ * Form component props type.
+ */
 export type FormProps<TSchema extends Schema = Schema> = Omit<
   PropsOf<'form'>,
   'onSubmit$' | 'noValidate'
 > & {
-  of: FormStore<TSchema>;
-  onSubmit$: QRL<SubmitHandler<TSchema>>;
+  /**
+   * The form store instance.
+   */
+  readonly of: FormStore<TSchema>;
+  /**
+   * The submit handler called when the form is submitted and validation succeeds.
+   */
+  readonly onSubmit$: QRL<SubmitHandler<TSchema>>;
 };
 
+/**
+ * Form component that manages form submission and applies internal state.
+ * Wraps form element and passes submission events to the provided handler.
+ *
+ * @returns The a native form element.
+ */
 export const Form = component$(
   <TSchema extends Schema>({
     of,

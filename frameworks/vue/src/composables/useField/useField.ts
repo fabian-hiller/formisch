@@ -15,13 +15,27 @@ import type * as v from 'valibot';
 import { computed, MaybeRefOrGetter, onUnmounted, toValue } from 'vue';
 import type { FieldStore, FormStore } from '../../types/index.ts';
 
+/**
+ * Use field config interface.
+ */
 export interface UseFieldConfig<
   TSchema extends Schema = Schema,
   TFieldPath extends RequiredPath = RequiredPath,
 > {
+  /**
+   * The path to the field within the form schema.
+   */
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
 }
 
+/**
+ * Creates a reactive field store of a specific field within a form store.
+ *
+ * @param form The form store instance, ref, or getter function.
+ * @param config The field configuration, ref, or getter function.
+ *
+ * @returns The field store with reactive properties and element props.
+ */
 export function useField<
   TSchema extends Schema,
   TFieldPath extends RequiredPath,
@@ -29,6 +43,8 @@ export function useField<
   form: MaybeRefOrGetter<FormStore<TSchema>>,
   config: MaybeRefOrGetter<UseFieldConfig<TSchema, TFieldPath>>
 ): FieldStore<TSchema, TFieldPath>;
+
+// @__NO_SIDE_EFFECTS__
 export function useField(
   form: MaybeRefOrGetter<FormStore>,
   config: MaybeRefOrGetter<UseFieldConfig>

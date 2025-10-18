@@ -9,12 +9,24 @@
   import type { Snippet } from 'svelte';
   import type { HTMLFormAttributes } from 'svelte/elements';
 
+  /**
+   * Form component props type.
+   */
   export type FormProps<TSchema extends Schema = Schema> = Omit<
     HTMLFormAttributes,
     'on:submit' | 'onsubmit' | 'novalidate'
   > & {
+    /**
+     * The form store instance.
+     */
     of: FormStore<TSchema>;
+    /**
+     * The submit handler called when the form is submitted and validation succeeds.
+     */
     onsubmit: SubmitHandler<TSchema>;
+    /**
+     * The child elements to render within the form.
+     */
     children: Snippet;
   };
 

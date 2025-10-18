@@ -18,9 +18,17 @@ import * as v from 'valibot';
 import type { FormStore } from '../../types/index.ts';
 import { useResolvedQrl } from '../useResolvedQrl/useResolvedQrl.ts';
 
+/**
+ * Creates a reactive form store from a form configuration. The form store
+ * manages form state and provides reactive properties.
+ *
+ * @returns The form store with reactive properties.
+ */
 export function useFormQrl<TSchema extends Schema>(
   configQrl: QRL<FormConfig<TSchema>>
 ): FormStore<TSchema>;
+
+// @__NO_SIDE_EFFECTS__
 export function useFormQrl(configQrl: QRL<FormConfig>): FormStore {
   const config = useResolvedQrl(configQrl);
 
@@ -62,4 +70,10 @@ export function useFormQrl(configQrl: QRL<FormConfig>): FormStore {
   return form;
 }
 
+/**
+ * Creates a reactive form store from a form configuration. The form store
+ * manages form state and provides reactive properties.
+ *
+ * @returns The form store with reactive properties.
+ */
 export const useForm$ = implicit$FirstArg(useFormQrl);

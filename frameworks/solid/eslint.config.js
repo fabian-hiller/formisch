@@ -12,10 +12,8 @@ export default tseslint.config(
   jsdoc.configs['flat/recommended'],
   pluginSecurity.configs.recommended,
   {
-    ignores: ['eslint.config.js'],
-  },
-  {
     files: ['src/**/*.{ts,tsx}'],
+    ignores: ['eslint.config.js'],
     extends: [importPlugin.flatConfigs.recommended],
     plugins: { ...solidLint.plugins, jsdoc },
     languageOptions: {
@@ -74,6 +72,10 @@ export default tseslint.config(
 
       // Import
       'import/no-unresolved': 'off',
+
+      // JSDoc
+      'jsdoc/require-param-type': 'off',
+      'jsdoc/require-returns-type': 'off',
 
       // TypeScript
       '@typescript-eslint/ban-ts-comment': 'off',

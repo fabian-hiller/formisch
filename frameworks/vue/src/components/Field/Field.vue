@@ -9,13 +9,19 @@ import { useField } from '../../composables';
 import { FieldStore, FormStore } from '../../types';
 
 /**
- * Properties of the `Field` component.
+ * Field component props interface.
  */
 export interface FieldProps<
   TSchema extends Schema = Schema,
   TFieldPath extends RequiredPath = RequiredPath,
 > {
+  /**
+   * The form store to which the field belongs.
+   */
   readonly of: FormStore<TSchema>;
+  /**
+   * The path to the field within the form schema.
+   */
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
 }
 

@@ -13,14 +13,23 @@
   import type { Snippet } from 'svelte';
 
   /**
-   * Properties of the `FieldArray` component.
+   * Field array component props interface.
    */
   export interface FieldArrayProps<
     TSchema extends Schema = Schema,
     TFieldArrayPath extends RequiredPath = RequiredPath,
   > {
+    /**
+     * The form store to which the field array belongs.
+     */
     readonly of: FormStore<TSchema>;
+    /**
+     * The path to the field array within the form schema.
+     */
     readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
+    /**
+     * The render function that receives the field array store and returns JSX.
+     */
     readonly children: Snippet<[FieldArrayStore<TSchema, TFieldArrayPath>]>;
   }
 
