@@ -1,6 +1,6 @@
 import eslint from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
-// import jsdoc from 'eslint-plugin-jsdoc';
+import jsdoc from 'eslint-plugin-jsdoc';
 import pluginSecurity from 'eslint-plugin-security';
 import tseslint from 'typescript-eslint';
 
@@ -8,7 +8,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.strict,
   tseslint.configs.stylistic,
-  // jsdoc.configs['flat/recommended'],
+  jsdoc.configs['flat/recommended'],
   pluginSecurity.configs.recommended,
   {
     ignores: ['eslint.config.js'],
@@ -33,44 +33,48 @@ export default tseslint.config(
       // Import
       'import/extensions': ['error', 'always'], // Require file extensions
 
-      // // JSDoc
-      // 'jsdoc/tag-lines': ['error', 'any', { startLines: 1 }],
-      // 'jsdoc/sort-tags': [
-      //   'error',
-      //   {
-      //     linesBetween: 1,
-      //     tagSequence: [
-      //       { tags: ['deprecated'] },
-      //       { tags: ['param'] },
-      //       { tags: ['returns'] },
-      //     ],
-      //   },
-      // ],
-      // // NOTE: For overloads functions, we only require a JSDoc at the top
-      // // SEE: https://github.com/gajus/eslint-plugin-jsdoc/issues/666
-      // 'jsdoc/require-jsdoc': [
-      //   'error',
-      //   {
-      //     contexts: [
-      //       'ExportNamedDeclaration[declaration.type="TSDeclareFunction"]:not(ExportNamedDeclaration[declaration.type="TSDeclareFunction"] + ExportNamedDeclaration[declaration.type="TSDeclareFunction"])',
-      //       'ExportNamedDeclaration[declaration.type="FunctionDeclaration"]:not(ExportNamedDeclaration[declaration.type="TSDeclareFunction"] + ExportNamedDeclaration[declaration.type="FunctionDeclaration"])',
-      //     ],
-      //     require: {
-      //       FunctionDeclaration: false,
-      //     },
-      //   },
-      // ],
-      // 'jsdoc/check-tag-names': [
-      //   'error',
-      //   {
-      //     definedTags: ['alpha', 'beta', '__NO_SIDE_EFFECTS__'],
-      //   },
-      // ],
+      // JSDoc
+      'jsdoc/tag-lines': ['error', 'any', { startLines: 1 }],
+      'jsdoc/sort-tags': [
+        'error',
+        {
+          linesBetween: 1,
+          tagSequence: [
+            { tags: ['deprecated'] },
+            { tags: ['param'] },
+            { tags: ['returns'] },
+          ],
+        },
+      ],
+      // NOTE: For overloads functions, we only require a JSDoc at the top
+      // SEE: https://github.com/gajus/eslint-plugin-jsdoc/issues/666
+      'jsdoc/require-jsdoc': [
+        'error',
+        {
+          contexts: [
+            'ExportNamedDeclaration[declaration.type="TSDeclareFunction"]:not(ExportNamedDeclaration[declaration.type="TSDeclareFunction"] + ExportNamedDeclaration[declaration.type="TSDeclareFunction"])',
+            'ExportNamedDeclaration[declaration.type="FunctionDeclaration"]:not(ExportNamedDeclaration[declaration.type="TSDeclareFunction"] + ExportNamedDeclaration[declaration.type="FunctionDeclaration"])',
+          ],
+          require: {
+            FunctionDeclaration: false,
+          },
+        },
+      ],
+      'jsdoc/check-tag-names': [
+        'error',
+        {
+          definedTags: ['alpha', 'beta', '__NO_SIDE_EFFECTS__'],
+        },
+      ],
 
       // Disable rules ----------------------------------------------------------
 
       // Security
       'security/detect-object-injection': 'off',
+
+      // JSDoc
+      'jsdoc/require-param-type': 'off',
+      'jsdoc/require-returns-type': 'off',
 
       // TypeScript
       '@typescript-eslint/ban-ts-comment': 'off',

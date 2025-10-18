@@ -11,10 +11,8 @@ export default tseslint.config(
   jsdoc.configs['flat/recommended'],
   pluginSecurity.configs.recommended,
   {
-    ignores: ['eslint.config.js'],
-  },
-  {
     files: ['src/**/*.ts'],
+    ignores: ['eslint.config.js'],
     extends: [importPlugin.flatConfigs.recommended],
     languageOptions: {
       parserOptions: {

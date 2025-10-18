@@ -1,5 +1,15 @@
 import { type BaseFormStore, INTERNAL, walkFieldStore } from '@formisch/core';
 
+/**
+ * Retrieves all error messages from all fields in the form by walking through
+ * the entire field store tree. This is useful for displaying a summary of all
+ * validation errors across the form.
+ *
+ * @param form The form store to retrieve errors from.
+ *
+ * @returns A non-empty array of error messages, or null if no errors exist.
+ */
+// @__NO_SIDE_EFFECTS__
 export function getAllErrors(
   form: BaseFormStore
 ): [string, ...string[]] | null {

@@ -13,14 +13,30 @@ import {
 } from '@formisch/core';
 import type * as v from 'valibot';
 
+/**
+ * Remove array field config interface.
+ */
 export interface RemoveConfig<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
 > {
+  /**
+   * The path to the field array to remove an item from.
+   */
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
+  /**
+   * The index of the item to remove.
+   */
   readonly at: number;
 }
 
+/**
+ * Removes an item from a field array at the specified index. All items after
+ * the removed item are shifted down by one index.
+ *
+ * @param form The form store containing the field array.
+ * @param config The remove configuration specifying the path and index.
+ */
 export function remove<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,

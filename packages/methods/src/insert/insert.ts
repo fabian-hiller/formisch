@@ -19,12 +19,24 @@ import {
 } from '@formisch/core';
 import type * as v from 'valibot';
 
+/**
+ * Insert array field config interface.
+ */
 export interface InsertConfig<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
 > {
+  /**
+   * The path to the field array to insert into.
+   */
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
+  /**
+   * The index to insert the new item at. If undefined, appends to the end.
+   */
   readonly at?: number | undefined;
+  /**
+   * The partial initial input value for the new item.
+   */
   readonly initialInput?:
     | DeepPartial<
         PathValue<v.InferInput<TSchema>, [...TFieldArrayPath, number]>
@@ -32,6 +44,13 @@ export interface InsertConfig<
     | undefined;
 }
 
+/**
+ * Inserts a new item into a field array at the specified index. All items at
+ * or after the insertion point are shifted up by one index.
+ *
+ * @param form The form store containing the field array.
+ * @param config The insert configuration specifying the path, index, and initial value.
+ */
 export function insert<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,

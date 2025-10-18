@@ -15,31 +15,81 @@ import {
 } from '@formisch/core';
 import type * as v from 'valibot';
 
+/**
+ * Reset base config interface.
+ */
 interface ResetBaseConfig {
+  /**
+   * Whether to keep the current input values during reset. Defaults to false.
+   */
   readonly keepInput?: boolean | undefined;
+  /**
+   * Whether to keep the touched state during reset. Defaults to false.
+   */
   readonly keepTouched?: boolean | undefined;
+  /**
+   * Whether to keep the error messages during reset. Defaults to false.
+   */
   readonly keepErrors?: boolean | undefined;
 }
 
+/**
+ * Reset form config interface.
+ */
 export interface ResetFormConfig<TSchema extends Schema>
   extends ResetBaseConfig {
+  /**
+   * The path to a field. Leave undefined to reset the entire form.
+   */
   readonly path?: undefined;
+  /**
+   * The new initial input to reset to. If provided, replaces the form's
+   * initial input.
+   */
   readonly initialInput?: DeepPartial<v.InferInput<TSchema>> | undefined;
-  readonly keepSubmitCount?: boolean | undefined;
+  /**
+   * Whether to keep the submitted state during reset. Defaults to false.
+   */
   readonly keepSubmitted?: boolean | undefined;
 }
 
+/**
+ * Reset field config interface.
+ */
 export interface ResetFieldConfig<
   TSchema extends Schema,
   TFieldPath extends RequiredPath,
 > extends ResetBaseConfig {
+  /**
+   * The path to the field to reset.
+   */
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
+  /**
+   * The new initial input to reset the field to. If provided, replaces the
+   * field's initial input.
+   */
   readonly initialInput?: DeepPartial<
     PathValue<v.InferInput<TSchema>, TFieldPath>
   >;
 }
 
+/**
+ * Resets a specific field or the entire form to its initial state. Provides
+ * fine-grained control over which state to preserve during reset through the
+ * configuration options.
+ *
+ * @param form The form store to reset.
+ */
 export function reset(form: BaseFormStore): void;
+
+/**
+ * Resets a specific field or the entire form to its initial state. Provides
+ * fine-grained control over which state to preserve during reset through the
+ * configuration options.
+ *
+ * @param form The form store to reset.
+ * @param config The reset configuration specifying what to reset and what to keep.
+ */
 export function reset<
   TSchema extends Schema,
   TFieldPath extends RequiredPath | undefined = undefined,
@@ -49,6 +99,7 @@ export function reset<
     ? ResetFieldConfig<TSchema, TFieldPath>
     : ResetFormConfig<TSchema>
 ): void;
+
 export function reset(
   form: BaseFormStore,
   config?: ResetFormConfig<Schema> | ResetFieldConfig<Schema, RequiredPath>

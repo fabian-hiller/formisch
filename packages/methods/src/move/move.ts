@@ -15,15 +15,34 @@ import {
 } from '@formisch/core';
 import type * as v from 'valibot';
 
+/**
+ * Move array field config interface.
+ */
 export interface MoveConfig<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
 > {
+  /**
+   * The path to the field array to move an item within.
+   */
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
+  /**
+   * The index of the item to move from.
+   */
   readonly from: number;
+  /**
+   * The index to move the item to.
+   */
   readonly to: number;
 }
 
+/**
+ * Moves an item from one index to another within a field array. All items
+ * between the source and destination indices are shifted accordingly.
+ *
+ * @param form The form store containing the field array.
+ * @param config The move configuration specifying the path and source/destination indices.
+ */
 export function move<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
