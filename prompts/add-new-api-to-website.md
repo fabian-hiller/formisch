@@ -1,66 +1,202 @@
-# Guide: Adding a New API Reference Route to Valibot Website
+# Guide: Adding a New API Reference Route to Formisch Website
 
-This guide provides comprehensive instructions for AI agents to add new API reference routes to the Valibot website. Consistency and uniformity across all API documentation is critical.
+This guide provides comprehensive instructions for AI agents to add new API reference routes to the Formisch website. Consistency and uniformity across all API documentation is critical.
 
 ## Table of Contents
 
 1. [Overview](#overview)
 2. [Understanding the Structure](#understanding-the-structure)
 3. [The Property Component](#the-property-component)
-4. [Step-by-Step Process](#step-by-step-process)
-5. [Reading Source Code Patterns](#reading-source-code-patterns)
-6. [File Structure](#file-structure)
-7. [Creating properties.ts](#creating-propertiests)
-8. [Creating index.mdx](#creating-indexmdx)
-9. [Updating Related Files](#updating-related-files)
-10. [Writing Examples](#writing-examples)
-11. [Best Practices](#best-practices)
-12. [Complete Example: From Source to Documentation](#complete-example-from-source-to-documentation)
+4. [Undocumented APIs](#undocumented-apis)
+5. [Step-by-Step Process](#step-by-step-process)
+6. [Reading Source Code Patterns](#reading-source-code-patterns)
+7. [File Structure](#file-structure)
+8. [Creating properties.ts](#creating-propertiests)
+9. [Creating index.mdx](#creating-indexmdx)
+10. [Updating Related Files](#updating-related-files)
+11. [Writing Examples](#writing-examples)
+12. [Best Practices](#best-practices)
+13. [Complete Example: From Source to Documentation](#complete-example-from-source-to-documentation)
 
 ## Overview
 
-API routes in the Valibot website are organized into categories within the `/website/src/routes/api/` directory. Each API function or type has its own folder containing:
+API routes in the Formisch website are organized into categories within the `/website/src/routes/(docs)/` directory. Each API function or type has its own folder containing:
 
 - `index.mdx` - The main documentation file with MDX content
 - `properties.ts` - TypeScript definitions that map to the Property component
 
 Categories include:
 
-- `(schemas)` - Schema functions like `string`, `number`, `object`, `array`
-- `(actions)` - Validation and transformation actions like `minLength`, `email`, `transform`
-- `(methods)` - Utility methods like `parse`, `safeParse`, `is`, `pipe`
-- `(types)` - TypeScript type definitions like `StringSchema`, `ErrorMessage`
-- `(utils)` - Utility functions
-- `(async)` - Async variants of schemas and methods
-- `(storages)` - Storage-related utilities
+- `core/api/(types)` - Core/shared type definitions like `Schema`, `ValidationMode`, `DeepPartial`
+- `methods/api/` - Global methods like `focus`, `validate`, `reset` (currently undocumented)
+- `solid/api/(primitives)` - SolidJS framework primitives like `createForm`, `useField`, `useFieldArray`
+- `solid/api/(types)` - SolidJS-specific type definitions like `FormStore`, `FieldStore`, `FormConfig`
+- `solid/api/(components)` - SolidJS components like `Field`, `Form`, `FieldArray` (currently undocumented)
+- `solid/api/(methods)` - SolidJS methods (currently unused)
+- `qwik/api/(hooks)` - Qwik framework hooks (currently undocumented)
+- `qwik/api/(components)` - Qwik components (currently undocumented)
+- `preact/api/(hooks)` - Preact framework hooks (currently undocumented)
+- `preact/api/(components)` - Preact components (currently undocumented)
+- `svelte/api/(runes)` - Svelte framework runes (currently undocumented)
+- `svelte/api/(components)` - Svelte components (currently undocumented)
+- `vue/api/(composables)` - Vue framework composables (currently undocumented)
+- `vue/api/(components)` - Vue components (currently undocumented)
 
 ## Understanding the Structure
 
 ### Folder Naming Convention
 
-API routes use parentheses for category folders (e.g., `(schemas)`, `(actions)`) and camelCase for individual API folders:
+API routes use parentheses for category folders (e.g., `(primitives)`, `(types)`) and camelCase for individual API folders:
 
 ```
-/website/src/routes/api/
-  (schemas)/
-    string/
-      index.mdx
-      properties.ts
-    object/
-      index.mdx
-      properties.ts
-  (actions)/
-    minLength/
-      index.mdx
-      properties.ts
-    email/
-      index.mdx
-      properties.ts
-  (methods)/
-    parse/
-      index.mdx
-      properties.ts
+/website/src/routes/(docs)/
+  core/
+    api/
+      (types)/
+        Schema/
+          index.mdx
+          properties.ts
+  methods/
+    api/
+      focus/
+        index.mdx
+        properties.ts
+      getErrors/
+        index.mdx
+        properties.ts
+  solid/
+    api/
+      (components)/
+        Field/
+          index.mdx
+          properties.ts
+        Form/
+          index.mdx
+          properties.ts
+      (primitives)/
+        createForm/
+          index.mdx
+          properties.ts
+        useField/
+          index.mdx
+          properties.ts
+      (types)/
+        FormStore/
+          index.mdx
+          properties.ts
+  qwik/
+    api/
+      (components)/
+        Field/
+          index.mdx
+          properties.ts
+      (hooks)/
+        useField/
+          index.mdx
+          properties.ts
+  preact/
+    api/
+      (components)/
+        Field/
+          index.mdx
+          properties.ts
+      (hooks)/
+        useField/
+          index.mdx
+          properties.ts
+  svelte/
+    api/
+      (components)/
+        Field/
+          index.mdx
+          properties.ts
+      (runes)/
+        createForm/
+          index.mdx
+          properties.ts
+  vue/
+    api/
+      (components)/
+        Field/
+          index.mdx
+          properties.ts
+      (composables)/
+        useField/
+          index.mdx
+          properties.ts
 ```
+
+### Route Organization
+
+Routes are organized by their primary purpose:
+
+- **Core Types** (`core/api/(types)`): Shared type definitions used across all frameworks
+- **Global Methods** (`methods/api/`): Framework-agnostic utility methods for form manipulation
+- **Framework Components** (`{framework}/api/(components)`): Framework-specific UI components (Field, Form, FieldArray)
+- **Framework Primitives** (`solid/api/(primitives)`): SolidJS reactive primitives (createForm, useField, useFieldArray)
+- **Framework Hooks** (`qwik/api/(hooks)`, `preact/api/(hooks)`): Qwik/Preact reactive hooks
+- **Framework Composables** (`vue/api/(composables)`): Vue composition functions
+- **Framework Runes** (`svelte/api/(runes)`): Svelte 5 runes
+- **Framework Types** (`{framework}/api/(types)`): Framework-specific type definitions
+
+### URL Patterns
+
+Due to Qwik's route group system, parentheses folders don't appear in URLs:
+
+- Core types: `/core/api/TypeName/` (not `/core/api/(types)/TypeName/`)
+- Methods: `/methods/api/MethodName/`
+- Solid primitives: `/solid/api/PrimitiveName/`
+- Solid components: `/solid/api/ComponentName/`
+- Solid types: `/solid/api/TypeName/`
+- Qwik hooks: `/qwik/api/HookName/`
+- Qwik components: `/qwik/api/ComponentName/`
+- Preact hooks: `/preact/api/HookName/`
+- Preact components: `/preact/api/ComponentName/`
+- Svelte runes: `/svelte/api/RuneName/`
+- Svelte components: `/svelte/api/ComponentName/`
+- Vue composables: `/vue/api/ComposableName/`
+- Vue components: `/vue/api/ComponentName/`
+
+### Source Code Organization
+
+Source files are located in:
+
+- `/packages/core/src/` - Core package with shared types and utilities
+- `/packages/methods/src/` - Framework-agnostic utility methods
+- `/frameworks/solid/src/` - SolidJS framework implementation
+  - `primitives/` - Reactive primitives (createForm, useField, useFieldArray)
+  - `components/` - UI components (Field, Form, FieldArray)
+  - `types/` - Framework-specific types
+- `/frameworks/qwik/src/` - Qwik framework implementation
+  - `hooks/` - Reactive hooks (useField, useFieldArray, useForm$)
+  - `components/` - UI components (Field, Form, FieldArray)
+  - `types/` - Framework-specific types
+- `/frameworks/preact/src/` - Preact framework implementation
+  - `hooks/` - Reactive hooks (useField, useFieldArray, useForm)
+  - `components/` - UI components (Field, Form, FieldArray)
+  - `types/` - Framework-specific types
+- `/frameworks/svelte/src/` - Svelte framework implementation
+  - `runes/` - Svelte 5 runes (createForm, useField, useFieldArray)
+  - `components/` - UI components (Field, Form, FieldArray)
+  - `types/` - Framework-specific types
+- `/frameworks/vue/src/` - Vue framework implementation
+  - `composables/` - Composition functions (useField, useFieldArray, useForm)
+  - `components/` - UI components (Field, Form, FieldArray)
+  - `types/` - Framework-specific types
+    properties.ts
+    (actions)/
+    minLength/
+    index.mdx
+    properties.ts
+    email/
+    index.mdx
+    properties.ts
+    (methods)/
+    parse/
+    index.mdx
+    properties.ts
+
+````
 
 ### Route Organization
 
@@ -81,7 +217,7 @@ type PropertyProps = {
   type: DefinitionData; // The type definition
   default?: DefinitionData; // Optional default value
 };
-```
+````
 
 ### DefinitionData Types
 
@@ -100,7 +236,11 @@ type PropertyProps = {
   'void' |
   'never' |
   'any' |
-  'unknown';
+  'unknown' |
+  'object' |
+  'array' |
+  'tuple' |
+  'function';
 ```
 
 #### Literal Values
@@ -142,8 +282,8 @@ type PropertyProps = {
 ```typescript
 {
   type: 'array';
-  modifier?: string;      // e.g., 'readonly'
-  spread?: boolean;       // for ...rest
+  modifier?: string;
+  spread?: boolean;
   item: DefinitionData;
 }
 ```
@@ -178,9 +318,119 @@ type PropertyProps = {
 ```typescript
 {
   type: 'template';
-  parts: DefinitionData[];  // Mix of { type: 'string', value: string } and other types
+  parts: DefinitionData[];
 }
 ```
+
+#### Union Type
+
+```typescript
+{
+  type: 'union';
+  options: [DefinitionData, DefinitionData, ...DefinitionData[]];
+}
+```
+
+#### Intersect Type
+
+```typescript
+{
+  type: 'intersect';
+  options: [DefinitionData, DefinitionData, ...DefinitionData[]];
+}
+```
+
+#### Conditional Type
+
+```typescript
+{
+  type: 'conditional';
+  conditions: {
+    type: DefinitionData;
+    extends: DefinitionData;
+    true: DefinitionData;
+  }[];
+  false: DefinitionData;
+}
+```
+
+#### Custom Type (Named Types)
+
+```typescript
+{
+  type: 'custom';
+  modifier?: string;
+  spread?: boolean;
+  name: string;
+  href?: string;
+  generics?: DefinitionData[];
+  indexes?: DefinitionData[];
+}
+```
+
+### Property Component Usage
+
+In `properties.ts`, define properties that will be used in the MDX:
+
+```typescript
+import type { PropertyProps } from '~/components';
+
+export const properties: Record<string, PropertyProps> = {
+  TSchema: {
+    modifier: 'extends',
+    type: {
+      type: 'custom',
+      name: 'Schema',
+      href: '/core/api/Schema/',
+    },
+  },
+};
+```
+
+### External Links in Property Component
+
+The Property component supports both internal and external links:
+
+**Internal Links** (relative paths to documentation routes):
+
+```typescript
+{
+  type: 'custom',
+  name: 'FormConfig',
+  href: '../FormConfig/',  // Relative path within same section
+}
+```
+
+**External Links** (full HTTP/HTTPS URLs):
+
+```typescript
+{
+  type: 'custom',
+  name: 'GenericSchema',
+  href: 'https://valibot.dev/api/GenericSchema/',  // External URL, opens in new tab
+}
+```
+
+**Important**: External links will automatically open in a new tab with `target="_blank"` and `rel="noreferrer"` for security and user experience.
+params: {
+spread?: boolean;
+name: string;
+optional?: boolean;
+type: DefinitionData;
+}[];
+return: DefinitionData;
+}
+
+````
+
+#### Template Literal Type
+
+```typescript
+{
+  type: 'template';
+  parts: DefinitionData[];  // Mix of { type: 'string', value: string } and other types
+}
+````
 
 #### Union Type
 
@@ -266,103 +516,221 @@ export const properties: Record<string, PropertyProps> = {
 };
 ```
 
+### External Links in Property Component
+
+The Property component supports both internal and external links:
+
+**Internal Links** (relative paths to documentation routes):
+
+```typescript
+{
+  type: 'custom',
+  name: 'FormConfig',
+  href: '../FormConfig/',  // Relative path, opens in app
+}
+```
+
+**External Links** (full HTTP/HTTPS URLs):
+
+```typescript
+{
+  type: 'custom',
+  name: 'GenericSchema',
+  href: 'https://valibot.dev/api/GenericSchema/',  // External URL, opens in new tab
+}
+```
+
+**Important**: External links will automatically open in a new tab with `target="_blank"` and `rel="noreferrer"` for security and user experience.
+
+## Undocumented APIs
+
+The following APIs exist in the source code but are not yet documented in the website. These should be prioritized for documentation:
+
+### Methods (High Priority)
+
+Located in `/packages/methods/src/` - these are framework-agnostic utility functions:
+
+- `focus` - Focus management utilities
+- `getAllErrors` - Get all validation errors from a form
+- `getErrors` - Get validation errors for specific fields
+- `getInput` - Get input values from form fields
+- `handleSubmit` - Handle form submission logic
+- `insert` - Insert items into field arrays
+- `move` - Move items within field arrays
+- `remove` - Remove items from field arrays
+- `replace` - Replace items in field arrays
+- `reset` - Reset form or field state
+- `setErrors` - Set validation errors programmatically
+- `setInput` - Set input values programmatically
+- `submit` - Submit form programmatically
+- `swap` - Swap items in field arrays
+- `validate` - Validate form or specific fields
+
+### Framework Components (Medium Priority)
+
+Located in `/frameworks/{framework}/src/components/` - UI components for each framework:
+
+**All Frameworks** (Solid, Qwik, Preact, Svelte, Vue):
+
+- `Field` - Individual form field component
+- `FieldArray` - Dynamic array field component
+- `Form` - Main form wrapper component
+
+### Framework-Specific APIs (Low Priority)
+
+**Qwik** (`/frameworks/qwik/src/hooks/`):
+
+- `useForm$` - Qwik-specific form hook
+- `usePathSignal` - Path-based signal management
+- `useResolvedQrl` - QRL resolution utilities
+
+**Preact** (`/frameworks/preact/src/hooks/`):
+
+- `useForm` - Preact-specific form hook
+- `usePathSignal` - Path-based signal management
+
+**Vue** (`/frameworks/vue/src/composables/`):
+
+- `useForm` - Vue composition function for forms
+
+**Svelte** (`/frameworks/svelte/src/runes/`):
+
+- All runes are already documented (createForm, useField, useFieldArray)
+
+### Core Types (Medium Priority)
+
+Located in `/packages/core/src/` - additional types that may need documentation:
+
+- Additional utility types in `utils.ts`
+- Path-related types in `path.ts`
+- Extended form types in `form.ts`
+
 ## Step-by-Step Process
 
 ### Step 1: Identify the API Function
 
 Before creating a new route, identify:
 
-1. **Category**: Is it a schema, action, method, type, or utility?
+1. **Category**: Is it a core type, framework primitive, framework type, or method?
 2. **Name**: The exact function/type name (camelCase)
-3. **Source file**: Path to the source code in the library
-4. **Dependencies**: Related types, schemas, or actions
+3. **Source file**: Path to the source code in the monorepo
+4. **Dependencies**: Related types, primitives, or methods
 
 ### Step 2: Read and Analyze the Source Code
 
-**This is the most critical step.** All API documentation is derived directly from the source code in `/library/src/`.
+**This is the most critical step.** All API documentation is derived directly from the source code in the monorepo.
 
 #### Source Code Structure
 
-The library source is organized as:
+The monorepo source is organized as:
 
 ```
-/library/src/
-  schemas/        - Schema functions (string, object, array, etc.)
-    string/
-      string.ts   - Main implementation
-      index.ts    - Re-exports
-  actions/        - Validation and transformation actions
-    minLength/
-      minLength.ts
-      index.ts
-  methods/        - Utility methods (parse, safeParse, etc.)
-    parse/
-      parse.ts
-      index.ts
-  types/          - Shared TypeScript types and interfaces
-  utils/          - Internal utilities
+/packages/core/src/
+  types/          - Shared type definitions (Schema, ValidationMode, etc.)
+    form.ts       - Form-related types
+    path.ts       - Path-related types
+    utils.ts      - Utility types
+  [other core files]
+
+/frameworks/solid/src/
+  primitives/     - Framework primitives (createForm, useField, etc.)
+    createForm/
+      createForm.ts
+    useField/
+      useField.ts
+  types/          - Framework-specific types (FormStore, FieldStore, etc.)
+    form.ts       - Form store types
+    field.ts      - Field-related types
 ```
+
+utils/ - Internal utilities
+
+````
 
 #### What to Extract from Source Code
 
-When reading the source file (e.g., `/library/src/schemas/string/string.ts`), extract:
+When reading the source file (e.g., `/packages/core/src/types/form.ts`), extract:
 
 1. **Interfaces and Types**
-
-   - Look for the main Issue interface (e.g., `StringIssue`)
-   - Look for the main Schema/Action interface (e.g., `StringSchema`, `MinLengthAction`)
+   - Look for exported type definitions and interfaces
    - Note all generic parameters and their constraints
-   - Note all interface properties
+   - Note all interface properties for complex types
 
-2. **Function Overloads**
-
-   - The source includes multiple function signatures for different parameter combinations
-   - Document each overload's parameters
-   - The last signature is usually the most generic
+2. **Function Signatures**
+   - Document the function signature with all parameters
+   - Note optional vs required parameters
+   - Extract JSDoc comments for descriptions
 
 3. **JSDoc Comments**
-
-   - Extract the description from JSDoc comments above the function
-   - These often contain hints about usage and alternatives
-   - For schemas like `object`, comments may mention related schemas (`looseObject`, `strictObject`)
+   - Extract the description from JSDoc comments above functions/types
+   - These contain important usage information and examples
 
 4. **Generic Constraints**
-
    - Note `extends` clauses on generic parameters
-   - Common patterns:
-     - `TMessage extends ErrorMessage<SomeIssue> | undefined`
-     - `TInput extends LengthInput`
-     - `TRequirement extends number`
+   - Common patterns in Formisch:
+     - `TSchema extends Schema`
+     - `TFieldPath extends RequiredPath`
 
 5. **Return Types**
-   - The interface name (e.g., `StringSchema<TMessage>`)
+   - The interface name (e.g., `FormStore<TSchema>`)
    - All generic parameters passed through
 
-#### Example: Deriving from string.ts
+#### Example: Deriving from ValidationMode
 
-From `/library/src/schemas/string/string.ts`:
+From `/packages/core/src/types/form.ts`:
 
 ```typescript
-export interface StringIssue extends BaseIssue<unknown> {
-  readonly kind: 'schema';
-  readonly type: 'string';
-  readonly expected: 'string';
-}
+/**
+ * Validation mode type that specifies when form validation should occur.
+ */
+export type ValidationMode =
+  | 'initial'
+  | 'touch'
+  | 'input'
+  | 'change'
+  | 'blur'
+  | 'submit';
+````
 
-export interface StringSchema<
-  TMessage extends ErrorMessage<StringIssue> | undefined,
-> extends BaseSchema<string, string, StringIssue> {
-  readonly type: 'string';
-  readonly reference: typeof string;
-  readonly expects: 'string';
-  readonly message: TMessage;
-}
+**Extract**:
+
+- Type: Union of string literals
+- Description: From JSDoc comment
+- Values: All possible string literal values
+
+#### Example: Deriving from createForm
+
+From `/frameworks/solid/src/primitives/createForm/createForm.ts`:
+
+```typescript
+/**
+ * Creates a reactive form store from a form configuration.
+ */
+export function createForm<TSchema extends Schema>(
+  config: FormConfig<TSchema>
+): FormStore<TSchema>;
+```
+
+**Extract**:
+
+- Generic: `TSchema extends Schema`
+- Parameter: `config: FormConfig<TSchema>`
+- Return: `FormStore<TSchema>`
+- Description: From JSDoc comment
+  > extends BaseSchema<string, string, StringIssue> {
+  > readonly type: 'string';
+  > readonly reference: typeof string;
+  > readonly expects: 'string';
+  > readonly message: TMessage;
+  > }
 
 export function string(): StringSchema<undefined>;
 export function string<
-  const TMessage extends ErrorMessage<StringIssue> | undefined,
->(message: TMessage): StringSchema<TMessage>;
-```
+const TMessage extends ErrorMessage<StringIssue> | undefined,
+
+> (message: TMessage): StringSchema<TMessage>;
+
+````
 
 **Extract**:
 
@@ -395,7 +763,7 @@ export interface MinLengthAction<...> {
 
 export function minLength<...>(requirement: TRequirement): MinLengthAction<...>;
 export function minLength<...>(requirement: TRequirement, message: TMessage): MinLengthAction<...>;
-```
+````
 
 **Extract**:
 
@@ -429,13 +797,11 @@ From `/library/src/schemas/object/object.ts`, note the JSDoc:
 #### Special Considerations
 
 1. **Source Path**: Use the relative path from `/library/src/` for the `source` field in frontmatter:
-
    - `string.ts` → `source: /schemas/string/string.ts`
    - `minLength.ts` → `source: /actions/minLength/minLength.ts`
    - `parse.ts` → `source: /methods/parse/parse.ts`
 
 2. **Type Documentation**: If documenting a type (not a function), the source file defines the interface structure:
-
    - Properties become documentation entries
    - Use literal types where specified (e.g., `type: 'string'`)
    - Reference the parent interface with `extends`
@@ -822,7 +1188,7 @@ import { properties } from './properties';
 Full description of what this function does.
 
 ```ts
-const Result = v.functionName<TGeneric>(param1, param2);
+const result = functionName<TGeneric>(param1, param2);
 ```
 ````
 
@@ -843,7 +1209,32 @@ Detailed explanation of how the function works, when to use it, and any importan
 
 ## Returns
 
-- `Result` <Property {...properties.Result} />
+- `result` <Property {...properties.result} />
+
+## Related
+
+The following APIs can be combined with `functionName`.
+
+### Primitives
+
+<ApiList items={[
+{ text: 'createForm', href: '../createForm/' },
+{ text: 'useField', href: '../useField/' }
+]} />
+
+### Components
+
+<ApiList items={[
+{ text: 'Field', href: '../Field/' },
+{ text: 'Form', href: '../Form/' }
+]} />
+
+### Methods
+
+<ApiList items={[
+{ text: 'focus', href: '/methods/api/focus/' },
+{ text: 'validate', href: '/methods/api/validate/' }
+]} />
 
 ## Examples
 
@@ -929,7 +1320,50 @@ items={[
    }
 ````
 
-5. **Common patterns**:
+5. **Property ordering in custom types**: When defining custom types with `href` links and `generics`, always use this order:
+
+   ```typescript
+   {
+     type: 'custom',
+     name: 'TypeName',           // 1. Type name first
+     href: '/path/to/type/',     // 2. Link second
+     generics: [...]             // 3. Generics last
+   }
+   ```
+
+   **Never use**: `name`, `generics`, `href` - this will break the documentation rendering.
+
+6. **Type references in generics**: When referencing types in generics arrays, use the generic parameter names defined in the current file, not the base types they extend:
+
+   ```typescript
+   // ✅ Correct: Use the generic parameter name
+   TFieldPath: {
+     modifier: 'extends',
+     type: { type: 'custom', name: 'RequiredPath', href: '/core/api/RequiredPath/' }
+   },
+   path: {
+     type: {
+       type: 'custom',
+       name: 'ValidPath',
+       href: '/core/api/ValidPath/',
+       generics: [
+         // Reference TFieldPath, not RequiredPath
+         { type: 'custom', name: 'TFieldPath' }
+       ]
+     }
+   }
+
+   // ❌ Incorrect: Using base type instead of parameter
+   generics: [
+     { type: 'custom', name: 'RequiredPath' }  // Wrong!
+   ]
+   ```
+
+7. **Field vs Array operations**: Use the correct generic parameter based on the operation type:
+   - **Field operations** (get/set field input, field errors, focus, reset): Use `TFieldPath` in generics
+   - **Array operations** (insert, remove, replace, move, swap): Use `TFieldArrayPath` in generics
+
+8. **Common patterns**:
 
 #### Pattern: Optional message parameter
 
@@ -1086,7 +1520,12 @@ import { ApiList, Property } from '~/components';
 import { properties } from './properties';
 ```
 
-Only import `Link` if you're using it in the content.
+Only import what you use:
+
+- Import `Link` if you use it in the content
+- Import `ApiList` if you have a Related section
+- Always import `Property` for type/parameter rendering
+- Always import `properties` from `./properties`
 
 ### Main Heading
 
@@ -1128,6 +1567,34 @@ const Schema = v.functionName<TGeneric>(param);
 - Include all generics in angle brackets
 - Show all parameters
 
+### Function Documentation vs Component Documentation vs Type Documentation
+
+**Function Documentation** includes:
+- Function signature with code block
+- Generics section (if applicable)
+- **Parameters section** (if applicable) - use "Parameters" heading for functions
+- Explanation section (required, detailed, references specific parameters)
+- **Returns section** (only if function returns a meaningful value, not for `void`)
+- Examples section (required, 2-4 progressive examples)
+- Related section (recommended for functions)
+
+**Component Documentation** includes:
+- Component signature with code block
+- Generics section (if applicable)
+- **Properties section** (if applicable) - use "Properties" heading for components
+- Explanation section (required, detailed, references specific properties)
+- **NO Returns section** - components don't document return types
+- **NO Examples section** - components don't include examples
+- Related section (follows menu.md order: Primitives, Components, Methods)
+
+**Type Documentation** includes:
+- Type name and brief description
+- Generics section (if applicable)
+- Definition section listing properties (without descriptions)
+- Explanation section (only if semantically important, usually optional for types)
+- NO Examples section
+- Related section (but no Types, only Primitives, Components, Methods, etc.)
+
 ### Generics Section
 
 If the function has generics, document them:
@@ -1139,9 +1606,11 @@ If the function has generics, document them:
 - `TInput` <Property {...properties.TInput} />
 ````
 
-### Parameters Section
+### Parameters/Properties Section
 
-Document all parameters:
+Document all parameters/properties using the appropriate heading:
+
+**For Functions - use "Parameters" heading:**
 
 ```mdx
 ## Parameters
@@ -1150,23 +1619,39 @@ Document all parameters:
 - `param2` <Property {...properties.param2} />
 ```
 
+**For Components - use "Properties" heading:**
+
+```mdx
+## Properties
+
+- `prop1` <Property {...properties.prop1} />
+- `children` <Property {...properties.children} />
+```
+
 ### Explanation Section
 
-Add a detailed explanation as a subsection under Parameters:
+Add a detailed explanation as a subsection under Parameters/Properties:
 
 ```mdx
 ### Explanation
 
-With `functionName` you can validate... If the input does not match..., you can use `message` to customize the error message.
+With `functionName` you can validate... The `param1` parameter specifies..., while `param2` controls...
 ```
 
 **Key points**:
 
-- Explain what the function does
+- Explain what the function/component does
 - Explain when to use it
+- **Reference specific parameters/properties by name** (e.g., "the `children` prop provides...", "the `onSubmit` parameter handles...")
 - Mention error handling
-- Use backticks for parameter names and function names
+- Use backticks for parameter/property names and function names
 - Link to related concepts using `<Link href="/path/">`Name`</Link>`
+
+**For components with render props:**
+
+```mdx
+The `Field` component provides a render prop function via the `children` prop that receives a `FieldStore`...
+```
 
 **Use blockquotes for important notes**:
 
@@ -1176,7 +1661,11 @@ With `functionName` you can validate... If the input does not match..., you can 
 
 ### Returns Section
 
-Document the return value:
+**Note: Components do not have Returns sections.** Only functions have Returns sections.
+
+**Note: Do not include a Returns section for functions that return `void`.** Only include Returns sections when there is a meaningful return value to document.
+
+Document the return value for functions (not needed for components):
 
 ```mdx
 ## Returns
@@ -1192,7 +1681,11 @@ Or for functions with multiple possible returns:
 - `output` <Property {...properties.output} />
 ```
 
+**Note**: Component documentation does not include a Returns section.
+
 ### Examples Section
+
+**Note: Component documentation does not include an Examples section.** Only functions and schemas have Examples sections.
 
 This is critical for consistency. Examples must:
 
@@ -1292,40 +1785,75 @@ For methods (1-2 examples):
 
 ### Related Section
 
-List all APIs that can be meaningfully combined with this function:
+List all APIs that can be meaningfully combined with this function/component. Follow the same order as the menu.md file:
 
 ```mdx
 ## Related
 
-The following APIs can be combined with `functionName`.
+### Primitives
 
-### Schemas
+<ApiList
+  items={[
+    { text: 'createForm', href: '../createForm/' },
+    { text: 'useField', href: '../useField/' },
+  ]}
+/>
 
-<ApiList items={['string', 'number', 'array']} />
+### Components
+
+<ApiList
+  items={[
+    { text: 'Field', href: '../Field/' },
+    { text: 'Form', href: '../Form/' },
+  ]}
+/>
 
 ### Methods
 
-<ApiList items={['pipe', 'parse']} />
-
-### Actions
-
-<ApiList items={['minLength', 'email']} />
-
-### Utils
-
-<ApiList items={['isOfKind', 'isOfType']} />
+<ApiList
+  items={[
+    { text: 'focus', href: '../focus/' },
+    { text: 'validate', href: '../validate/' },
+  ]}
+/>
 ```
 
 **Guidelines for Related section**:
 
 1. Only include APIs that make sense to combine
-2. Keep lists in alphabetical order
-3. Common categories: Schemas, Methods, Actions, Utils, Types
-4. For schemas: include all schemas that can wrap or be wrapped by this one
-5. For actions: include schemas they work with
-6. For methods: include schemas and actions they work with
-7. Use `<ApiList items={[...]} />` component
-8. Each category is an h3 heading
+2. Keep lists in alphabetical order within each category
+3. **Follow menu.md order**: Primitives → Components → Methods (do not include Types section)
+4. **Do NOT include Types** - Type references should only be used in Parameters/Properties and Returns sections. Types are linked via the `<Property />` component with `href` attributes, not through Related sections
+5. **Type documentation CAN have Related sections** - Include Primitives, Components, Methods, and other APIs that use or relate to the type, but never Types
+6. For schemas: include all schemas that can wrap or be wrapped by this one
+7. For actions: include schemas they work with
+8. For methods: include schemas and actions they work with
+9. **Use `<ApiList items={[{ text: string, href: string }, ...]} />` component** - not simple string arrays
+10. Each category is an h3 heading
+
+#### Related Sections for Type Documentation
+
+Type documentation should include Related sections to help users discover relevant APIs that use or relate to the type. Unlike function/component documentation, type Related sections should **only include Primitives, Methods, etc.**, never other Types.
+
+**Example for a core type like `Schema`**:
+
+```mdx
+## Related
+
+### Primitives
+
+<ApiList items={[{ text: 'createForm', href: '/solid/api/createForm/' }]} />
+
+### Methods
+
+<ApiList items={[{ text: 'validate', href: '/methods/api/validate/' }]} />
+```
+
+**Guidelines for type Related sections**:
+
+- **Include Primitives, Components, Methods, etc.**: Link to any APIs that use or relate to this type
+- **Never include Types**: Do not create cross-references between types in Related sections
+- **Focus on usage**: Link to APIs that developers would use alongside this type
 
 ## Updating Related Files
 
@@ -1615,6 +2143,89 @@ const EmailSchema = v.pipe(
 );
 ```
 
+## Type Documentation Guidelines
+
+### Minimal Type Documentation
+
+When documenting type interfaces and definitions:
+
+1. **Explanation Section**: Only include an Explanation section when the type has semantic significance or complex behavior
+   - `FormConfig`: Include Explanation (configures form behavior)
+   - `FormStore`: No Explanation (reactive state object, properties speak for themselves)
+   - `Schema`: No Explanation (type constraint, straightforward)
+   - `ValidationMode`: No Explanation (list of mode options, self-explanatory)
+
+2. **No Property Descriptions**: Do not add descriptions to individual type properties. Let TypeScript types speak for themselves:
+
+   ```mdx
+   // ✓ CORRECT - Properties without descriptions
+
+   - `schema` <Property {...properties.schema} />
+   - `initialInput` <Property {...properties.initialInput} />
+
+   // ✗ INCORRECT - Properties with descriptions
+
+   - `schema` <Property {...properties.schema} /> - The validation schema
+   - `initialInput` <Property {...properties.initialInput} /> - Initial values
+   ```
+
+3. **No Related Section**: Do not include Related sections for pure type documentation
+
+   ```mdx
+   // ✗ INCORRECT - Types should not have Related sections
+
+   ## Related
+
+   The following types work with FormConfig.
+
+   <ApiList items={['FormStore']} />
+   ```
+
+4. **Complex Types**: For utility types too complex to display with the Property component:
+   - Add a blockquote explaining the complexity
+   - Include a link to the source code on GitHub
+
+   ```mdx
+   > This type is too complex to display. Please refer to the [source code](https://github.com/.../path/to/type.ts).
+   ```
+
+5. **No properties.ts for Complex Types**: Only create `properties.ts` files when the MDX file actually uses the `<Property />` component
+   - Complex types that show a blockquote note don't need `properties.ts`
+   - Omit the `properties.ts` file to keep the structure clean
+
+### Type Documentation Template
+
+```mdx
+---
+title: TypeName
+description: Brief one-line description.
+source: /packages/core/src/path/to/file.ts
+contributors:
+  - github-username
+---
+
+import { Property } from '~/components';
+import { properties } from './properties';
+
+# TypeName
+
+Brief description of the type.
+
+## Generics
+
+- `TGeneric` <Property {...properties.TGeneric} />
+
+## Definition
+
+- `TypeName` <Property {...properties.TypeName} />
+  - `property1` <Property {...properties.property1} />
+  - `property2` <Property {...properties.property2} />
+
+### Explanation (Only if needed)
+
+Semantic explanation of the type's purpose and usage.
+```
+
 ## Best Practices
 
 ### 1. Consistency is Key
@@ -1715,6 +2326,313 @@ Maintain alphabetical order in:
 - Description is concise (one sentence)
 - Source path is correct
 - Contributors list is accurate
+
+## Additional Best Practices from Recent Documentation Updates
+
+### Cross-Package Type Linking
+
+**When linking to types from other packages, always use absolute paths**:
+
+**DO**: Use absolute paths for cross-package type references
+
+```typescript
+// ✓ CORRECT - Absolute path for core API types from methods API
+{
+  type: 'custom',
+  name: 'BaseFormStore',
+  href: '/core/api/BaseFormStore/',  // Absolute path
+}
+```
+
+**DON'T**: Use relative paths for cross-package type references
+
+```typescript
+// ✗ INCORRECT - Relative path won't work across packages
+{
+  type: 'custom',
+  name: 'BaseFormStore',
+  href: '../../../core/api/BaseFormStore/',  // Relative path fails
+}
+```
+
+### Qwik Routing Conventions
+
+**Important**: Qwik routing ignores parenthetical route segments like `(types)`, `(primitives)`, and `(components)`. When creating `href` links:
+
+**DO**: Exclude parenthetical segments from href paths
+
+```typescript
+// ✓ CORRECT - Qwik ignores (types) segments
+{
+  type: 'custom',
+  name: 'FocusFieldConfig',
+  href: '../FocusFieldConfig/',  // Not '../(types)/FocusFieldConfig/'
+}
+```
+
+**DON'T**: Include parenthetical segments in href paths
+
+```typescript
+// ✗ INCORRECT - Qwik will ignore (types) and routing will fail
+{
+  type: 'custom',
+  name: 'FocusFieldConfig',
+  href: '../(types)/FocusFieldConfig/',  // Qwik ignores this segment
+}
+```
+
+### ApiList Component Linking
+
+**When using `<ApiList />` components in `index.mdx` files**:
+
+**DO**: Use absolute paths and exclude parenthetical route segments
+
+```typescript
+<ApiList
+  items={[
+    { text: 'createForm', href: '/solid/api/createForm/' },  // Absolute path, no (primitives)
+    { text: 'BaseFormStore', href: '/core/api/BaseFormStore/' },  // Cross-package absolute path
+  ]}
+/>
+```
+
+**DON'T**: Use relative paths or include parenthetical segments
+
+```typescript
+<ApiList
+  items={[
+    { text: 'createForm', href: '../../../solid/api/(primitives)/createForm/' },  // Wrong
+  ]}
+/>
+```
+
+### Menu File Linking
+
+**When updating `menu.md` files**:
+
+**DO**: Use clean Markdown links without angle brackets or parenthetical segments
+
+```markdown
+- [FocusFieldConfig](/methods/api/FocusFieldConfig/) <!-- Clean link -->
+- [SubmitHandler](/core/api/SubmitHandler/) <!-- No angle brackets -->
+```
+
+**DON'T**: Include angle brackets or parenthetical segments
+
+```markdown
+- [FocusFieldConfig](</methods/api/(types)/FocusFieldConfig/>) <!-- Wrong -->
+```
+
+### Documenting Object-Like Interfaces
+
+**For TypeScript interfaces and object-like types, list properties as sublists under the main type**:
+
+**DO**: Use sublist format for interface properties
+
+```mdx
+## Definition
+
+- `InternalFormStore`
+  - `element` <Property {...properties.element} />
+  - `validators` <Property {...properties.validators} />
+  - `validate` <Property {...properties.validate} />
+```
+
+**DON'T**: Define the entire interface as a single property
+
+```mdx
+## Definition
+
+- `InternalFormStore` <Property {...properties.InternalFormStore} />
+```
+
+**properties.ts structure for interfaces**:
+
+```typescript
+export const properties: Record<string, PropertyProps> = {
+  TSchema: {
+    /* generic definition */
+  },
+  // Individual properties, not a single interface object
+  element: {
+    /* property definition */
+  },
+  validators: {
+    /* property definition */
+  },
+  validate: {
+    /* property definition */
+  },
+};
+```
+
+### Optional Properties
+
+**Display optional properties using union types with `undefined`, not TypeScript's `?` syntax**:
+
+**DO**: Use union type for optional properties
+
+```typescript
+element: {
+  type: {
+    type: 'union',
+    options: [
+      {
+        type: 'custom',
+        name: 'HTMLFormElement',
+      },
+      'undefined',
+    ],
+  },
+},
+```
+
+```mdx
+- `element` <Property {...properties.element} /> <!-- Shows: HTMLFormElement | undefined -->
+```
+
+**DON'T**: Use `?` syntax in markdown
+
+```mdx
+- `element?` <Property {...properties.element} /> <!-- Wrong -->
+```
+
+### Cleaning Up Unused Properties
+
+**Before finalizing documentation, check and remove unused properties from `properties.ts` files**:
+
+1. **Check each property in `properties.ts`** against the `index.mdx` file
+2. **Remove any properties that are not referenced** with `<Property {...properties.propertyName} />`
+3. **Verify all remaining properties are actually used** in the documentation
+
+**Example**: If `BaseFormStore` property is defined but not used in `index.mdx`, remove it:
+
+```typescript
+// ❌ BEFORE - Unused property
+export const properties = {
+  TSchema: { /* used */ },
+  BaseFormStore: { /* unused - remove */ },
+  INTERNAL: { /* used */ },
+};
+
+// ✅ AFTER - Only used properties
+export const properties = {
+  TSchema: { /* used */ },
+  INTERNAL: { /* used */ },
+};
+```
+
+### Type Documentation Structure
+
+**Type documentation should be minimal and focused**:
+
+1. **No code blocks**: Type documentation should not include code examples or function signatures. Only use `<Property />` components.
+
+2. **No Related sections**: Pure type documentation should not include Related sections linking to other APIs.
+
+3. **Always create both files**: Every type needs both `index.mdx` and `properties.ts` files, even for simple types.
+
+4. **External valibot types**: When referencing valibot types, link externally to valibot.dev:
+
+```typescript
+// ✓ CORRECT - External link to valibot
+{
+  type: 'custom',
+  name: 'InferInput',
+  href: 'https://valibot.dev/api/InferInput/',
+}
+```
+
+**DON'T** create internal links for valibot types:
+
+```typescript
+// ✗ INCORRECT - valibot types should link externally
+{
+  type: 'custom',
+  name: 'InferInput',
+  href: '../InferInput/',  // This creates broken internal links
+}
+```
+
+### Menu Organization
+
+**menu.md files should only exist in framework-specific directories**:
+
+- ✅ `/website/src/routes/(docs)/solid/api/menu.md` (framework-specific)
+- ✅ `/website/src/routes/(docs)/qwik/api/menu.md` (framework-specific)
+- ❌ `/website/src/routes/(docs)/methods/api/menu.md` (core/methods - remove these)
+- ❌ `/website/src/routes/(docs)/core/api/menu.md` (core - remove these)
+
+Framework-specific menu.md files should include all method configuration types in a "Types" section:
+
+```markdown
+## Types
+
+- [FocusFieldConfig](/methods/api/FocusFieldConfig/)
+- [GetFormErrorsConfig](/methods/api/GetFormErrorsConfig/)
+- [SetFormInputConfig](/methods/api/SetFormInputConfig/)
+```
+
+### Method Documentation Cleanup
+
+**Related sections in method documentation should be cleaned up**:
+
+1. **Remove "Components" section**: Method docs should not include Components in Related sections.
+
+2. **Remove "useField" references**: Don't include useField in Primitives section of method docs.
+
+3. **Focus on relevant APIs**: Only include APIs that can be meaningfully combined with the method.
+
+### Code Examples for Methods
+
+**Method examples should demonstrate return values**:
+
+**DO**: Show the result/output of the method call
+
+```typescript
+// ✓ CORRECT - Shows return value usage
+const errors = getFormErrors(form);
+console.log(errors); // ['Email is required']
+```
+
+**DON'T**: Only show the method call without demonstrating the return value
+
+```typescript
+// ✗ INCORRECT - Doesn't show how to use the return value
+getFormErrors(form);
+```
+
+### Parameter-Focused Explanations
+
+**Method explanations should focus on parameters rather than general descriptions**:
+
+**DO**: Explain what each parameter controls and how it affects behavior
+
+```mdx
+### Explanation
+
+The `selector` parameter specifies which fields to focus. The `config` parameter allows customizing the focus behavior with options like `shouldFocus` to control whether focusing should occur.
+```
+
+**DON'T**: Provide generic descriptions that don't reference specific parameters
+
+```mdx
+### Explanation
+
+This method allows you to focus form fields. It provides various options for controlling the focus behavior.
+```
+
+### Configuration Type Documentation
+
+**Method configuration types require comprehensive documentation**:
+
+1. **Create both index.mdx and properties.ts** for every configuration type (FocusFieldConfig, GetFormErrorsConfig, etc.)
+
+2. **Use Definition section** to list all properties without descriptions
+
+3. **Link to external valibot types** when referencing InferInput, etc.
+
+4. **Follow the established pattern** for configuration interfaces with proper generics and property definitions
 
 ## Common Patterns Reference
 
@@ -2407,6 +3325,36 @@ const email = v.parse(EmailSchema, 'test@example.com');
 // Generic examples
 const result = v.safeParse(Schema, input);
 ```
+
+## Key Learnings: Related Sections for Type Documentation
+
+From the process of adding Related sections to existing core type documentation, several important patterns emerged:
+
+### Type Documentation Should Include Related Sections
+
+Contrary to previous guidance, type documentation **should** include Related sections to improve navigation and discoverability. However, these sections should **only contain Primitives, Components, Methods, and other APIs**, never Types.
+
+### Appropriate Related APIs for Core Types
+
+- **Schema types**: Link to `createForm` primitive and `validate` method
+- **ValidationMode**: Link to `createForm` primitive and `validate` method
+- **Path types** (ValidPath, PathValue, RequiredPath): Link to `getValue`, `setValue`, `getField` methods
+- **FieldElement**: Link to `register` and `getField` methods
+- **FormStore types** (BaseFormStore, InternalFormStore): Link to `createForm` primitive and form components
+- **Utility types** (DeepPartial, PartialValues): Link to `createForm` primitive and value manipulation methods### Pattern for Adding Related Sections
+
+1. Identify the type's primary usage context (form creation, validation, field access, etc.)
+2. Link to Primitives, Components, Methods, and other APIs that use or relate to the type
+3. **Never include Types**: Do not create cross-references between types in Related sections
+4. Use consistent formatting with `### Primitives`, `### Components`, `### Methods` headings
+
+### Systematic Process for Adding Missing Related Sections
+
+1. Use `find` to locate all type documentation files
+2. Use `grep` to identify files missing Related sections
+3. Read each file to understand the type's purpose and usage
+4. Add appropriate Related sections based on the type's relationships to Primitives and Methods
+5. Verify all core types have been updated
 
 ---
 

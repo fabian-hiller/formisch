@@ -10,6 +10,7 @@ Quick reference for selecting the right documentation guide.
 | Write JSDoc comments          | [`document-source-code.md`](#document-source-codemd)         |
 | Add new API docs to website   | [`add-new-api-to-website.md`](#add-new-api-to-websitemd)     |
 | Update API docs on website    | [`update-api-on-website.md`](#update-api-on-websitemd)       |
+| Review API docs for accuracy  | [`review-api-routes.md`](#review-api-routesmd)               |
 | Add tutorial/guide to website | [`add-new-guide-to-website.md`](#add-new-guide-to-websitemd) |
 
 ---
@@ -74,6 +75,22 @@ Quick reference for selecting the right documentation guide.
 
 ---
 
+### `review-api-routes.md`
+
+**When to use:** Verifying API documentation accuracy across frameworks
+
+**Covers:**
+
+- Systematic review process for API routes
+- Verifying `properties.ts` against source code
+- Checking `index.mdx` content accuracy
+- Framework-specific patterns and terminology
+- Common issues and fixes (typos, wrong paths, incorrect types)
+
+**Key rule:** Source code is the single source of truth. Always verify against implementation.
+
+---
+
 ### `add-new-guide-to-website.md`
 
 **When to use:** Creating tutorials or conceptual documentation
@@ -100,6 +117,13 @@ Quick reference for selecting the right documentation guide.
 1. Find code location (use `repository-structure.md` if needed)
 2. Update code and JSDoc (use `document-source-code.md`)
 3. Sync website docs (use `update-api-on-website.md`)
+
+### Reviewing API documentation
+
+1. Use `review-api-routes.md` for systematic verification
+2. Check source paths point to correct files
+3. Verify types in `properties.ts` match source
+4. Check framework-specific patterns (hooks/composables/primitives/runes)
 
 ### Adding a tutorial
 

@@ -1,6 +1,6 @@
 # Guide: Updating Existing API Reference Routes
 
-This guide provides comprehensive instructions for AI agents to update existing API reference routes when the source code in the Valibot library changes. Maintaining accuracy and consistency with the source code is critical.
+This guide provides comprehensive instructions for AI agents to update existing API reference routes when the source code in the Formisch library changes. Maintaining accuracy and consistency with the source code is critical.
 
 ## Table of Contents
 
@@ -15,7 +15,7 @@ This guide provides comprehensive instructions for AI agents to update existing 
 
 ## Overview
 
-API documentation must always stay synchronized with the source code. When functions, types, or interfaces change in `/library/src/`, the corresponding documentation in `/website/src/routes/api/` must be updated to reflect those changes.
+API documentation must always stay synchronized with the source code. When functions, types, or interfaces change in the Formisch packages, the corresponding documentation in `/website/src/routes/(docs)/**` must be updated to reflect those changes.
 
 **Key Principle**: The source code is the single source of truth. Documentation should never deviate from what's actually implemented.
 
@@ -24,26 +24,22 @@ API documentation must always stay synchronized with the source code. When funct
 Update API documentation when:
 
 1. **Function signatures change**
-
    - New parameters added or removed
    - Parameter types change
    - Generic constraints change
    - Return types change
 
 2. **Interfaces change**
-
    - New properties added to Issue or Schema interfaces
    - Existing properties modified
    - Properties removed (rare)
 
 3. **JSDoc comments change**
-
    - Function descriptions updated
    - Parameter descriptions updated
    - Hints about related functions change
 
 4. **Behavior changes**
-
    - Validation logic changes requiring example updates
    - Error messages change
    - Default values change
@@ -69,10 +65,10 @@ Use git diff or file comparison to see what changed in the source file:
 
 ```bash
 # See what changed in a specific file
-git diff HEAD~1 library/src/schemas/string/string.ts
+git diff HEAD~1 packages/core/src/path/to/file.ts
 
 # Or compare current working tree with last commit
-git diff library/src/schemas/string/string.ts
+git diff packages/core/src/path/to/file.ts
 ```
 
 ### Step 2: Identify Change Categories
@@ -88,8 +84,10 @@ Categorize the changes:
 
 Locate the documentation files:
 
-- `/website/src/routes/api/(category)/functionName/properties.ts`
-- `/website/src/routes/api/(category)/functionName/index.mdx`
+- `/website/src/routes/(docs)/solid/api/(primitives)/functionName/properties.ts`
+- `/website/src/routes/(docs)/solid/api/(primitives)/functionName/index.mdx`
+- `/website/src/routes/(docs)/core/api/TypeName/properties.ts`
+- `/website/src/routes/(docs)/core/api/TypeName/index.mdx`
 - Related type documentation if interfaces changed
 
 ## Update Process
@@ -102,9 +100,9 @@ Read the **entire** current source file to understand the new state:
 
 ```typescript
 // Read the updated source file
-/library/src/schemas/string/string.ts
-/library/src/actions/minLength/minLength.ts
-/library/src/methods/parse/parse.ts
+/packages/core/src/path/to/function.ts
+/packages/solid/src/path/to/hook.ts
+/packages/methods/src/path/to/method.ts
 ```
 
 Extract:
@@ -119,8 +117,10 @@ Extract:
 Read the existing documentation to understand what needs updating:
 
 ```typescript
-/website/src/routes/api/(category)/functionName/properties.ts
-/website/src/routes/api/(category)/functionName/index.mdx
+/website/src/routes/(docs)/solid/api/(primitives)/functionName/properties.ts
+/website/src/routes/(docs)/solid/api/(primitives)/functionName/index.mdx
+/website/src/routes/(docs)/core/api/TypeName/properties.ts
+/website/src/routes/(docs)/core/api/TypeName/index.mdx
 ```
 
 ### Step 3: Identify Discrepancies
@@ -128,7 +128,6 @@ Read the existing documentation to understand what needs updating:
 Compare source code with documentation:
 
 1. **Check properties.ts**:
-
    - Do generic types match?
    - Do parameter types match?
    - Do return types match?
@@ -167,7 +166,7 @@ Update documentation content:
 4. **Parameters section**: Add/remove/update parameter documentation
 5. **Explanation**: Update if behavior changed
 6. **Examples**: Update if API usage changed
-7. **Related section**: Add/remove related APIs if applicable
+7. **Related section**: Add/remove related APIs if applicable (includes type documentation with Primitives, Components, Methods, etc., but never Types)
 
 ### Step 6: Update Related Type Documentation
 
@@ -190,7 +189,8 @@ Ensure all code examples:
 
 Check if other files need updates:
 
-- `menu.md` if the function was renamed or moved
+- `/website/src/routes/(docs)/solid/api/menu.md` if the function was renamed or moved
+- `/website/src/routes/(docs)/core/api/menu.md` if the type was renamed or moved
 - Guide files if usage patterns changed significantly
 - Related API documentation if changes affect them
 
@@ -252,10 +252,10 @@ message: {
 ````mdx
 ```ts
 // Before
-const Action = v.minLength<TInput, TRequirement>(requirement);
+const Action = minLength<TInput, TRequirement>(requirement);
 
 // After
-const Action = v.minLength<TInput, TRequirement, TMessage>(requirement, message);
+const Action = minLength<TInput, TRequirement, TMessage>(requirement, message);
 ```
 ````
 
@@ -298,7 +298,7 @@ export function parse<TSchema>(
 ````mdx
 ```ts
 // Update signature
-const output = v.parse<TSchema>(schema, input);
+const output = parse<TSchema>(schema, input);
 ```
 ````
 
@@ -365,7 +365,7 @@ export interface StringIssue extends BaseIssue<unknown> {
 1. Update type documentation for `StringIssue`:
 
 ```typescript
-// In /website/src/routes/api/(types)/StringIssue/properties.ts
+// In /website/src/routes/(docs)/core/api/StringIssue/properties.ts
 // Add the new property
 received: {
   type: 'string',
@@ -435,11 +435,11 @@ Creates a string schema that validates string data types.
 **Source Code Change**:
 
 ```typescript
-// Before: /library/src/methods/flatten/flatten.ts
+// Before: /packages/methods/src/flatten/flatten.ts
 export function flatten() { ... }
 
 // After: Renamed to flattenIssues
-// /library/src/methods/flattenIssues/flattenIssues.ts
+// /packages/methods/src/flattenIssues/flattenIssues.ts
 export function flattenIssues() { ... }
 ```
 
@@ -448,14 +448,13 @@ export function flattenIssues() { ... }
 1. **Rename the folder**:
 
    ```bash
-   mv /website/src/routes/api/(methods)/flatten \
-      /website/src/routes/api/(methods)/flattenIssues
+   mv /website/src/routes/(docs)/methods/api/flatten \
+      /website/src/routes/(docs)/methods/api/flattenIssues
    ```
 
 2. **Update properties.ts** with new name references
 
 3. **Update index.mdx**:
-
    - Change title in frontmatter
    - Change all occurrences of `flatten` to `flattenIssues`
    - Update function signature
@@ -497,7 +496,7 @@ After making updates, verify:
 - [ ] Tone and style match other documentation
 - [ ] Naming conventions are maintained
 - [ ] Error messages in examples follow patterns
-- [ ] Related section includes all relevant APIs
+- [ ] Related section includes all relevant APIs (for types: only Primitives, Components, Methods, etc., never Types)
 
 ### 5. Completeness
 
@@ -512,6 +511,12 @@ After making updates, verify:
 - [ ] Guide files updated if usage changed
 - [ ] Related API docs updated if they reference this API
 - [ ] Type documentation updated for changed interfaces
+
+### 7. Unused Properties Cleanup
+
+- [ ] Check all properties in `properties.ts` are actually used in `index.mdx`
+- [ ] Remove any unused properties from `properties.ts`
+- [ ] Verify no properties are defined but not referenced with `<Property {...properties.propertyName} />`
 
 ## Common Scenarios
 
@@ -734,7 +739,17 @@ Update one section at a time:
 
 If a function's signature changes, related functions might reference it. Update those references too.
 
-### 6. Preserve Examples Quality
+### 6. Update Related Sections for Types
+
+When updating type documentation, ensure Related sections are accurate:
+
+- **For core types**: Link to Primitives, Components, Methods, and other APIs that use the type (e.g., `createForm` for `Schema`, form components for form types)
+- **For path types**: Link to Methods like `getValue`, `setValue`, `getField`, and related components
+- **For field types**: Link to Methods like `register`, `getField` and form components
+- **Never include Types**: Do not create cross-references between types in Related sections
+- **Remove if only Types**: If a Related section contains only Types, remove the entire Related section
+
+### 7. Preserve Examples Quality
 
 When updating examples:
 
@@ -827,7 +842,7 @@ Let's walk through updating `minLength` when a new parameter is added.
 ### 1. Source Code Change
 
 ```typescript
-// BEFORE (in /library/src/actions/minLength/minLength.ts)
+// BEFORE (in /packages/core/src/actions/minLength/minLength.ts)
 export function minLength<
   TInput extends LengthInput,
   const TRequirement extends number,
@@ -860,7 +875,7 @@ export function minLength<
 ### 3. Update properties.ts
 
 ```typescript
-// Add to /website/src/routes/api/(actions)/minLength/properties.ts
+// Add to /website/src/routes/(docs)/core/api/minLength/properties.ts
 
 // Add new generic
 TMessage: {
@@ -918,7 +933,7 @@ Action: {
 <!-- Update function signature -->
 
 ```ts
-const Action = v.minLength<TInput, TRequirement, TMessage>(
+const Action = minLength<TInput, TRequirement, TMessage>(
   requirement,
   message // Added
 );
@@ -951,9 +966,9 @@ With `minLength` you can validate the length of a string or array. If the input 
 Schema to validate a string with a minimum length of 3 characters.
 
 ```ts
-const MinStringSchema = v.pipe(
-  v.string(),
-  v.minLength(3, 'The string must be 3 or more characters long.') // Added message
+const MinStringSchema = pipe(
+  string(),
+  minLength(3, 'The string must be 3 or more characters long.') // Added message
 );
 ```
 
@@ -974,6 +989,134 @@ const MinStringSchema = v.pipe(
 ### 6. Complete
 
 The documentation now accurately reflects the source code with the new optional `message` parameter.
+
+---
+
+## Additional Best Practices from Recent Documentation Updates
+
+### Cross-Package Type Linking
+
+**When updating href links to types from other packages, always use absolute paths**:
+
+**DO**: Use absolute paths for cross-package type references
+
+```typescript
+// ✓ CORRECT - Absolute path for core API types from methods API
+{
+  type: 'custom',
+  name: 'BaseFormStore',
+  href: '/core/api/BaseFormStore/',  // Absolute path
+}
+```
+
+**DON'T**: Use relative paths for cross-package type references
+
+```typescript
+// ✗ INCORRECT - Relative path won't work across packages
+{
+  type: 'custom',
+  name: 'BaseFormStore',
+  href: '../../../core/api/BaseFormStore/',  // Relative path fails
+}
+```
+
+### Qwik Routing Conventions
+
+**Important**: Qwik routing ignores parenthetical route segments like `(types)`, `(primitives)`, and `(components)`. When updating `href` links:
+
+**DO**: Exclude parenthetical segments from href paths
+
+```typescript
+// ✓ CORRECT - Qwik ignores (types) segments
+{
+  type: 'custom',
+  name: 'FocusFieldConfig',
+  href: '../FocusFieldConfig/',  // Not '../(types)/FocusFieldConfig/'
+}
+```
+
+**DON'T**: Include parenthetical segments in href paths
+
+```typescript
+// ✗ INCORRECT - Qwik will ignore (types) and routing will fail
+{
+  type: 'custom',
+  name: 'FocusFieldConfig',
+  href: '../(types)/FocusFieldConfig/',  // Qwik ignores this segment
+}
+```
+
+### ApiList Component Linking
+
+**When updating `<ApiList />` components in `index.mdx` files**:
+
+**DO**: Use absolute paths and exclude parenthetical route segments
+
+```typescript
+<ApiList
+  items={[
+    { text: 'createForm', href: '/solid/api/createForm/' },  // Absolute path, no (primitives)
+    { text: 'BaseFormStore', href: '/core/api/BaseFormStore/' },  // Cross-package absolute path
+  ]}
+/>
+```
+
+**DON'T**: Use relative paths or include parenthetical segments
+
+```typescript
+<ApiList
+  items={[
+    { text: 'createForm', href: '../../../solid/api/(primitives)/createForm/' },  // Wrong
+  ]}
+/>
+```
+
+### Menu File Linking
+
+**When updating `menu.md` files**:
+
+**DO**: Use clean Markdown links without angle brackets or parenthetical segments
+
+```markdown
+- [FocusFieldConfig](/methods/api/FocusFieldConfig/) <!-- Clean link -->
+- [SubmitHandler](/core/api/SubmitHandler/) <!-- No angle brackets -->
+```
+
+**DON'T**: Include angle brackets or parenthetical segments
+
+```markdown
+- [FocusFieldConfig](</methods/api/(types)/FocusFieldConfig/>) <!-- Wrong -->
+```
+
+## Key Learnings: Updating Related Sections for Types
+
+From the process of adding and refining Related sections in type documentation, important patterns emerged for maintaining these sections:
+
+### Type Related Sections Should Only Include Primitives, Components, Methods, etc.
+
+When updating or adding Related sections to type documentation:
+
+- **Include Primitives, Components, Methods, etc.**: Link to any APIs that use or relate to the type
+- **Never Include Types**: Do not create cross-references between types in Related sections
+- **Remove if Only Types**: If a Related section contains only type references, remove the entire section
+
+### Common Patterns for Type Related Sections
+
+- **Schema types** (`Schema`, `ValidationMode`): Link to `createForm` and `validate`
+- **Path types** (`ValidPath`, `PathValue`, `RequiredPath`): Link to `getValue`, `setValue`, `getField`
+- **Field types** (`FieldElement`): Link to `register`, `getField`
+- **Form store types** (`BaseFormStore`, `InternalFormStore`): Link to `createForm` and form components
+- **Utility types** (`DeepPartial`, `PartialValues`): Link to `createForm` and value manipulation methods
+
+### Verification Checklist for Type Related Sections
+
+When updating type documentation, verify:
+
+- Related sections exist for core types that have meaningful API relationships
+- Only Primitives and Methods are included, never Types
+- Links point to correct API routes
+- Alphabetical ordering within each category
+- No orphaned Related sections (sections with only Types that were removed)
 
 ---
 
