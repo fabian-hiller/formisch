@@ -31,6 +31,9 @@ export interface FormStore<TSchema extends Schema = Schema>
   readonly isValid: boolean;
   /**
    * The current error messages of the form.
+   *
+   * Hint: This property only contains validation errors at the root level
+   * of the form. To get all errors from all fields, use `getAllErrors`.
    */
   readonly errors: [string, ...string[]] | null;
 }
