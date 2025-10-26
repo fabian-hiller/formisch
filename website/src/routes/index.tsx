@@ -1,4 +1,4 @@
-import { component$, useComputed$ } from '@qwik.dev/core';
+import { component$, createComputed$, useComputed$ } from '@qwik.dev/core';
 import {
   type DocumentHead,
   Form,
@@ -312,7 +312,9 @@ export default component$(() => {
               ),
             },
           ].map(({ heading, Text }, index) => {
-            const isOpen = index.toString() === faqIndex.value;
+            const isOpen = createComputed$(
+              () => index.toString() === faqIndex.value
+            );
             return (
               <li key={heading} class="flex flex-col px-8">
                 <Form action={faqToggle}>
@@ -320,13 +322,13 @@ export default component$(() => {
                   <button
                     class={clsx(
                       'focus-ring flex w-full justify-between gap-4 rounded-md transition-colors focus-visible:ring-offset-8 focus-visible:outline-offset-[6px]',
-                      isOpen
+                      isOpen.value
                         ? 'text-sky-600 dark:text-sky-400'
                         : 'text-slate-800 hover:text-slate-700 dark:text-slate-300 hover:dark:text-slate-400'
                     )}
                     type="submit"
-                    disabled={isOpen}
-                    aria-expanded={isOpen}
+                    disabled={isOpen.value}
+                    aria-expanded={isOpen.value}
                     aria-controls={`faq-${index}`}
                   >
                     <span class="text-left leading-relaxed font-medium md:text-xl lg:text-2xl">
@@ -335,7 +337,7 @@ export default component$(() => {
                     <PlusIcon
                       class={clsx(
                         'mt-1.5 h-4 shrink-0 transition-transform lg:h-5',
-                        isOpen && 'rotate-45'
+                        isOpen.value && 'rotate-45'
                       )}
                       stroke-width={6}
                     />
@@ -344,7 +346,7 @@ export default component$(() => {
                 <Expandable
                   id={`faq-${index}`}
                   class="overflow-hidden"
-                  expanded={isOpen}
+                  expanded={isOpen.value}
                 >
                   <p class="pt-6 leading-loose md:pt-7 md:text-lg lg:pt-8 lg:text-xl lg:leading-loose">
                     <Text />

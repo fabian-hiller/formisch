@@ -20,7 +20,7 @@ export default component$(() => {
 
   return (
     <main class="flex w-full max-w-(--breakpoint-2xl) flex-1 flex-col self-center lg:flex-row">
-      <div class="flex flex-1 flex-col gap-12 py-10 md:gap-14 md:py-14 lg:gap-16 lg:py-20 xl:py-32">
+      <div class="flex flex-1 flex-col gap-12 py-10 md:gap-14 md:py-14 lg:gap-16 lg:py-24 xl:py-32">
         <Tabs items={['Login', 'Payment', 'Todos', 'Special', 'Nested']} />
         <Slot />
       </div>

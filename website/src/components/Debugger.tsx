@@ -51,7 +51,7 @@ export const Debugger = component$((props: DebuggerProps) => {
   });
 
   return (
-    <div class="flex h-full flex-col gap-9 overflow-auto overscroll-contain px-8 py-10 lg:sticky lg:top-32 lg:mx-10 lg:mt-20 lg:h-auto lg:max-h-[60vh] lg:w-80 lg:rounded-3xl lg:border-2 lg:border-slate-200 lg:p-10 xl:top-40 xl:mt-32 xl:w-96 lg:dark:border-slate-800">
+    <div class="flex h-full flex-col gap-9 overflow-auto overscroll-contain px-8 py-10 lg:sticky lg:top-32 lg:mx-10 lg:mt-24 lg:h-auto lg:max-h-[60vh] lg:w-80 lg:rounded-3xl lg:border-2 lg:border-slate-200 lg:p-10 xl:top-40 xl:mt-32 xl:w-96 lg:dark:border-slate-800">
       <div>
         <h3 class="text-xl font-medium text-slate-900 dark:text-slate-200">
           Debugger
