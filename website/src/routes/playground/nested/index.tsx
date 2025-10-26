@@ -99,7 +99,7 @@ export default component$(() => {
         of={nestedForm}
         path={['items']}
         render$={(fieldArray) => (
-          <div class="flex flex-col gap-7 px-10 lg:px-12">
+          <div class="flex flex-col gap-7 px-8 lg:px-10">
             <div ref={addListElements} class="flex flex-col gap-5">
               {fieldArray.items.value.map((item, itemIndex) => (
                 <div
