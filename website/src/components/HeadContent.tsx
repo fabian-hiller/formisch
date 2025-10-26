@@ -134,8 +134,8 @@ export const HeadContent = component$(() => {
       <meta name="twitter:card" content="summary_large_image" />
 
       {/* Dynamic metadata */}
-      {head.meta.map(({ key, ...props }) => (
-        <meta key={key} {...props} />
+      {head.meta.map((props) => (
+        <meta key={props.content} {...props} />
       ))}
 
       {/* Umami tracking script */}
