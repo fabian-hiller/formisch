@@ -1,5 +1,5 @@
 import { $, component$, useOnDocument, useSignal } from '@qwik.dev/core';
-import { Link, useLocation } from '@qwik.dev/router';
+import { Form, Link, useLocation } from '@qwik.dev/router';
 import clsx from 'clsx';
 import { useFocusTrap } from '~/hooks';
 import { AngleUpIcon } from '~/icons';
@@ -9,6 +9,7 @@ import {
   getFrameworkIcon,
   getFrameworkName,
   useFramework,
+  useSetFramework,
 } from '~/routes/plugin@framework';
 
 type FrameworkPickerProps = {
@@ -22,10 +23,14 @@ export const FrameworkPicker = component$<FrameworkPickerProps>((props) => {
   // Use location and framework
   const location = useLocation();
   const framework = useFramework();
+  const setFramework = useSetFramework();
 
   // Create open and element signal
   const isOpen = useSignal(false);
   const rootElement = useSignal<HTMLDivElement>();
+
+  // Check if current route is a playground route
+  const isPlaygroundRoute = location.url.pathname.startsWith('/playground/');
 
   // Create focus trap for picker
   useFocusTrap(rootElement, isOpen);
@@ -85,16 +90,35 @@ export const FrameworkPicker = component$<FrameworkPickerProps>((props) => {
           (item) => {
             const FrameworkIcon = getFrameworkIcon(item);
             return (
-              <Link
-                key={item}
-                class="focus-ring flex items-center space-x-2.5 rounded-xl px-3.5 py-2 hover:text-slate-900 dark:hover:text-slate-200"
-                href={getPathname(item)}
-                onClick$={() => (isOpen.value = false)}
-                prefetch={false}
-              >
-                <FrameworkIcon class="mr-2.5 h-[22px]" />
-                {getFrameworkName(item)}
-              </Link>
+              <>
+                {isPlaygroundRoute ? (
+                  <Form
+                    key={item}
+                    action={setFramework}
+                    onSubmit$={() => (isOpen.value = false)}
+                  >
+                    <input type="hidden" name="framework" value={item} />
+                    <button
+                      type="submit"
+                      class="focus-ring flex w-full cursor-pointer items-center gap-2.5 rounded-xl px-3.5 py-2 hover:text-slate-900 dark:hover:text-slate-200"
+                    >
+                      <FrameworkIcon class="mr-2.5 h-[22px]" />
+                      {getFrameworkName(item)}
+                    </button>
+                  </Form>
+                ) : (
+                  <Link
+                    key={item}
+                    class="focus-ring flex items-center gap-2.5 rounded-xl px-3.5 py-2 hover:text-slate-900 dark:hover:text-slate-200"
+                    href={getPathname(item)}
+                    onClick$={() => (isOpen.value = false)}
+                    prefetch={false}
+                  >
+                    <FrameworkIcon class="mr-2.5 h-[22px]" />
+                    {getFrameworkName(item)}
+                  </Link>
+                )}
+              </>
             );
           }
         )}

@@ -1,3 +1,4 @@
+export * from './AngleDownIcon';
 export * from './AngleRightIcon';
 export * from './AngleUpIcon';
 export * from './ArrowLeftIcon';
