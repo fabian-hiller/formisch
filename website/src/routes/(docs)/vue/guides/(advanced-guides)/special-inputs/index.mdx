@@ -1,0 +1,127 @@
+---
+title: Special inputs
+description: >-
+  Learn how to use special HTML form inputs like checkboxes, select elements,
+  and file inputs with Formisch. This guide covers both single and multiple
+  value scenarios for each input type.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Special inputs
+
+As listed in our features, the library supports all native HTML form fields. This includes the HTML `<select />` element as well as special cases of the `<input />` element.
+
+> In our <Link href="/playground/special">playground</Link> you can take a look at such fields and test them out.
+
+## Checkbox
+
+A simple checkbox represents a boolean and is `true` when checked or `false` otherwise.
+
+```vue
+<template>
+  <Field :of="form" :path="['cookies']" v-slot="field">
+    <label>
+      <input v-bind="field.props" type="checkbox" :checked="field.input" />
+      Yes, I want cookies
+    </label>
+  </Field>
+</template>
+```
+
+However, you can also use multiple checkboxes to represent an array of strings. For this you simply have to add the `value` attribute to the HTML `<input />` element.
+
+```vue
+<template>
+  <Field :of="form" :path="['fruits']" v-slot="field">
+    <label
+      v-for="fruit in [
+        { label: 'Bananas', value: 'bananas' },
+        { label: 'Apples', value: 'apples' },
+        { label: 'Grapes', value: 'grapes' },
+      ]"
+      :key="fruit.value"
+    >
+      <input
+        v-bind="field.props"
+        type="checkbox"
+        :value="fruit.value"
+        :checked="field.input?.includes(fruit.value)"
+      />
+      {{ fruit.label }}
+    </label>
+  </Field>
+</template>
+```
+
+## Select
+
+An HTML `<select />` element allows you to select a string from a predefined list of options.
+
+```vue
+<template>
+  <Field :of="form" :path="['framework']" v-slot="field">
+    <select v-bind="field.props">
+      <option
+        v-for="option in [
+          { label: 'Preact', value: 'preact' },
+          { label: 'Solid', value: 'solid' },
+          { label: 'Qwik', value: 'qwik' },
+        ]"
+        :key="option.value"
+        :value="option.value"
+        :selected="field.input === option.value"
+      >
+        {{ option.label }}
+      </option>
+    </select>
+  </Field>
+</template>
+```
+
+However, if you set the `multiple` attribute, multiple options can be selected making the field represent an array of strings.
+
+```vue
+<template>
+  <Field :of="form" :path="['frameworks']" v-slot="field">
+    <select v-bind="field.props" multiple>
+      <option
+        v-for="option in [
+          { label: 'Preact', value: 'preact' },
+          { label: 'Solid', value: 'solid' },
+          { label: 'Qwik', value: 'qwik' },
+        ]"
+        :key="option.value"
+        :value="option.value"
+        :selected="field.input?.includes(option.value)"
+      >
+        {{ option.label }}
+      </option>
+    </select>
+  </Field>
+</template>
+```
+
+## File
+
+For the HTML `<input type="file" />` element it works similar to the HTML `<select />` element. Without the `multiple` attribute it represents a single file and with, a list of files.
+
+```vue
+<template>
+  <Field :of="form" :path="['avatar']" v-slot="field">
+    <input v-bind="field.props" type="file" accept="image/*" />
+  </Field>
+</template>
+```
+
+With the `multiple` attribute, users can select multiple files:
+
+```vue
+<template>
+  <Field :of="form" :path="['documents']" v-slot="field">
+    <input v-bind="field.props" type="file" multiple />
+  </Field>
+</template>
+```

@@ -1,0 +1,51 @@
+---
+title: reset
+description: Resets the form or a specific field to its initial state.
+source: /packages/methods/src/reset/reset.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# reset
+
+Resets the form or a specific field to its initial state. Optionally keeps certain states like input values, touched state, or errors.
+
+```ts
+reset(form);
+reset<TSchema, TFieldPath>(form, config);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store to reset. The optional `config` parameter specifies which field to reset (or the entire form if omitted) and which states to preserve during the reset.
+
+## Related
+
+### Primitives
+
+<ApiList items={[{ text: 'createForm', href: '/solid/api/createForm/' }]} />
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'setInput', href: '../setInput/' },
+    { text: 'getInput', href: '../getInput/' },
+    { text: 'setErrors', href: '../setErrors/' },
+    { text: 'validate', href: '../validate/' },
+  ]}
+/>

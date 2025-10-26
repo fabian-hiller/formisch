@@ -1,0 +1,33 @@
+---
+title: SwapConfig
+description: Configuration interface for swapping items in array fields.
+source: /packages/methods/src/swap/swap.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# SwapConfig
+
+Configuration interface for swapping items in array fields. Used by the `swap` method.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldArrayPath` <Property {...properties.TFieldArrayPath} />
+
+## Definition
+
+- `SwapConfig`
+  - `path` <Property {...properties.path} />
+  - `at` <Property {...properties.at} />
+  - `and` <Property {...properties.and} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'swap', href: '../../swap/' }]} />

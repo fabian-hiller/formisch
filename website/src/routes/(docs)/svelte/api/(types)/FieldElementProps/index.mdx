@@ -1,0 +1,25 @@
+---
+title: FieldElementProps
+description: Props to spread onto a field element for integration with Svelte.
+source: /frameworks/svelte/src/types/field.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Property } from '~/components';
+import { properties } from './properties';
+
+# FieldElementProps
+
+Props to spread onto a field element for integration with Svelte form handling.
+
+## Definition
+
+- `FieldElementProps`
+  - `name` <Property {...properties.name} />
+  - `autofocus` <Property {...properties.autofocus} />
+  - `[ref: symbol]` <Property {...properties.ref} />
+  - `onfocus` <Property {...properties.onfocus} />
+  - `oninput` <Property {...properties.oninput} />
+  - `onchange` <Property {...properties.onchange} />
+  - `onblur` <Property {...properties.onblur} />

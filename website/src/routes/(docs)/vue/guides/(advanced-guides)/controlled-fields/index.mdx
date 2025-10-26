@@ -1,0 +1,139 @@
+---
+title: Controlled fields
+description: >-
+  Learn when and how to create controlled form fields. Controlled fields
+  are necessary for more complex forms where you need to set or manipulate
+  field values programmatically.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Controlled fields
+
+By default, all form fields are uncontrolled because that's the default behavior of the browser. For a simple login or contact form this is quite sufficient.
+
+## Why controlled?
+
+As soon as your forms become more complex, for example you set initial values or change the values of a form field via <Link href="/methods/api/setInput/">`setInput`</Link>, it becomes necessary that you control your fields yourself. For example, depending on which HTML form field you use, you may need to set the `value`, `checked` or `selected` attributes.
+
+## Simple text inputs
+
+For most input types including text, email, number, and date, you simply add the `v-model` directive. Vue automatically handles type conversions for you:
+
+```vue
+<template>
+  <Field :of="loginForm" :path="['firstName']" v-slot="field">
+    <input v-model="field.input" v-bind="field.props" type="text" />
+  </Field>
+</template>
+```
+
+### Vue's automatic type handling
+
+Vue's `v-model` automatically handles different input types without special code:
+
+**Number inputs** - Vue converts between strings and numbers automatically:
+
+```vue
+<template>
+  <Field :of="form" :path="['age']" v-slot="field">
+    <input v-model="field.input" v-bind="field.props" type="number" />
+  </Field>
+</template>
+```
+
+**Date inputs** - Vue handles the date string format automatically:
+
+```vue
+<template>
+  <Field :of="form" :path="['birthday']" v-slot="field">
+    <input v-model="field.input" v-bind="field.props" type="date" />
+  </Field>
+</template>
+```
+
+This works seamlessly whether your schema expects strings, numbers, or dates - Vue will handle the conversion.
+
+## Checkboxes
+
+For checkboxes, you need to bind to the `checked` attribute and handle both boolean and array values:
+
+**Single checkbox** (boolean):
+
+```vue
+<template>
+  <Field :of="form" :path="['acceptTerms']" v-slot="field">
+    <input v-bind="field.props" type="checkbox" :checked="field.input" />
+  </Field>
+</template>
+```
+
+**Multiple checkboxes** (array of strings):
+
+```vue
+<template>
+  <Field :of="form" :path="['interests']" v-slot="field">
+    <label v-for="option in options" :key="option.value">
+      <input
+        v-bind="field.props"
+        type="checkbox"
+        :value="option.value"
+        :checked="field.input?.includes(option.value)"
+      />
+      {{ option.label }}
+    </label>
+  </Field>
+</template>
+```
+
+## Select elements
+
+For select elements, you need to bind to the `selected` attribute:
+
+**Single select**:
+
+```vue
+<template>
+  <Field :of="form" :path="['country']" v-slot="field">
+    <select v-bind="field.props">
+      <option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+        :selected="field.input === option.value"
+      >
+        {{ option.label }}
+      </option>
+    </select>
+  </Field>
+</template>
+```
+
+**Multiple select**:
+
+```vue
+<template>
+  <Field :of="form" :path="['languages']" v-slot="field">
+    <select v-bind="field.props" multiple>
+      <option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+        :selected="field.input?.includes(option.value)"
+      >
+        {{ option.label }}
+      </option>
+    </select>
+  </Field>
+</template>
+```
+
+## File inputs
+
+The HTML `<input type="file" />` element is an exception because it cannot be controlled in the traditional way. However, you can control the UI around it. For inspiration, check out our <a href={`${import.meta.env.PUBLIC_GITHUB_URL}/blob/main/playgrounds/vue/src/components/FileInput.vue`} target="\_blank" rel="noreferrer">`FileInput`</a> component from the <Link href="/playground/">playground</Link>.
+
+## Next steps
+
+Now that you understand controlled fields, you can explore more advanced topics like <Link href="/vue/guides/nested-fields/">nested fields</Link> and <Link href="/vue/guides/field-arrays/">field arrays</Link> to handle complex form structures.

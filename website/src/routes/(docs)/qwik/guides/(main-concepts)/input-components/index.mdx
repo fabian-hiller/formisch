@@ -1,0 +1,209 @@
+---
+title: Input components
+description: >-
+  Learn how to create reusable input components to make your form code more
+  readable and maintainable. Encapsulate styling and error display logic.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Input components
+
+To make your code more readable, we recommend that you develop your own input components if you are not using a prebuilt UI library. There you can encapsulate logic to display error messages, for example.
+
+> If you're already a bit more experienced, you can use the input components we developed for our <Link href="/playground/">playground</Link> as a starting point. You can find the code in our GitHub repository <a href={`${import.meta.env.PUBLIC_GITHUB_URL}/tree/main/playgrounds/qwik/src/components`} target="\_blank" rel="noreferrer">here</a>.
+
+## Why input components?
+
+Currently, your fields might look something like this:
+
+```tsx
+<Field
+  of={loginForm}
+  path={['email']}
+  render$={(field) => (
+    <div>
+      <label for={field.props.name}>Email</label>
+      <input
+        {...field.props}
+        id={field.props.name}
+        value={field.input.value}
+        type="email"
+        required
+      />
+      {field.errors.value && <div>{field.errors.value[0]}</div>}
+    </div>
+  )}
+/>
+```
+
+If CSS and a few more functionalities are added here, the code quickly becomes confusing. In addition, you have to rewrite the same code for almost every form field.
+
+Our goal is to develop a `TextInput` component so that the code ends up looking like this:
+
+```tsx
+<Field
+  of={loginForm}
+  path={['email']}
+  render$={(field) => (
+    <TextInput
+      {...field.props}
+      type="email"
+      label="Email"
+      input={field.input.value}
+      errors={field.errors.value}
+      required
+    />
+  )}
+/>
+```
+
+## Create an input component
+
+In the first step, you create a new file for the `TextInput` component and, if you use TypeScript, define its properties.
+
+```tsx
+import {
+  component$,
+  type QwikChangeEvent,
+  type QwikFocusEvent,
+} from '@qwik.dev/core';
+
+type TextInputProps = {
+  name: string;
+  type: 'text' | 'email' | 'tel' | 'password' | 'url' | 'date';
+  label?: string;
+  placeholder?: string;
+  input: string | undefined;
+  errors: [string, ...string[]] | null;
+  required?: boolean;
+  ref: (element: HTMLInputElement) => void;
+  onFocus$: (event: QwikFocusEvent<HTMLInputElement>) => void;
+  onInput$: (event: Event, element: HTMLInputElement) => void;
+  onChange$: (event: QwikChangeEvent<HTMLInputElement>) => void;
+  onBlur$: (event: QwikFocusEvent<HTMLInputElement>) => void;
+};
+```
+
+### Component function
+
+In the next step, add the component function to the file. We can destructure the props directly.
+
+```tsx
+import {
+  component$,
+  type QwikChangeEvent,
+  type QwikFocusEvent,
+} from '@qwik.dev/core';
+
+type TextInputProps = {
+  /* ... */
+};
+
+export const TextInput = component$<TextInputProps>(
+  ({ input, label, errors, ...inputProps }) => {
+    // Component JSX will go here
+  }
+);
+```
+
+### JSX code
+
+After that, you can add the JSX code to the return statement.
+
+```tsx
+import {
+  component$,
+  type QwikChangeEvent,
+  type QwikFocusEvent,
+} from '@qwik.dev/core';
+
+type TextInputProps = {
+  /* ... */
+};
+
+export const TextInput = component$<TextInputProps>(
+  ({ input, label, errors, name, required, ...inputProps }) => {
+    return (
+      <div>
+        {label && (
+          <label for={name}>
+            {label} {required && <span>*</span>}
+          </label>
+        )}
+        <input
+          {...inputProps}
+          id={name}
+          name={name}
+          required={required}
+          value={input ?? ''}
+          aria-invalid={!!errors}
+          aria-errormessage={`${name}-error`}
+        />
+        {errors && <div id={`${name}-error`}>{errors[0]}</div>}
+      </div>
+    );
+  }
+);
+```
+
+### Next steps
+
+You can now build on this code and add CSS, for example. You can also follow the procedure to create other components such as `Checkbox`, `Slider`, `Select` and `FileInput`.
+
+### Final code
+
+Below is an overview of the entire code of the `TextInput` component.
+
+```tsx
+import {
+  component$,
+  type QwikChangeEvent,
+  type QwikFocusEvent,
+} from '@qwik.dev/core';
+
+type TextInputProps = {
+  name: string;
+  type: 'text' | 'email' | 'tel' | 'password' | 'url' | 'date';
+  label?: string;
+  placeholder?: string;
+  input: string | undefined;
+  errors: [string, ...string[]] | null;
+  required?: boolean;
+  ref: (element: HTMLInputElement) => void;
+  onFocus$: (event: QwikFocusEvent<HTMLInputElement>) => void;
+  onInput$: (event: Event, element: HTMLInputElement) => void;
+  onChange$: (event: QwikChangeEvent<HTMLInputElement>) => void;
+  onBlur$: (event: QwikFocusEvent<HTMLInputElement>) => void;
+};
+
+export const TextInput = component$<TextInputProps>(
+  ({ input, label, errors, name, required, ...inputProps }) => {
+    return (
+      <div>
+        {label && (
+          <label for={name}>
+            {label} {required && <span>*</span>}
+          </label>
+        )}
+        <input
+          {...inputProps}
+          id={name}
+          name={name}
+          required={required}
+          value={input ?? ''}
+          aria-invalid={!!errors}
+          aria-errormessage={`${name}-error`}
+        />
+        {errors && <div id={`${name}-error`}>{errors[0]}</div>}
+      </div>
+    );
+  }
+);
+```
+
+## Next steps
+
+Now that you know how to create reusable input components, continue to the <Link href="/qwik/guides/handle-submission/">handle submission</Link> guide to learn how to process form data when the user submits the form.

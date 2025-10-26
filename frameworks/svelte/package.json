@@ -36,6 +36,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepare": "svelte-kit sync || echo ''",
     "build": "svelte-package --input src && node ./scripts/rewrite-imports.js",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint \"src/**/*.ts*\" && tsc --noEmit",

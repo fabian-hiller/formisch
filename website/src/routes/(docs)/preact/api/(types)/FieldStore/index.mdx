@@ -1,0 +1,30 @@
+---
+title: FieldStore
+description: Reactive field store interface with properties and element props.
+source: /frameworks/preact/src/types/field.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Property } from '~/components';
+import { properties } from './properties';
+
+# FieldStore
+
+Reactive field store interface with properties and element props for field management.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Definition
+
+- `FieldStore`
+  - `path` <Property {...properties.path} />
+  - `input` <Property {...properties.input} />
+  - `errors` <Property {...properties.errors} />
+  - `isTouched` <Property {...properties.isTouched} />
+  - `isDirty` <Property {...properties.isDirty} />
+  - `isValid` <Property {...properties.isValid} />
+  - `props` <Property {...properties.props} />

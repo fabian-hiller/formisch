@@ -1,0 +1,70 @@
+# API reference
+
+## Primitives
+
+- [createForm](/solid/api/createForm/)
+- [useField](/solid/api/useField/)
+- [useFieldArray](/solid/api/useFieldArray/)
+
+## Components
+
+- [Form](/solid/api/Form/)
+- [Field](/solid/api/Field/)
+- [FieldArray](/solid/api/FieldArray/)
+
+## Methods
+
+- [focus](/methods/api/focus/)
+- [getAllErrors](/methods/api/getAllErrors/)
+- [getErrors](/methods/api/getErrors/)
+- [getInput](/methods/api/getInput/)
+- [handleSubmit](/methods/api/handleSubmit/)
+- [insert](/methods/api/insert/)
+- [move](/methods/api/move/)
+- [remove](/methods/api/remove/)
+- [replace](/methods/api/replace/)
+- [reset](/methods/api/reset/)
+- [setErrors](/methods/api/setErrors/)
+- [setInput](/methods/api/setInput/)
+- [submit](/methods/api/submit/)
+- [swap](/methods/api/swap/)
+- [validate](/methods/api/validate/)
+
+## Types
+
+- [DeepPartial](/core/api/DeepPartial/)
+- [FieldArrayStore](/solid/api/FieldArrayStore/)
+- [FieldElement](/core/api/FieldElement/)
+- [FieldElementProps](/solid/api/FieldElementProps/)
+- [FieldStore](/solid/api/FieldStore/)
+- [FocusFieldConfig](/methods/api/FocusFieldConfig/)
+- [FormConfig](/solid/api/FormConfig/)
+- [FormStore](/solid/api/FormStore/)
+- [GetFieldErrorsConfig](/methods/api/GetFieldErrorsConfig/)
+- [GetFieldInputConfig](/methods/api/GetFieldInputConfig/)
+- [GetFormErrorsConfig](/methods/api/GetFormErrorsConfig/)
+- [GetFormInputConfig](/methods/api/GetFormInputConfig/)
+- [InsertConfig](/methods/api/InsertConfig/)
+- [MaybeGetter](/solid/api/MaybeGetter/)
+- [PartialValues](/core/api/PartialValues/)
+- [Path](/core/api/Path/)
+- [PathKey](/core/api/PathKey/)
+- [MoveConfig](/methods/api/MoveConfig/)
+- [RemoveConfig](/methods/api/RemoveConfig/)
+- [ReplaceConfig](/methods/api/ReplaceConfig/)
+- [RequiredPath](/core/api/RequiredPath/)
+- [ResetFieldConfig](/methods/api/ResetFieldConfig/)
+- [ResetFormConfig](/methods/api/ResetFormConfig/)
+- [Schema](/core/api/Schema/)
+- [SetFieldErrorsConfig](/methods/api/SetFieldErrorsConfig/)
+- [SetFieldInputConfig](/methods/api/SetFieldInputConfig/)
+- [SetFormErrorsConfig](/methods/api/SetFormErrorsConfig/)
+- [SetFormInputConfig](/methods/api/SetFormInputConfig/)
+- [SubmitEvent](/methods/api/SubmitEvent/)
+- [SubmitHandler](/core/api/SubmitHandler/)
+- [SwapConfig](/methods/api/SwapConfig/)
+- [UseFieldArrayConfig](/solid/api/UseFieldArrayConfig/)
+- [UseFieldConfig](/solid/api/UseFieldConfig/)
+- [ValidArrayPath](/core/api/ValidArrayPath/)
+- [ValidateFormConfig](/methods/api/ValidateFormConfig/)
+- [ValidationMode](/core/api/ValidationMode/)

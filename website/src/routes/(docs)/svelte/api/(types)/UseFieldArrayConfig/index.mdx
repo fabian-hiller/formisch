@@ -1,0 +1,25 @@
+---
+title: UseFieldArrayConfig
+description: Configuration object for creating a field array store with useFieldArray.
+source: /frameworks/svelte/src/runes/useFieldArray/useFieldArray.svelte.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { Property } from '~/components';
+import { properties } from './properties';
+
+# UseFieldArrayConfig
+
+Configuration object for creating a field array store with <Link href="../useFieldArray/">`useFieldArray`</Link>.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldArrayPath` <Property {...properties.TFieldArrayPath} />
+
+## Definition
+
+- `UseFieldArrayConfig`
+  - `path` <Property {...properties.path} />

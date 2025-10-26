@@ -1,0 +1,95 @@
+---
+title: Create your form
+description: >-
+  Learn how to create a form with the useForm composable. It initializes
+  your form's store based on your Valibot schema for managing form state
+  and validation.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Create your form
+
+Formisch consists of composables, components and methods. To create a form you use the <Link href="/vue/api/useForm/">`useForm`</Link> composable.
+
+## Form composable
+
+The <Link href="/vue/api/useForm/">`useForm`</Link> composable initializes and returns the store of your form. The store contains the state of the form and can be used with other Formisch composables, components and methods to build your form.
+
+```vue
+<script setup lang="ts">
+import { Form, useForm } from '@formisch/vue';
+import * as v from 'valibot';
+
+const LoginSchema = v.object({
+  email: v.pipe(v.string(), v.email()),
+  password: v.pipe(v.string(), v.minLength(8)),
+});
+
+const loginForm = useForm({
+  schema: LoginSchema,
+});
+</script>
+
+<template>
+  <Form :of="loginForm">
+    <!-- Form fields will go here -->
+  </Form>
+</template>
+```
+
+### Configuration options
+
+The <Link href="/vue/api/useForm/">`useForm`</Link> composable accepts a configuration object with the following options:
+
+- `schema`: Your Valibot schema that defines the form
+- `initialInput`: Initial values for your form fields (optional)
+- `validate`: When validation first occurs (optional, defaults to `'submit'`)
+- `revalidate`: When revalidation occurs after initial validation (optional, defaults to `'input'`)
+
+```ts
+const loginForm = useForm({
+  schema: LoginSchema,
+  initialInput: {
+    email: 'user@example.com',
+  },
+  validate: 'initial',
+  revalidate: 'input',
+});
+```
+
+### Multiple forms
+
+When a page contains multiple forms, you can create separate form stores for each one:
+
+```vue
+<script setup lang="ts">
+import { Form, useForm } from '@formisch/vue';
+import * as v from 'valibot';
+
+const LoginSchema = v.object({
+  email: v.pipe(v.string(), v.email()),
+  password: v.pipe(v.string(), v.minLength(8)),
+});
+
+const RegisterSchema = v.object({
+  username: v.pipe(v.string(), v.minLength(3)),
+  email: v.pipe(v.string(), v.email()),
+  password: v.pipe(v.string(), v.minLength(8)),
+});
+
+const loginForm = useForm({ schema: LoginSchema });
+const registerForm = useForm({ schema: RegisterSchema });
+</script>
+
+<template>
+  <Form :of="loginForm">{/* … */}</Form>
+  <Form :of="registerForm">{/* … */}</Form>
+</template>
+```
+
+## Next steps
+
+Now that you know how to create a form, continue to the <Link href="/vue/guides/add-form-fields/">add form fields</Link> guide to learn how to connect your input elements to the form using the <Link href="/vue/api/Field/">`Field`</Link> component.

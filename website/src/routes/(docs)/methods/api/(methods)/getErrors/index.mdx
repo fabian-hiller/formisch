@@ -1,0 +1,54 @@
+---
+title: getErrors
+description: Retrieves error messages from the form.
+source: /packages/methods/src/getErrors/getErrors.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# getErrors
+
+Retrieves error messages from the form. When called without a config, returns form-level errors. When called with a path, returns errors for that specific field.
+
+```ts
+const errors = getErrors<TSchema>(form);
+const errors = getErrors<TSchema, TFieldPath>(form, config);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store to retrieve errors from. The optional `config` parameter specifies which errors to retrieve - either form-level errors (when omitted) or field-specific errors (when a `path` is provided).
+
+## Returns
+
+- `result` <Property {...properties.result} />
+
+## Related
+
+### Primitives
+
+<ApiList items={[{ text: 'createForm', href: '/solid/api/createForm/' }]} />
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'getAllErrors', href: '../getAllErrors/' },
+    { text: 'setErrors', href: '../setErrors/' },
+    { text: 'validate', href: '../validate/' },
+  ]}
+/>

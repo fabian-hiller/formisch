@@ -1,0 +1,147 @@
+---
+title: Input components
+description: >-
+  Learn how to create reusable input components to make your form code more
+  readable and maintainable. Encapsulate styling and error display logic.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Input components
+
+To make your code more readable, we recommend that you develop your own input components if you are not using a prebuilt UI library. There you can encapsulate logic to display error messages, for example.
+
+> If you're already a bit more experienced, you can use the input components we developed for our <Link href="/playground/">playground</Link> as a starting point. You can find the code in our GitHub repository <a href={`${import.meta.env.PUBLIC_GITHUB_URL}/tree/main/playgrounds/vue/src/components`} target="\_blank" rel="noreferrer">here</a>.
+
+## Why input components?
+
+Currently, your fields might look something like this:
+
+```vue
+<template>
+  <Field :of="loginForm" :path="['email']" v-slot="field">
+    <div>
+      <label :for="field.props.name">Email</label>
+      <input
+        v-bind="field.props"
+        :id="field.props.name"
+        v-model="field.input"
+        type="email"
+        required
+      />
+      <div v-if="field.errors">{{ field.errors[0] }}</div>
+    </div>
+  </Field>
+</template>
+```
+
+If CSS and a few more functionalities are added here, the code quickly becomes confusing. In addition, you have to rewrite the same code for almost every form field.
+
+Our goal is to develop a `TextInput` component so that the code ends up looking like this:
+
+```vue
+<template>
+  <Field :of="loginForm" :path="['email']" v-slot="field">
+    <TextInput
+      v-bind="field.props"
+      type="email"
+      label="Email"
+      :input="field.input"
+      :errors="field.errors"
+      required
+    />
+  </Field>
+</template>
+```
+
+## Create an input component
+
+In the first step, you create a new file for the `TextInput` component and, if you use TypeScript, define its properties. The `props` object from your field contains all the necessary event handlers and attributes.
+
+```vue
+<script setup lang="ts">
+import type { FieldElementProps } from '@formisch/vue';
+
+export interface TextInputProps {
+  type: 'text' | 'email' | 'tel' | 'password' | 'url' | 'number' | 'date';
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  errors: [string, ...string[]] | null;
+  props: FieldElementProps;
+}
+
+const props = defineProps<TextInputProps>();
+const model = defineModel<string | number | undefined>({ required: true });
+</script>
+```
+
+### Template code
+
+After that, you can add the template code.
+
+```vue
+<template>
+  <div>
+    <label v-if="label" :for="props.props.name">
+      {{ label }} <span v-if="required">*</span>
+    </label>
+    <input
+      :id="props.props.name"
+      v-model="model"
+      v-bind="props.props"
+      :aria-invalid="!!errors"
+      :aria-errormessage="`${props.props.name}-error`"
+    />
+    <div v-if="errors" :id="`${props.props.name}-error`">{{ errors[0] }}</div>
+  </div>
+</template>
+```
+
+### Next steps
+
+You can now build on this code and add CSS, for example. You can also follow the procedure to create other components such as `Checkbox`, `Slider`, `Select` and `FileInput`.
+
+### Final code
+
+Below is an overview of the entire code of the `TextInput` component.
+
+```vue
+<script setup lang="ts">
+import type { FieldElementProps } from '@formisch/vue';
+
+export interface TextInputProps {
+  type: 'text' | 'email' | 'tel' | 'password' | 'url' | 'number' | 'date';
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  errors: [string, ...string[]] | null;
+  props: FieldElementProps;
+}
+
+const props = defineProps<TextInputProps>();
+const model = defineModel<string | number | undefined>({ required: true });
+</script>
+
+<template>
+  <div>
+    <label v-if="label" :for="props.props.name">
+      {{ label }} <span v-if="required">*</span>
+    </label>
+    <input
+      :id="props.props.name"
+      v-model="model"
+      v-bind="props.props"
+      :aria-invalid="!!errors"
+      :aria-errormessage="`${props.props.name}-error`"
+    />
+    <div v-if="errors" :id="`${props.props.name}-error`">{{ errors[0] }}</div>
+  </div>
+</template>
+```
+
+## Next steps
+
+Now that you know how to create reusable input components, continue to the <Link href="/vue/guides/handle-submission/">handle submission</Link> guide to learn how to process form data when the user submits the form.

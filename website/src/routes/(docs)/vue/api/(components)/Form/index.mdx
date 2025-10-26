@@ -1,0 +1,71 @@
+---
+title: Form
+description: Form component that manages form submission and applies internal state.
+source: /frameworks/vue/src/components/Form/Form.vue
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# Form
+
+Form component that manages form submission and applies internal state. Wraps form element and passes submission events to the provided handler.
+
+```vue
+<Form of="{…}" onSubmit="{…}">
+  <!-- Form content here -->
+</Form>
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+
+## Properties
+
+- `of` <Property {...properties.of} />
+- `onSubmit` <Property {...properties.onSubmit} />
+
+## Slots
+
+- `default` - Default slot for form content
+
+### Explanation
+
+The `Form` component wraps a native HTML `<form>` element and provides form submission handling. It automatically prevents the default form submission behavior and calls the `onSubmit` handler when the form is submitted and validation succeeds.
+
+The component uses the `of` prop to reference the form store and renders the default slot content within the form. It also sets `novalidate` on the form element to disable browser validation, as Formisch handles validation internally.
+
+## Related
+
+### Composables
+
+<ApiList items={[{ text: 'useForm', href: '../useForm/' }]} />
+
+### Components
+
+<ApiList
+  items={[
+    { text: 'Field', href: '../Field/' },
+    { text: 'FieldArray', href: '../FieldArray/' },
+  ]}
+/>
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'focus', href: '/methods/api/focus/' },
+    { text: 'getAllErrors', href: '/methods/api/getAllErrors/' },
+    { text: 'getErrors', href: '/methods/api/getErrors/' },
+    { text: 'handleSubmit', href: '/methods/api/handleSubmit/' },
+    { text: 'reset', href: '/methods/api/reset/' },
+    { text: 'setErrors', href: '/methods/api/setErrors/' },
+    { text: 'setInput', href: '/methods/api/setInput/' },
+    { text: 'submit', href: '/methods/api/submit/' },
+    { text: 'validate', href: '/methods/api/validate/' },
+  ]}
+/>

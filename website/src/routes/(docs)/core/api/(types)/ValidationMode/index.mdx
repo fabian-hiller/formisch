@@ -1,0 +1,29 @@
+---
+title: ValidationMode
+description: Type definition that specifies when form validation should occur.
+source: /packages/core/src/types/form.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# ValidationMode
+
+Validation mode type that defines when and how form validation is triggered.
+
+## Definition
+
+- `ValidationMode` <Property {...properties.ValidationMode} />
+
+## Related
+
+### Primitives
+
+<ApiList items={[{ text: 'createForm', href: '/solid/api/createForm/' }]} />
+
+### Methods
+
+<ApiList items={[{ text: 'validate', href: '/methods/api/validate/' }]} />

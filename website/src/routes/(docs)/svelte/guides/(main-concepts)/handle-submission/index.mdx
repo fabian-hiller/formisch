@@ -1,0 +1,94 @@
+---
+title: Handle submission
+description: >-
+  Learn how to handle form submission in Formisch. Process validated form
+  data when the user submits the form using the onsubmit handler.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Handle submission
+
+Now your first form is almost ready. There is only one little thing missing and that is the data processing when the form is submitted.
+
+## Submit event
+
+To process the values on submission, you need to pass a function to the `onsubmit` property of the <Link href="/svelte/api/Form/">`Form`</Link> component. The first parameter passed to the function contains the validated form values.
+
+```svelte
+<script lang="ts">
+  import { createForm, Field, Form } from '@formisch/svelte';
+  import type { SubmitHandler } from '@formisch/svelte';
+  import * as v from 'valibot';
+
+  const LoginSchema = v.object({
+    email: v.pipe(v.string(), v.email()),
+    password: v.pipe(v.string(), v.minLength(8)),
+  });
+
+  const loginForm = createForm({
+    schema: LoginSchema,
+  });
+
+  const handleSubmit: SubmitHandler<typeof LoginSchema> = (values) => {
+    // Process the validated form values
+    console.log(values); // { email: string, password: string }
+  };
+</script>
+
+<Form of={loginForm} onsubmit={handleSubmit}>
+  <!-- Form fields will go here -->
+</Form>
+```
+
+The <Link href="/core/api/SubmitHandler/">`SubmitHandler`</Link> type ensures type safety for your submission handler, automatically inferring the types of validated values from your schema.
+
+### Prevent default
+
+When the form is submitted, `event.preventDefault()` is executed by default to prevent the window from reloading so that the values can be processed directly in the browser and the state of the form is preserved.
+
+### Loading state
+
+While the form is being submitted, you can use `loginForm.isSubmitting` to display a loading animation and disable the submit button:
+
+```svelte
+<button type="submit" disabled={loginForm.isSubmitting}>
+  {loginForm.isSubmitting ? 'Submitting...' : 'Login'}
+</button>
+```
+
+The form store also provides other reactive properties like `isSubmitted`, `isValidating`, `isTouched`, `isDirty`, `isValid`, and `errors` for tracking form state. Note that `errors` only contains validation errors at the root level of the form — to get all errors from all fields, use the <Link href="/methods/api/getAllErrors/">`getAllErrors`</Link> method.
+
+### Async submission
+
+The submit handler can be asynchronous, allowing you to perform API calls or other async operations:
+
+```svelte
+<script lang="ts">
+  const handleSubmit: SubmitHandler<typeof LoginSchema> = async (values) => {
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        // Handle successful login
+        console.log('Login successful!');
+      } else {
+        // Handle error
+        console.error('Login failed');
+      }
+    } catch (error) {
+      console.error('Error during submission:', error);
+    }
+  };
+</script>
+```
+
+## Next steps
+
+Congratulations! You've learned the core concepts of building forms with Formisch. To learn more about advanced features, check out the <Link href="/svelte/guides/form-methods/">form methods</Link> guide to discover how to programmatically control your forms.

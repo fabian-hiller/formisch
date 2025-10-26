@@ -1,0 +1,56 @@
+---
+title: Installation
+description: >-
+  In this guide you will learn how to add Formisch to your project.
+contributors:
+  - fabian-hiller
+---
+
+# Installation
+
+Below you will learn how to add Formisch to your project.
+
+## TypeScript
+
+If you are using TypeScript, we recommend that you enable strict mode in your `tsconfig.json` so that all types are calculated correctly.
+
+> The minimum required TypeScript version is v5.0.2.
+
+```ts
+{
+  "compilerOptions": {
+    "strict": true,
+    // ...
+  }
+}
+```
+
+## Install Valibot
+
+Formisch uses [Valibot](https://valibot.com/) for schema-based validation. You need to install it first because it is a peer dependency.
+
+```bash
+npm install valibot     # npm
+yarn add valibot        # yarn
+pnpm add valibot        # pnpm
+bun add valibot         # bun
+deno add npm:valibot    # deno
+```
+
+## Install Formisch
+
+You can add Formisch to your project with a single command using your favorite package manager.
+
+```bash
+npm install @formisch/qwik     # npm
+yarn add @formisch/qwik        # yarn
+pnpm add @formisch/qwik        # pnpm
+bun add @formisch/qwik         # bun
+deno add npm:@formisch/qwik    # deno
+```
+
+Then you can import it into any JavaScript or TypeScript file.
+
+```ts
+import { … } from '@formisch/qwik';
+```

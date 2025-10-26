@@ -1,0 +1,34 @@
+---
+title: ResetFormConfig
+description: Configuration interface for resetting form input and errors.
+source: /packages/methods/src/reset/reset.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# ResetFormConfig
+
+Configuration interface for resetting form input and errors. Used by the `reset` method when no specific field path is provided.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+
+## Definition
+
+- `ResetFormConfig`
+  - `initialInput` <Property {...properties.initialInput} />
+  - `keepErrors` <Property {...properties.keepErrors} />
+  - `keepInput` <Property {...properties.keepInput} />
+  - `keepSubmitted` <Property {...properties.keepSubmitted} />
+  - `keepTouched` <Property {...properties.keepTouched} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'reset', href: '../../reset/' }]} />

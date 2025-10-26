@@ -1,0 +1,31 @@
+---
+title: GetFieldInputConfig
+description: Configuration interface for retrieving field-specific input.
+source: /packages/methods/src/getInput/getInput.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# GetFieldInputConfig
+
+Configuration interface for retrieving field-specific input. Used by the `getInput` method when a specific field path is provided.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Definition
+
+- `GetFieldInputConfig`
+  - `path` <Property {...properties.path} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'getInput', href: '../../getInput/' }]} />

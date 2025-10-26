@@ -1,0 +1,123 @@
+---
+title: Special inputs
+description: >-
+  Learn how to use special HTML form inputs like checkboxes, select elements,
+  and file inputs with Formisch. This guide covers both single and multiple
+  value scenarios for each input type.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Special inputs
+
+As listed in our features, the library supports all native HTML form fields. This includes the HTML `<select />` element as well as special cases of the `<input />` element.
+
+> In our <Link href="/playground/special">playground</Link> you can take a look at such fields and test them out.
+
+## Checkbox
+
+A simple checkbox represents a boolean and is `true` when checked or `false` otherwise.
+
+```tsx
+<Field of={form} path={['cookies']}>
+  {(field) => (
+    <label>
+      <input {...field.props} type="checkbox" checked={field.input} />
+      Yes, I want cookies
+    </label>
+  )}
+</Field>
+```
+
+However, you can also use multiple checkboxes to represent an array of strings. For this you simply have to add the `value` attribute to the HTML `<input />` element.
+
+```tsx
+{
+  [
+    { label: 'Bananas', value: 'bananas' },
+    { label: 'Apples', value: 'apples' },
+    { label: 'Grapes', value: 'grapes' },
+  ].map(({ label, value }) => (
+    <Field key={value} of={form} path={['fruits']}>
+      {(field) => (
+        <label>
+          <input
+            {...field.props}
+            type="checkbox"
+            value={value}
+            checked={field.input.value?.includes(value)}
+          />
+          {label}
+        </label>
+      )}
+    </Field>
+  ));
+}
+```
+
+## Select
+
+An HTML `<select />` element allows you to select a string from a predefined list of options.
+
+```tsx
+<Field of={form} path={['framework']}>
+  {(field) => (
+    <select {...field.props}>
+      {[
+        { label: 'Preact', value: 'preact' },
+        { label: 'Solid', value: 'solid' },
+        { label: 'Qwik', value: 'qwik' },
+      ].map(({ label, value }) => (
+        <option
+          key={value}
+          value={value}
+          selected={field.input.value === value}
+        >
+          {label}
+        </option>
+      ))}
+    </select>
+  )}
+</Field>
+```
+
+However, if you set the `multiple` attribute, multiple options can be selected making the field represent an array of strings.
+
+```tsx
+<Field of={form} path={['frameworks']}>
+  {(field) => (
+    {/* Set "multiple" to "true" */}
+    <select {...field.props} multiple>
+      {[
+        { label: 'Preact', value: 'preact' },
+        { label: 'Solid', value: 'solid' },
+        { label: 'Qwik', value: 'qwik' },
+      ].map(({ label, value }) => (
+        <option key={value} value={value} selected={field.input.value?.includes(value)}>
+          {label}
+        </option>
+      ))}
+    </select>
+  )}
+</Field>
+```
+
+## File
+
+For the HTML `<input type="file" />` element it works similar to the HTML `<select />` element. Without the `multiple` attribute it represents a single file and with, a list of files.
+
+```tsx
+<Field of={form} path={['avatar']}>
+  {(field) => <input {...field.props} type="file" accept="image/*" />}
+</Field>
+```
+
+With the `multiple` attribute, users can select multiple files:
+
+```tsx
+<Field of={form} path={['documents']}>
+  {(field) => <input {...field.props} type="file" multiple />}
+</Field>
+```

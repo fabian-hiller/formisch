@@ -1,0 +1,31 @@
+---
+title: SetFormInputConfig
+description: Configuration interface for setting form-level input.
+source: /packages/methods/src/setInput/setInput.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# SetFormInputConfig
+
+Configuration interface for setting form-level input. Used by the `setInput` method when no specific field path is provided.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+
+## Definition
+
+- `SetFormInputConfig`
+  - `path` <Property {...properties.path} />
+  - `input` <Property {...properties.input} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'setInput', href: '../../setInput/' }]} />

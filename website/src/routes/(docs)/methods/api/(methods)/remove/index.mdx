@@ -1,0 +1,58 @@
+---
+title: remove
+description: Removes an item from a field array at the specified index.
+source: /packages/methods/src/remove/remove.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# remove
+
+Removes an item from a field array at the specified index. All items after the removed index are shifted down by one.
+
+```ts
+remove<TSchema, TFieldArrayPath>(form, config);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldArrayPath` <Property {...properties.TFieldArrayPath} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store containing the field array. The `config` parameter specifies the path to the field array and the index of the item to remove.
+
+## Related
+
+### Primitives
+
+<ApiList
+  items={[
+    { text: 'createForm', href: '/solid/api/createForm/' },
+    {
+      text: 'useFieldArray',
+      href: '/solid/api/useFieldArray/',
+    },
+  ]}
+/>
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'insert', href: '../insert/' },
+    { text: 'move', href: '../move/' },
+    { text: 'replace', href: '../replace/' },
+    { text: 'swap', href: '../swap/' },
+  ]}
+/>

@@ -1,0 +1,23 @@
+---
+title: ValidArrayPath
+description: Type definition that returns the path if valid for array operations, otherwise the first possible valid array path.
+source: /packages/core/src/types/path.ts
+contributors:
+  - fabian-hiller
+---
+
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# ValidArrayPath
+
+Conditional type that returns the path if valid for array operations, otherwise the first possible valid array path based on the given value.
+
+## Generics
+
+- `TValue` <Property {...properties.TValue} />
+- `TPath` <Property {...properties.TPath} />
+
+## Definition
+
+- `ValidArrayPath` <Property {...properties.ValidArrayPath} />

@@ -1,0 +1,168 @@
+---
+title: Controlled fields
+description: >-
+  Learn when and how to create controlled form fields. Controlled fields
+  are necessary for more complex forms where you need to set or manipulate
+  field values programmatically.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Controlled fields
+
+By default, all form fields are uncontrolled because that's the default behavior of the browser. For a simple login or contact form this is quite sufficient.
+
+## Why controlled?
+
+As soon as your forms become more complex, for example you set initial values or change the values of a form field via <Link href="/svelte/api/setInput/">`setInput`</Link>, it becomes necessary that you control your fields yourself. For example, depending on which HTML form field you use, you may need to set the `value`, `checked` or `selected` attributes.
+
+### Text input example
+
+For a text input field you simply add the `value` attribute and pass the value of the field or in case of `undefined` an empty string:
+
+```svelte
+<Field of={loginForm} path={['firstName']}>
+  {#snippet children(field)}
+    <input {...field.props} type="text" value={field.input ?? ''} />
+  {/snippet}
+</Field>
+```
+
+### Exception for files
+
+The HTML `<input type="file" />` element is an exception because it cannot be controlled. However, you have the possibility to control the UI around it. For inspiration you can use the code of our <a href={`${import.meta.env.PUBLIC_GITHUB_URL}/blob/main/playgrounds/svelte/src/components/FileInput.svelte`} target="\_blank" rel="noreferrer">`FileInput`</a> component from our <Link href="/playground/">playground</Link>.
+
+## Numbers and dates
+
+To make the fields of numbers and dates controlled, further steps are required, because the `<input />` element natively understands only strings as value.
+
+### Number input example
+
+Since not every input into an `<input type="number" />` field is a valid number, for example when typing floating numbers, the value may be `NaN` in between. You have to catch this case, otherwise the whole input will be removed when `NaN` is passed. It is best to encapsulate this logic in a separate component as described in the <Link href="/svelte/guides/input-components/">input components</Link> guide.
+
+```svelte
+<script lang="ts">
+  type NumberInputProps = {
+    name: string;
+    type: 'number';
+    label?: string;
+    placeholder?: string;
+    input: number | undefined;
+    errors: [string, ...string[]] | null;
+    required?: boolean;
+    onfocus?: (event: FocusEvent) => void;
+    oninput?: (event: InputEvent) => void;
+    onchange?: (event: Event) => void;
+    onblur?: (event: FocusEvent) => void;
+  };
+
+  let {
+    name,
+    type = 'number',
+    label,
+    placeholder,
+    input,
+    errors,
+    required,
+    onfocus,
+    oninput,
+    onchange,
+    onblur,
+  } = $props<NumberInputProps>();
+
+  // Update value if it is not `NaN`
+  const getValue = () => (!Number.isNaN(input) ? input : undefined);
+</script>
+
+<div>
+  {#if label}
+    <label for={name}>{label}</label>
+  {/if}
+  <input
+    {name}
+    {type}
+    {placeholder}
+    id={name}
+    value={getValue() ?? ''}
+    aria-invalid={!!errors}
+    aria-errormessage={`${name}-error`}
+    {onfocus}
+    {oninput}
+    {onchange}
+    {onblur}
+  />
+  {#if errors}
+    <div id={`${name}-error`}>{errors[0]}</div>
+  {/if}
+</div>
+```
+
+### Date input example
+
+A date or a number representing a date must be converted to a string before it can be passed to an `<input type="date" />` field. Since it is a calculated value, you can use a regular function or derived state for this.
+
+```svelte
+<script lang="ts">
+  type DateInputProps = {
+    name: string;
+    type: 'date';
+    label?: string;
+    placeholder?: string;
+    input: Date | number | undefined;
+    errors: [string, ...string[]] | null;
+    required?: boolean;
+    onfocus?: (event: FocusEvent) => void;
+    oninput?: (event: InputEvent) => void;
+    onchange?: (event: Event) => void;
+    onblur?: (event: FocusEvent) => void;
+  };
+
+  let {
+    name,
+    type = 'date',
+    label,
+    placeholder,
+    input,
+    errors,
+    required,
+    onfocus,
+    oninput,
+    onchange,
+    onblur,
+  } = $props<DateInputProps>();
+
+  // Transform date or number to string
+  const getValue = () =>
+    input && !Number.isNaN(typeof input === 'number' ? input : input.getTime())
+      ? new Date(input).toISOString().split('T', 1)[0]
+      : '';
+</script>
+
+<div>
+  {#if label}
+    <label for={name}>{label}</label>
+  {/if}
+  <input
+    {name}
+    {type}
+    {placeholder}
+    id={name}
+    value={getValue()}
+    aria-invalid={!!errors}
+    aria-errormessage={`${name}-error`}
+    {onfocus}
+    {oninput}
+    {onchange}
+    {onblur}
+  />
+  {#if errors}
+    <div id={`${name}-error`}>{errors[0]}</div>
+  {/if}
+</div>
+```
+
+## Next steps
+
+Now that you understand controlled fields, you can explore more advanced topics like <Link href="/svelte/guides/nested-fields/">nested fields</Link> and <Link href="/svelte/guides/field-arrays/">field arrays</Link> to handle complex form structures.

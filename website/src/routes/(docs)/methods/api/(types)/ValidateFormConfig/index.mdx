@@ -1,0 +1,26 @@
+---
+title: ValidateFormConfig
+description: Configuration interface for form validation.
+source: /packages/methods/src/validate/validate.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# ValidateFormConfig
+
+Configuration interface for form validation. Used by the `validate` method to specify validation behavior.
+
+## Definition
+
+- `ValidateFormConfig`
+  - `shouldFocus` <Property {...properties.shouldFocus} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'validate', href: '../../validate/' }]} />

@@ -1,0 +1,31 @@
+---
+title: FocusFieldConfig
+description: Configuration interface for focusing a field.
+source: /packages/methods/src/focus/focus.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# FocusFieldConfig
+
+Configuration interface for focusing a field. Used by the `focus` method to specify which field to focus and any additional focus options.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Definition
+
+- `FocusFieldConfig`
+  - `path` <Property {...properties.path} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'focus', href: '../../focus/' }]} />

@@ -1,0 +1,47 @@
+---
+title: submit
+description: Programmatically requests form submission.
+source: /packages/methods/src/submit/submit.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# submit
+
+Programmatically requests form submission by calling the native `requestSubmit()` method on the underlying form element.
+
+```ts
+submit(form);
+```
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+
+### Explanation
+
+The `form` parameter is the form store to submit. The function triggers form submission by calling the native `requestSubmit()` method on the underlying form element.
+
+## Related
+
+### Primitives
+
+<ApiList
+  items={[
+    { text: 'createForm', href: '/solid/api/createForm/' },
+  ]}
+/>
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'handleSubmit', href: '../handleSubmit/' },
+    { text: 'validate', href: '../validate/' },
+    { text: 'focus', href: '../focus/' },
+  ]}
+/>

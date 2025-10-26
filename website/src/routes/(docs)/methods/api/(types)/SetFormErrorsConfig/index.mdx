@@ -1,0 +1,27 @@
+---
+title: SetFormErrorsConfig
+description: Configuration interface for setting form-level errors.
+source: /packages/methods/src/setErrors/setErrors.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# SetFormErrorsConfig
+
+Configuration interface for setting form-level errors. Used by the `setErrors` method when no specific field path is provided.
+
+## Definition
+
+- `SetFormErrorsConfig`
+  - `path` <Property {...properties.path} />
+  - `errors` <Property {...properties.errors} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'setErrors', href: '../../setErrors/' }]} />

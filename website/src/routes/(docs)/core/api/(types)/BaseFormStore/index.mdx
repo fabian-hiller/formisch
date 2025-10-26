@@ -1,0 +1,23 @@
+---
+title: BaseFormStore
+description: Base interface for form stores across all frameworks.
+source: /packages/core/src/types/form.qwik.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Property } from '~/components';
+import { properties } from './properties';
+
+# BaseFormStore
+
+Base interface for form stores across all frameworks. Provides access to the internal form store.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+
+## Definition
+
+- `BaseFormStore`
+  - `[INTERNAL]` <Property {...properties.INTERNAL} />
