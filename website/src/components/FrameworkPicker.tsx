@@ -11,6 +11,7 @@ import {
   useFramework,
   useSetFramework,
 } from '~/routes/plugin@framework';
+import { useOtherMenuHrefs } from '~/routes/plugin@menu';
 
 type FrameworkPickerProps = {
   class?: string;
@@ -22,6 +23,7 @@ type FrameworkPickerProps = {
 export const FrameworkPicker = component$<FrameworkPickerProps>((props) => {
   // Use location and framework
   const location = useLocation();
+  const otherMenuHrefs = useOtherMenuHrefs();
   const framework = useFramework();
   const setFramework = useSetFramework();
 
@@ -49,9 +51,20 @@ export const FrameworkPicker = component$<FrameworkPickerProps>((props) => {
    * Returns the pathname to the framework.
    */
   const getPathname = (targetFramework: Framework): string => {
+    // Create new pathname by replacing framework
+    const newPathname = location.url.pathname.replace(
+      `/${framework}/`,
+      `/${targetFramework}/`
+    );
+
+    // If path exists in other menus, return it
+    if (otherMenuHrefs.value.includes(newPathname)) {
+      return newPathname;
+    }
+
+    // Otherwise, return base path for framework
     const pathList = location.url.pathname.split('/');
-    pathList[1] = targetFramework;
-    return pathList.join('/');
+    return `/${targetFramework}/${pathList[2]}`;
   };
 
   /**
