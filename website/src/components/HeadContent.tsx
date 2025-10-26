@@ -142,7 +142,7 @@ export const HeadContent = component$(() => {
       <script
         async
         src="https://umami.formisch.dev/script.js"
-        data-website-id="1fe7c3d9-66cb-43db-bb9c-dd86128e828c"
+        data-website-id="c4666473-a1b7-4c55-8fd4-f991de13b541"
         data-domains="formisch.dev"
         data-strip-search="true"
       />
