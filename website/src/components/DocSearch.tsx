@@ -5,9 +5,8 @@ import {
   sync$,
   useComputed$,
   useSignal,
-  useTask$,
+  useVisibleTask$,
 } from '@qwik.dev/core';
-import { isBrowser } from '@qwik.dev/core/build';
 import { Link, useLocation, useNavigate } from '@qwik.dev/router';
 import clsx from 'clsx';
 import { useFocusTrap, useStorageSignal } from '~/hooks';
@@ -19,6 +18,7 @@ import {
   SearchIcon,
 } from '~/icons';
 import { AlgoliaLogo } from '~/logos';
+import { useFramework } from '~/routes/plugin@framework';
 import { trackEvent } from '~/utils';
 import { SystemIcon } from './SystemIcon';
 import { TextLink } from './TextLink';
@@ -79,9 +79,10 @@ type DocSearchProps = {
  * Provides a search box for the documentation.
  */
 export const DocSearch = component$<DocSearchProps>(({ open }) => {
-  // Use location and navigate
+  // Use location, navigate and framework
   const location = useLocation();
   const navigate = useNavigate();
+  const framework = useFramework();
 
   // Use input, loading, active index and error signal
   const input = useSignal('');
@@ -108,10 +109,11 @@ export const DocSearch = component$<DocSearchProps>(({ open }) => {
   useFocusTrap(modalElement, open);
 
   // Do stuff when search is opened or closed
-  useTask$(({ track }) => {
-    track(inputElement);
+  // eslint-disable-next-line qwik/no-use-visible-task
+  useVisibleTask$(({ track }) => {
     track(open);
-    if (isBrowser && inputElement.value) {
+    track(inputElement);
+    if (inputElement.value) {
       // Focus input and block background scrolling when search is opened
       if (open.value) {
         inputElement.value.focus();
@@ -149,133 +151,132 @@ export const DocSearch = component$<DocSearchProps>(({ open }) => {
   });
 
   // Close search when location changes
-  useTask$(({ track }) => {
+  // eslint-disable-next-line qwik/no-use-visible-task
+  useVisibleTask$(({ track }) => {
     track(() => location.prevUrl);
-    if (isBrowser) {
-      open.value = false;
-    }
+    open.value = false;
   });
 
   // Update search result and active index when input changes
-  useTask$(({ track, cleanup }) => {
+  // eslint-disable-next-line qwik/no-use-visible-task
+  useVisibleTask$(({ track, cleanup }) => {
     const currentInput = track(input);
-    if (isBrowser) {
-      // Reset error state
-      error.value = false;
+    // Reset error state
+    error.value = false;
 
-      // If input is present, query and set search result
-      if (currentInput) {
-        // Get its current value
-        const storageValue = storage.value[currentInput];
+    // If input is present, query and set search result
+    if (currentInput) {
+      // Get its current value
+      const storageValue = storage.value[currentInput];
 
-        // Set result of index values is present and not expired
-        if (storageValue && storageValue.expires >= Date.now()) {
-          activeIndex.value = storageValue.result.length ? 0 : -1;
-          result.value = storageValue.result;
-          loading.value = false;
+      // Set result of index values is present and not expired
+      if (storageValue && storageValue.expires >= Date.now()) {
+        activeIndex.value = storageValue.result.length ? 0 : -1;
+        result.value = storageValue.result;
+        loading.value = false;
 
-          // Otherwise query search result from Algolia with a short timeout to
-          // reduce unnecessary queries
-        } else {
-          const timeout = setTimeout(async () => {
-            try {
-              const algoliaResult = (await (
-                await fetch(
-                  `https://${
-                    import.meta.env.PUBLIC_ALGOLIA_APP_ID
-                  }-dsn.algolia.net/1/indexes/${
-                    import.meta.env.PUBLIC_ALGOLIA_INDEX_NAME
-                  }/query`,
-                  {
-                    method: 'POST',
-                    headers: {
-                      'X-Algolia-Application-Id': import.meta.env
-                        .PUBLIC_ALGOLIA_APP_ID,
-                      'X-Algolia-API-Key': import.meta.env
-                        .PUBLIC_ALGOLIA_PUBLIC_API_KEY,
-                      'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                      query: currentInput,
-                      filters: 'NOT type:lvl1',
-                    }),
-                  }
-                )
-              ).json()) as AlgoliaResult;
-
-              // Transform hits of Algolia result to our schema
-              let prevItem: SearchItem | undefined;
-              const searchResult: SearchItem[] = algoliaResult.hits.map(
-                (hit) => {
-                  // Create path by removing origin from URL
-                  const path = hit.url.replace(
-                    import.meta.env.PUBLIC_WEBSITE_URL,
-                    ''
-                  );
-
-                  // Create search item object
-                  const searchItem: SearchItem = {
-                    group: `${hit.hierarchy.lvl0}${hit.hierarchy.lvl1 ? `: ${hit.hierarchy.lvl1}` : ''}`,
-                    relation:
-                      hit.type === 'lvl2'
-                        ? 'page'
-                        : prevItem &&
-                            prevItem.relation !== 'none' &&
-                            prevItem.path.split('#')[0] === path.split('#')[0]
-                          ? 'child'
-                          : 'none',
-                    type: hit.type,
-                    page: hit._highlightResult.hierarchy.lvl2.value,
-                    text:
-                      hit.type === 'content'
-                        ? hit._snippetResult!.content.value
-                        : hit._highlightResult.hierarchy[hit.type]!.value,
-                    path,
-                  };
-
-                  // Update previous item variable
-                  prevItem = searchItem;
-
-                  // Return search item object
-                  return searchItem;
+        // Otherwise query search result from Algolia with a short timeout to
+        // reduce unnecessary queries
+      } else {
+        const timeout = setTimeout(async () => {
+          try {
+            const algoliaResult = (await (
+              await fetch(
+                `https://${
+                  import.meta.env.PUBLIC_ALGOLIA_APP_ID
+                }-dsn.algolia.net/1/indexes/${
+                  import.meta.env.PUBLIC_ALGOLIA_INDEX_NAME
+                }/query`,
+                {
+                  method: 'POST',
+                  headers: {
+                    'X-Algolia-Application-Id': import.meta.env
+                      .PUBLIC_ALGOLIA_APP_ID,
+                    'X-Algolia-API-Key': import.meta.env
+                      .PUBLIC_ALGOLIA_PUBLIC_API_KEY,
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    query: currentInput,
+                    facetFilters: [
+                      [`framework:${framework.value}`, '-framework:*'],
+                    ],
+                    filters: 'NOT type:lvl1',
+                  }),
                 }
+              )
+            ).json()) as AlgoliaResult;
+
+            // Transform hits of Algolia result to our schema
+            let prevItem: SearchItem | undefined;
+            const searchResult: SearchItem[] = algoliaResult.hits.map((hit) => {
+              // Create path by removing origin from URL
+              const path = hit.url.replace(
+                import.meta.env.PUBLIC_WEBSITE_URL,
+                ''
               );
 
-              // Add search result to search storage
-              storage.value = {
-                ...storage.value,
-                [currentInput]: {
-                  result: searchResult,
-                  expires: Date.now() + 2.592e8, // 3 days
-                },
+              // Create search item object
+              const searchItem: SearchItem = {
+                group: `${hit.hierarchy.lvl0}${hit.hierarchy.lvl1 ? `: ${hit.hierarchy.lvl1}` : ''}`,
+                relation:
+                  hit.type === 'lvl2'
+                    ? 'page'
+                    : prevItem &&
+                        prevItem.relation !== 'none' &&
+                        prevItem.path.split('#')[0] === path.split('#')[0]
+                      ? 'child'
+                      : 'none',
+                type: hit.type,
+                page: hit._highlightResult.hierarchy.lvl2.value,
+                text:
+                  hit.type === 'content'
+                    ? hit._snippetResult!.content.value
+                    : hit._highlightResult.hierarchy[hit.type]!.value,
+                path,
               };
 
-              // Set search result if input has not changed
-              if (currentInput === input.value) {
-                activeIndex.value = 0;
-                result.value = searchResult;
-                loading.value = false;
-              }
+              // Update previous item variable
+              prevItem = searchItem;
 
-              // Update state in case of an error
-            } catch {
-              error.value = true;
+              // Return search item object
+              return searchItem;
+            });
+
+            // Add search result to search storage
+            storage.value = {
+              ...storage.value,
+              [currentInput]: {
+                result: searchResult,
+                expires: Date.now() + 2.592e8, // 3 days
+              },
+            };
+
+            // Set search result if input has not changed
+            if (currentInput === input.value) {
+              activeIndex.value = 0;
+              result.value = searchResult;
+              loading.value = false;
             }
-          }, 150);
 
-          // Set loading to "true"
-          loading.value = true;
+            // Update state in case of an error
+          } catch {
+            error.value = true;
+          }
+        }, 150);
 
-          // Clear timeout if the input has changed in the meantime
-          cleanup(() => clearTimeout(timeout));
-        }
+        // Set loading to "true"
+        loading.value = true;
 
-        // Otherwise if input is empty, reset state
-      } else {
-        activeIndex.value = 0;
-        result.value = [];
-        loading.value = false;
+        // Clear timeout if the input has changed in the meantime
+        cleanup(() => clearTimeout(timeout));
       }
+
+      // Otherwise if input is empty, reset state
+    } else {
+      activeIndex.value = 0;
+      result.value = [];
+      loading.value = false;
     }
   });
 
@@ -343,7 +344,7 @@ export const DocSearch = component$<DocSearchProps>(({ open }) => {
   return (
     <div
       class={clsx(
-        open.value && 'fixed left-0 top-0 z-40 h-screen w-screen lg:p-48'
+        open.value && 'fixed top-0 left-0 z-40 h-screen w-screen lg:p-48'
       )}
       window:onKeyDown$={[preventDefault, handleKeyDown]}
     >
@@ -367,6 +368,7 @@ export const DocSearch = component$<DocSearchProps>(({ open }) => {
                 <input
                   class="flex-1 bg-transparent px-2 text-lg text-slate-900 outline-none placeholder:text-slate-500 md:text-xl dark:text-slate-200"
                   ref={inputElement}
+                  name="search"
                   type="search"
                   placeholder="Search docs"
                   value={input.value}
@@ -431,7 +433,7 @@ export const DocSearch = component$<DocSearchProps>(({ open }) => {
                                     getPrevItem()?.relation !== 'page'
                                   ? 'mt-6'
                                   : item.relation === 'child'
-                                    ? 'border-l-2 border-l-slate-200 pl-2 pt-2.5 dark:border-l-slate-800'
+                                    ? 'border-l-2 border-l-slate-200 pt-2.5 pl-2 dark:border-l-slate-800'
                                     : 'mt-2.5')
                           )}
                         >
@@ -485,7 +487,7 @@ export const DocSearch = component$<DocSearchProps>(({ open }) => {
             </footer>
           </div>
           <div
-            class="hidden lg:absolute lg:left-0 lg:top-0 lg:-z-10 lg:block lg:h-full lg:w-full lg:cursor-default lg:bg-gray-200/50 lg:backdrop-blur-sm lg:dark:bg-gray-800/50"
+            class="hidden lg:absolute lg:top-0 lg:left-0 lg:-z-10 lg:block lg:h-full lg:w-full lg:cursor-default lg:bg-gray-200/50 lg:backdrop-blur-sm lg:dark:bg-gray-800/50"
             role="button"
             onClick$={() => (open.value = false)}
           />
@@ -524,10 +526,11 @@ const SearchItem = component$<SearchItemProps>(
     const active = useComputed$(() => index === activeIndex.value);
 
     // Scroll element into view if active
-    useTask$(({ track }) => {
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(({ track }) => {
       track(element);
       track(active);
-      if (isBrowser && element.value && active.value) {
+      if (element.value && active.value) {
         element.value.scrollIntoView({ block: 'nearest' });
       }
     });

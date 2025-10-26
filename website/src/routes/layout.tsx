@@ -1,5 +1,5 @@
 import { component$, Slot, useSignal } from '@qwik.dev/core';
-import { Footer, Header, RoutingIndicator } from '~/components';
+import { DocSearch, Footer, Header, RoutingIndicator } from '~/components';
 
 export default component$(() => {
   // Use search open signal
@@ -11,7 +11,7 @@ export default component$(() => {
       <Header searchOpen={searchOpen} />
       <Slot />
       <Footer />
-      {/* <DocSearch open={searchOpen} /> */}
+      <DocSearch open={searchOpen} />
     </>
   );
 });
