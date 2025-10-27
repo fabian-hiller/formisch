@@ -88,7 +88,8 @@ function setNestedInput(
     }
 
     // Set input for each array item
-    for (let index = 0; index < items.length; index++) {
+    // @ts-expect-error
+    for (let index = 0; index < arrayInput.length; index++) {
       // Recursively set nested input
       setNestedInput(
         internalFieldStore.children[index],
