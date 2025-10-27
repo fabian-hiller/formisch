@@ -248,7 +248,7 @@ export const DocSearch = component$<DocSearchProps>(({ open }) => {
               ...storage.value,
               [currentInput]: {
                 result: searchResult,
-                expires: Date.now() + 2.592e8, // 3 days
+                expires: Date.now() + 6.048e8, // 7 days
               },
             };
 
@@ -344,7 +344,8 @@ export const DocSearch = component$<DocSearchProps>(({ open }) => {
   return (
     <div
       class={clsx(
-        open.value && 'fixed top-0 left-0 z-40 h-screen w-screen lg:p-48'
+        open.value &&
+          'fixed top-0 left-0 z-40 h-screen w-screen lg:p-40 xl:p-48'
       )}
       window:onKeyDown$={[preventDefault, handleKeyDown]}
     >
