@@ -53,7 +53,7 @@ export const FrameworkPicker = component$<FrameworkPickerProps>((props) => {
   const getPathname = (targetFramework: Framework): string => {
     // Create new pathname by replacing framework
     const newPathname = location.url.pathname.replace(
-      `/${framework}/`,
+      `/${framework.value}/`,
       `/${targetFramework}/`
     );
 
