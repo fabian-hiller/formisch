@@ -138,7 +138,7 @@ export const DocsLayout = component$(() => {
             <IconButton
               variant="secondary"
               type="link"
-              href={`${import.meta.env.PUBLIC_GITHUB_URL}/blob/main/website/src/routes${currentPage.value.href.replace(
+              href={`${import.meta.env.PUBLIC_GITHUB_URL}/blob/main/website/src/routes/(docs)${currentPage.value.href.replace(
                 /^(\/.+)\/(.+\/)$/,
                 `$1/(${currentPage.value.group
                   .toLowerCase()
