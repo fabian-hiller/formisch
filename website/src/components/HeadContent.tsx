@@ -1,5 +1,6 @@
 import { component$, useComputed$ } from '@qwik.dev/core';
 import { useDocumentHead, useLocation } from '@qwik.dev/router';
+import { FRAMEWORK_LIST } from '~/routes/plugin@framework';
 import { useTheme } from '~/routes/plugin@theme';
 import { getAreaName, getFrameworkName } from '~/utils';
 
@@ -7,11 +8,12 @@ import { getAreaName, getFrameworkName } from '~/utils';
  * Head content with title, meta, link, script and style elements.
  */
 export const HeadContent = component$(() => {
-  // Use document head, location and theme
+  // Use head, location and theme
   const head = useDocumentHead();
   const location = useLocation();
   const theme = useTheme();
 
+  // Compute document title
   const documentTitle = useComputed$(() => {
     // Create title variable
     let title = '';
@@ -83,6 +85,15 @@ export const HeadContent = component$(() => {
     return imageUrl;
   });
 
+  // Compute docsearch framework
+  const docsearchFramework = useComputed$(() => {
+    const framework = location.url.pathname.split('/')[1];
+    if ((FRAMEWORK_LIST as string[]).includes(framework)) {
+      return framework;
+    }
+    return 'none';
+  });
+
   return (
     <>
       {/* Document title */}
@@ -132,6 +143,9 @@ export const HeadContent = component$(() => {
       )}
       <meta property="og:image" content={imageUrl.value} />
       <meta name="twitter:card" content="summary_large_image" />
+
+      {/* Algolia DocSearch facets */}
+      <meta name="docsearch:framework" content={docsearchFramework.value} />
 
       {/* Dynamic metadata */}
       {head.meta.map((props) => (

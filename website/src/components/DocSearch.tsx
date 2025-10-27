@@ -199,7 +199,7 @@ export const DocSearch = component$<DocSearchProps>(({ open }) => {
                   body: JSON.stringify({
                     query: currentInput,
                     facetFilters: [
-                      [`framework:${framework.value}`, '-framework:*'],
+                      [`framework:${framework.value}`, 'framework:none'],
                     ],
                     filters: 'NOT type:lvl1',
                   }),
