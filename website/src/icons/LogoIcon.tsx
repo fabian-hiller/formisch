@@ -1,7 +1,5 @@
 import { component$, type PropsOf } from '@qwik.dev/core';
 
-// TODO: Replace with Formisch icon
-
 export const LogoIcon = component$<PropsOf<'svg'>>((props) => (
   <svg viewBox="0 0 512 512" role="img" aria-label="Formisch icon" {...props}>
     <defs>
