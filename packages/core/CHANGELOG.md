@@ -2,7 +2,7 @@
 
 All notable changes to the library will be documented in this file.
 
-## vX.X.X (Month DD, YYYY)
+## v0.4.1 (October 27, 2025)
 
 - Fix bug when setting array input with more array items than previous state (pull request #29)
 
