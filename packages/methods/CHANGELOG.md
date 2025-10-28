@@ -2,7 +2,7 @@
 
 All notable changes to the library will be documented in this file.
 
-## vX.X.X (Month DD, YYYY)
+## v0.4.0 (October 27, 2025)
 
 - Fix `focus` method to accept `form` as first parameter
 
