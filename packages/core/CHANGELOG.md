@@ -2,6 +2,10 @@
 
 All notable changes to the library will be documented in this file.
 
+## vX.X.X (Month DD, YYYY)
+
+- Fix bug when setting array input with more array items than previous state (pull request #29)
+
 ## v0.4.0 (September 22, 2025)
 
 - Add new `initialElements` state to `InternalBaseStore` interface and update `initializeFieldStore`
