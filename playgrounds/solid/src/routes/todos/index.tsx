@@ -3,6 +3,7 @@ import {
   Field,
   FieldArray,
   Form,
+  getInput,
   insert,
   move,
   remove,
@@ -49,8 +50,12 @@ export default function TodosPage() {
   const todoForm = createForm({
     schema: TodoFormSchema,
     initialInput: {
-      heading: '',
-      todos: [{ label: '', deadline: '' }],
+      heading: 'List',
+      todos: [
+        { label: '0', deadline: '2025-12-01' },
+        { label: '1', deadline: '2025-12-02' },
+        // { label: '3', deadline: '2025-12-03' },
+      ],
     },
   });
 
@@ -154,24 +159,30 @@ export default function TodosPage() {
                       })
                     }
                   />
+
                   <ColorButton
                     color="yellow"
-                    label="Move first to end"
+                    label="Move - from:0 to:1"
                     onClick={() =>
                       move(todoForm, {
                         path: ['todos'],
                         from: 0,
-                        to: fieldArray.items.length - 1,
+                        to: 1,
                       })
                     }
                   />
                   <ColorButton
-                    color="purple"
-                    label="Swap first two"
+                    color="yellow"
+                    label="Move - from:1 to:0 - overwrites 1 with values of 0"
                     onClick={() =>
-                      swap(todoForm, { path: ['todos'], at: 0, and: 1 })
+                      move(todoForm, {
+                        path: ['todos'],
+                        from: 1,
+                        to: 0,
+                      })
                     }
                   />
+
                   <ColorButton
                     color="blue"
                     label="Replace first"
@@ -194,6 +205,7 @@ export default function TodosPage() {
 
         <FormFooter of={todoForm} />
       </Form>
+      <pre>{JSON.stringify(getInput(todoForm).todos, undefined, 1)}</pre>
     </>
   );
 }
