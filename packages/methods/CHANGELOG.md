@@ -2,6 +2,10 @@
 
 All notable changes to the library will be documented in this file.
 
+## vX.X.X (Month DD, YYYY)
+
+- Fix bug in `move` method that corrupted item state when moving array items
+
 ## v0.4.0 (October 27, 2025)
 
 - Fix `focus` method to accept `form` as first parameter

@@ -86,9 +86,7 @@ export function move<
 
       // Copy item state that gets overwritten to temporary store
       copyItemState(
-        internalArrayStore.children[
-          config.from < config.to ? config.from : config.to
-        ],
+        internalArrayStore.children[config.from],
         tempInternalFieldStore
       );
 
@@ -113,9 +111,7 @@ export function move<
       // Copy item state from temporary store to new position
       copyItemState(
         tempInternalFieldStore,
-        internalArrayStore.children[
-          config.from < config.to ? config.to : config.from
-        ]
+        internalArrayStore.children[config.to]
       );
 
       // Mark field array as touched and update dirty state
