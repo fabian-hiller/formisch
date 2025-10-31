@@ -1,7 +1,7 @@
 {
   "name": "@formisch/vue",
   "description": "The modular and type-safe form library for Vue",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "license": "MIT",
   "author": "Fabian Hiller",
   "homepage": "https://formisch.dev",
