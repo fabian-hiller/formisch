@@ -2,7 +2,7 @@
 
 All notable changes to the library will be documented in this file.
 
-## vX.X.X (Month DD, YYYY)
+## v0.4.1 (October 31, 2025)
 
 - Fix bug in `move` method that corrupted item state when moving array items
 
