@@ -12,6 +12,10 @@
   "type": "module",
   "private": true,
   "packageManager": "pnpm@9.15.2",
+  "scripts": {
+    "check-versions": "pnpm --filter formisch-scripts check-versions",
+    "create-releases": "pnpm --filter formisch-scripts create-releases"
+  },
   "devDependencies": {
     "@babel/plugin-syntax-class-properties": "^7.12.13",
     "@babel/plugin-syntax-jsx": "^7.27.1",

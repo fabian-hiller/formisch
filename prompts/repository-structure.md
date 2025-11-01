@@ -21,6 +21,7 @@ formisch/
 │   └── methods/      # Form manipulation methods
 ├── frameworks/       # Framework-specific wrappers (preact, qwik, solid, svelte, vue)
 ├── playgrounds/      # Testing environments per framework
+├── scripts/          # Automation scripts
 ├── website/          # Documentation site
 └── prompts/          # AI agent guides
 ```
