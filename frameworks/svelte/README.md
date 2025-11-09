@@ -65,17 +65,17 @@ What makes Formisch unique is its framework-agnostic core, which is fully native
 
 Thanks to our partners who support the development! [Join them](https://github.com/sponsors/fabian-hiller) and contribute to the sustainability of open source software!
 
-![Partners of Formisch](https://github.com/fabian-hiller/formisch/blob/main/partners.webp?raw=true)
+![Partners of Formisch](https://github.com/open-circle/formisch/blob/main/partners.webp?raw=true)
 
 ## Feedback
 
-Find a bug or have an idea how to improve the library? Please fill out an [issue](https://github.com/fabian-hiller/formisch/issues/new). Together we can make forms even better!
+Find a bug or have an idea how to improve the library? Please fill out an [issue](https://github.com/open-circle/formisch/issues/new). Together we can make forms even better!
 
 ## License
 
-This project is available free of charge and licensed under the [MIT license](https://github.com/fabian-hiller/formisch/blob/main/LICENSE.md).
+This project is available free of charge and licensed under the [MIT license](https://github.com/open-circle/formisch/blob/main/LICENSE.md).
 
-[formisch-preact]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/preact
-[formisch-qwik]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/qwik
-[formisch-solid]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/solid
-[formisch-vue]: https://github.com/fabian-hiller/formisch/tree/main/frameworks/vue
+[formisch-preact]: https://github.com/open-circle/formisch/tree/main/frameworks/preact
+[formisch-qwik]: https://github.com/open-circle/formisch/tree/main/frameworks/qwik
+[formisch-solid]: https://github.com/open-circle/formisch/tree/main/frameworks/solid
+[formisch-vue]: https://github.com/open-circle/formisch/tree/main/frameworks/vue

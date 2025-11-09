@@ -7,7 +7,7 @@ Our [website](https://formisch.dev/) contains guides, an API reference and a pla
 Step 1: Clone repository
 
 ```bash
-git clone git@github.com:fabian-hiller/formisch.git
+git clone git@github.com:open-circle/formisch.git
 ```
 
 Step 2: Install dependencies

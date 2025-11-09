@@ -185,7 +185,7 @@ When copying documentation between frameworks, update descriptions to use correc
 For extremely long and complex TypeScript types like `ValidArrayPath` (that uses even more complex types like `LazyArrayPath` internally), full documentation is not required. Instead, include a message directing readers to the source code, similar to the `DeepPartial` documentation:
 
 ```mdx
-> This type is too complex to display. Please refer to the [source code](https://github.com/fabian-hiller/formisch/blob/main/packages/core/src/types/utils.ts).
+> This type is too complex to display. Please refer to the [source code](https://github.com/open-circle/formisch/blob/main/packages/core/src/types/utils.ts).
 ```
 
 ### Related Section
