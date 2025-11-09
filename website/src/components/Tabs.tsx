@@ -62,6 +62,7 @@ export const Tabs = component$((props: TabsProps) => {
                     : 'hover:text-slate-900 dark:hover:text-slate-200'
                 )}
                 href={`..${href}`}
+                prefetch={false}
                 onClick$={(_, element) =>
                   element.scrollIntoView({
                     block: 'nearest',
