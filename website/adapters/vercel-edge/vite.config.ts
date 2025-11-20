@@ -16,7 +16,6 @@ export default extendConfig(
         rollupOptions: {
           input: ['src/entry.vercel-edge.tsx'],
         },
-        minify: true,
         outDir: '.vercel/output/functions/_qwik-router.func',
       },
       plugins: [
@@ -29,8 +28,12 @@ export default extendConfig(
         viteStaticCopy({
           targets: [
             {
-              src: 'node_modules/@vercel/og/**/*',
+              src: 'node_modules/@vercel/og/package.json',
               dest: 'node_modules/@vercel/og/',
+            },
+            {
+              src: 'node_modules/@vercel/og/dist/**/*',
+              dest: 'node_modules/@vercel/og/dist',
             },
           ],
         }),
