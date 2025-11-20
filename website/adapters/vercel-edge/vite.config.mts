@@ -16,6 +16,7 @@ export default extendConfig(
         rollupOptions: {
           input: ['src/entry.vercel-edge.tsx'],
         },
+        minify: true,
         outDir: '.vercel/output/functions/_qwik-router.func',
       },
       plugins: [
