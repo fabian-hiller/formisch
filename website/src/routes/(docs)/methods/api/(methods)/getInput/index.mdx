@@ -1,0 +1,53 @@
+---
+title: getInput
+description: Retrieves the current input value of a specific field or the entire form.
+source: /packages/methods/src/getInput/getInput.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# getInput
+
+Retrieves the current input value of a specific field or the entire form. Returns a partial object as not all fields may have been set.
+
+```ts
+const input = getInput<TSchema>(form);
+const input = getInput<TSchema, TFieldPath>(form, config);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store to retrieve input from. The optional `config` parameter specifies which field to get input from - if omitted, returns input from the entire form.
+
+## Returns
+
+- `result` <Property {...properties.result} />
+
+## Related
+
+### Primitives
+
+<ApiList items={[{ text: 'createForm', href: '/solid/api/createForm/' }]} />
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'setInput', href: '../setInput/' },
+    { text: 'reset', href: '../reset/' },
+  ]}
+/>

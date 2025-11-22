@@ -7,7 +7,6 @@ import {
   move,
   remove,
   replace,
-  type SubmitHandler,
   swap,
   useForm,
 } from '@formisch/vue';
@@ -43,8 +42,6 @@ const TodoFormSchema = v.object({
     v.maxLength(4, 'You can only add up to 4 todos.')
   ),
 });
-
-type TodoFormSchema = typeof TodoFormSchema;
 
 const todoForm = useForm({
   schema: TodoFormSchema,

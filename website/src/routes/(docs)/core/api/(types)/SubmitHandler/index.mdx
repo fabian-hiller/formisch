@@ -1,0 +1,36 @@
+---
+title: SubmitHandler
+description: Function type for handling form submission.
+source: /packages/core/src/types/form.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# SubmitHandler
+
+Function type for handling form submission. Used by the `handleSubmit` method.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+
+## Parameters
+
+- `output` <Property {...properties.output} />
+- `event` <Property {...properties.event} />
+
+## Related
+
+### Methods
+
+<ApiList
+  items={[{ text: 'handleSubmit', href: '/methods/api/handleSubmit/' }]}
+/>
+
+### Types
+
+<ApiList items={[{ text: 'SubmitEvent', href: '/methods/api/SubmitEvent/' }]} />

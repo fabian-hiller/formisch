@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  Field,
-  Form,
-  getInput,
-  type SubmitHandler,
-  useForm,
-} from '@formisch/vue';
+import { Field, Form, getInput, useForm } from '@formisch/vue';
 import * as v from 'valibot';
 import { computed } from 'vue';
 import { FormFooter, FormHeader, Select, TextInput } from '../components';
@@ -52,8 +46,6 @@ const PaymentFormSchema = v.intersect([
     'Please select the payment type.'
   ),
 ]);
-
-type PaymentFormSchema = typeof PaymentFormSchema;
 
 const paymentForm = useForm({
   schema: PaymentFormSchema,

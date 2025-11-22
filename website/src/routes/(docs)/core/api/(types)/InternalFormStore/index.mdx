@@ -1,0 +1,37 @@
+---
+title: InternalFormStore
+description: Internal interface for form stores containing the core form logic and state.
+source: /packages/core/src/types/form.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# InternalFormStore
+
+Internal interface for form stores that contains the core form logic, validation state, and reactive signals.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+
+## Definition
+
+- `InternalFormStore`
+  - `element` <Property {...properties.element} />
+  - `validators` <Property {...properties.validators} />
+  - `validate` <Property {...properties.validate} />
+  - `revalidate` <Property {...properties.revalidate} />
+  - `parse` <Property {...properties.parse} />
+  - `isSubmitting` <Property {...properties.isSubmitting} />
+  - `isSubmitted` <Property {...properties.isSubmitted} />
+  - `isValidating` <Property {...properties.isValidating} />
+
+## Related
+
+### Primitives
+
+<ApiList items={[{ text: 'createForm', href: '/solid/api/createForm/' }]} />

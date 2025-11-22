@@ -10,11 +10,21 @@ import { createMemo } from 'solid-js';
 import * as v from 'valibot';
 import type { FormStore } from '../../types/index.ts';
 
+/**
+ * Creates a reactive form store from a form configuration. The form store
+ * manages form state and provides reactive properties.
+ *
+ * @param config The form configuration.
+ *
+ * @returns The form store with reactive properties.
+ */
 export function createForm<TSchema extends Schema>(
   config: FormConfig<TSchema>
 ): FormStore<TSchema>;
+
+// @__NO_SIDE_EFFECTS__
 export function createForm(config: FormConfig): FormStore {
-  const internalFormStore = createFormStore(config, async (input: unknown) =>
+  const internalFormStore = createFormStore(config, (input: unknown) =>
     v.safeParseAsync(config.schema, input)
   );
 

@@ -58,7 +58,7 @@ export default function NestedPage() {
 
         <FieldArray of={nestedForm} path={['items']}>
           {(fieldArray) => (
-            <div class="space-y-7 px-10 lg:px-12">
+            <div class="space-y-7 px-8 lg:px-10">
               <div
                 class="space-y-5"
                 ref={(element) => setTimeout(() => autoAnimate(element))}

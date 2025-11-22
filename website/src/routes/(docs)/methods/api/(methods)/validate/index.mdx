@@ -1,0 +1,58 @@
+---
+title: validate
+description: Validates the entire form input against its schema.
+source: /packages/methods/src/validate/validate.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# validate
+
+Validates the entire form input against its schema. Returns a safe parse result indicating success or failure with detailed issues. Optionally focuses the first field with validation errors.
+
+```ts
+const result = validate<TSchema>(form, config?);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store to validate. The optional `config` parameter allows specifying whether to automatically focus the first field with validation errors after validation.
+
+## Returns
+
+- `result` <Property {...properties.result} />
+
+## Related
+
+### Primitives
+
+<ApiList
+  items={[
+    { text: 'createForm', href: '/solid/api/createForm/' },
+  ]}
+/>
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'focus', href: '../focus/' },
+    { text: 'handleSubmit', href: '../handleSubmit/' },
+    { text: 'setErrors', href: '../setErrors/' },
+    { text: 'getErrors', href: '../getErrors/' },
+    { text: 'getAllErrors', href: '../getAllErrors/' },
+  ]}
+/>

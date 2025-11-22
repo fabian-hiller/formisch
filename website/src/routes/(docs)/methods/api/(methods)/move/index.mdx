@@ -1,0 +1,58 @@
+---
+title: move
+description: Moves an item within a field array from one index to another.
+source: /packages/methods/src/move/move.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# move
+
+Moves an item within a field array from one index to another. All items between the old and new positions are shifted accordingly.
+
+```ts
+move<TSchema, TFieldArrayPath>(form, config);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldArrayPath` <Property {...properties.TFieldArrayPath} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store containing the field array. The `config` parameter specifies the path to the field array and the indices to move the item from and to.
+
+## Related
+
+### Primitives
+
+<ApiList
+  items={[
+    { text: 'createForm', href: '/solid/api/createForm/' },
+    {
+      text: 'useFieldArray',
+      href: '/solid/api/useFieldArray/',
+    },
+  ]}
+/>
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'insert', href: '../insert/' },
+    { text: 'remove', href: '../remove/' },
+    { text: 'replace', href: '../replace/' },
+    { text: 'swap', href: '../swap/' },
+  ]}
+/>

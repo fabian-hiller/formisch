@@ -1,0 +1,318 @@
+---
+title: Field arrays
+description: >-
+  Learn how to create dynamic form fields based on arrays. Field arrays allow
+  users to add, remove, and reorder form fields, making them perfect for
+  complex forms like todo lists or shopping carts.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Field arrays
+
+A somewhat more special case are dynamically generated form fields based on an array. Since adding, removing, swapping and moving items can be a big challenge here, the library provides the <Link href="/solid/api/FieldArray/">`FieldArray`</Link> component which, in combination with various methods, makes it very easy for you to create such forms.
+
+> In our <Link href="/playground/todos">playground</Link> you can take a look at a form with a field array and test them out.
+
+## Create a field array
+
+### Schema definition
+
+In the following example we create a field array for a todo form with the following schema:
+
+```tsx
+import * as v from 'valibot';
+
+const TodoFormSchema = v.object({
+  heading: v.pipe(v.string(), v.nonEmpty()),
+  todos: v.pipe(
+    v.array(
+      v.object({
+        label: v.pipe(v.string(), v.nonEmpty()),
+        deadline: v.pipe(v.string(), v.nonEmpty()),
+      })
+    ),
+    v.nonEmpty(),
+    v.maxLength(10)
+  ),
+});
+```
+
+### FieldArray component
+
+To dynamically generate the form fields for the todos, you use the <Link href="/solid/api/FieldArray/">`FieldArray`</Link> component in combination with SolidJS's `<For>` component. The field array provides an `items` array that contains unique string identifiers which the `<For>` component uses to detect when an item is added, moved, or removed.
+
+```tsx
+import { createForm, Field, FieldArray, Form } from '@formisch/solid';
+import { For } from 'solid-js';
+
+export default function TodoPage() {
+  const todoForm = createForm({
+    schema: TodoFormSchema,
+    initialInput: {
+      heading: '',
+      todos: [{ label: '', deadline: '' }],
+    },
+  });
+
+  return (
+    <Form of={todoForm} onSubmit={(output) => console.log(output)}>
+      <Field of={todoForm} path={['heading']}>
+        {(field) => (
+          <>
+            <input {...field.props} value={field.input ?? ''} type="text" />
+            {field.errors && <div>{field.errors[0]}</div>}
+          </>
+        )}
+      </Field>
+
+      <FieldArray of={todoForm} path={['todos']}>
+        {(fieldArray) => (
+          <div>
+            <For each={fieldArray.items}>
+              {(_, getIndex) => (
+                <div>
+                  <Field of={todoForm} path={['todos', getIndex(), 'label']}>
+                    {(field) => (
+                      <>
+                        <input
+                          {...field.props}
+                          value={field.input ?? ''}
+                          type="text"
+                        />
+                        {field.errors && <div>{field.errors[0]}</div>}
+                      </>
+                    )}
+                  </Field>
+
+                  <Field of={todoForm} path={['todos', getIndex(), 'deadline']}>
+                    {(field) => (
+                      <>
+                        <input
+                          {...field.props}
+                          value={field.input ?? ''}
+                          type="date"
+                        />
+                        {field.errors && <div>{field.errors[0]}</div>}
+                      </>
+                    )}
+                  </Field>
+                </div>
+              )}
+            </For>
+            {fieldArray.errors && <div>{fieldArray.errors[0]}</div>}
+          </div>
+        )}
+      </FieldArray>
+
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+### Path array with index
+
+As with <Link href="/solid/guides/nested-fields/">nested fields</Link>, you use an array for the `path` property. The key difference is that you include the index from the `<For>` component's `getIndex()` function to specify which array item you're referencing. This ensures the paths update correctly when items are added, moved, or removed.
+
+```tsx
+<Field of={todoForm} path={['todos', getIndex(), 'label']}>
+  {(field) => <input {...field.props} value={field.input ?? ''} type="text" />}
+</Field>
+```
+
+## Use array methods
+
+Now you can use the <Link href="/methods/api/insert/">`insert`</Link>, <Link href="/methods/api/move/">`move`</Link>, <Link href="/methods/api/remove/">`remove`</Link>, <Link href="/methods/api/replace/">`replace`</Link>, and <Link href="/methods/api/swap/">`swap`</Link> methods to make changes to the field array. These methods automatically take care of rearranging all the fields.
+
+### Insert method
+
+Add a new item to the array:
+
+```tsx
+import { insert } from '@formisch/solid';
+
+<button
+  type="button"
+  onClick={() =>
+    insert(todoForm, {
+      path: ['todos'],
+      initialInput: { label: '', deadline: '' },
+    })
+  }
+>
+  Add Todo
+</button>;
+```
+
+The `at` option can be used to specify the index where the item should be inserted. If not provided, the item is added to the end of the array.
+
+### Remove method
+
+Remove an item from the array:
+
+```tsx
+import { remove } from '@formisch/solid';
+
+<button
+  type="button"
+  onClick={() =>
+    remove(todoForm, {
+      path: ['todos'],
+      at: getIndex(),
+    })
+  }
+>
+  Delete
+</button>;
+```
+
+### Move method
+
+Move an item from one position to another:
+
+```tsx
+import { move } from '@formisch/solid';
+
+<button
+  type="button"
+  onClick={() =>
+    move(todoForm, {
+      path: ['todos'],
+      from: 0,
+      to: fieldArray.items.length - 1,
+    })
+  }
+>
+  Move first to end
+</button>;
+```
+
+### Swap method
+
+Swap two items in the array:
+
+```tsx
+import { swap } from '@formisch/solid';
+
+<button
+  type="button"
+  onClick={() =>
+    swap(todoForm, {
+      path: ['todos'],
+      at: 0,
+      and: 1,
+    })
+  }
+>
+  Swap first two
+</button>;
+```
+
+### Replace method
+
+Replace an item with new data:
+
+```tsx
+import { replace } from '@formisch/solid';
+
+<button
+  type="button"
+  onClick={() =>
+    replace(todoForm, {
+      path: ['todos'],
+      at: 0,
+      initialInput: {
+        label: 'New task',
+        deadline: new Date().toISOString().split('T')[0],
+      },
+    })
+  }
+>
+  Replace first
+</button>;
+```
+
+## Nested field arrays
+
+If you need to nest multiple field arrays, the path array syntax makes it straightforward. Simply extend the path with additional array indices:
+
+```tsx
+const NestedSchema = v.object({
+  categories: v.array(
+    v.object({
+      name: v.string(),
+      items: v.array(
+        v.object({
+          title: v.string(),
+        })
+      ),
+    })
+  ),
+});
+
+<FieldArray of={form} path={['categories']}>
+  {(categoryArray) => (
+    <For each={categoryArray.items}>
+      {(_, getCategoryIndex) => (
+        <div>
+          <Field of={form} path={['categories', getCategoryIndex(), 'name']}>
+            {(field) => <input {...field.props} value={field.input ?? ''} />}
+          </Field>
+
+          <FieldArray
+            of={form}
+            path={['categories', getCategoryIndex(), 'items']}
+          >
+            {(itemArray) => (
+              <For each={itemArray.items}>
+                {(_, getItemIndex) => (
+                  <Field
+                    of={form}
+                    path={[
+                      'categories',
+                      getCategoryIndex(),
+                      'items',
+                      getItemIndex(),
+                      'title',
+                    ]}
+                  >
+                    {(field) => (
+                      <input {...field.props} value={field.input ?? ''} />
+                    )}
+                  </Field>
+                )}
+              </For>
+            )}
+          </FieldArray>
+        </div>
+      )}
+    </For>
+  )}
+</FieldArray>;
+```
+
+You can nest field arrays as deeply as you like. You will also find a suitable example of this in our <Link href="/playground/nested">playground</Link>.
+
+## Field array validation
+
+As with fields, you can validate field arrays using Valibot's array validation functions. For example, to limit the length of the array:
+
+```tsx
+const TodoFormSchema = v.object({
+  todos: v.pipe(
+    v.array(
+      v.object({
+        label: v.string(),
+        deadline: v.string(),
+      })
+    ),
+    v.minLength(1),
+    v.maxLength(10)
+  ),
+});
+```
+
+The validation errors for the field array itself are available in `fieldArray.errors` and can be displayed alongside the array.

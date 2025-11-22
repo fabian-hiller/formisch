@@ -15,15 +15,34 @@ import {
 } from '@formisch/core';
 import type * as v from 'valibot';
 
+/**
+ * Move array field config interface.
+ */
 export interface MoveConfig<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
 > {
+  /**
+   * The path to the field array to move an item within.
+   */
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
+  /**
+   * The index of the item to move from.
+   */
   readonly from: number;
+  /**
+   * The index to move the item to.
+   */
   readonly to: number;
 }
 
+/**
+ * Moves an item from one index to another within a field array. All items
+ * between the source and destination indices are shifted accordingly.
+ *
+ * @param form The form store containing the field array.
+ * @param config The move configuration specifying the path and source/destination indices.
+ */
 export function move<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
@@ -67,9 +86,7 @@ export function move<
 
       // Copy item state that gets overwritten to temporary store
       copyItemState(
-        internalArrayStore.children[
-          config.from < config.to ? config.from : config.to
-        ],
+        internalArrayStore.children[config.from],
         tempInternalFieldStore
       );
 
@@ -94,9 +111,7 @@ export function move<
       // Copy item state from temporary store to new position
       copyItemState(
         tempInternalFieldStore,
-        internalArrayStore.children[
-          config.from < config.to ? config.to : config.from
-        ]
+        internalArrayStore.children[config.to]
       );
 
       // Mark field array as touched and update dirty state
@@ -105,6 +120,7 @@ export function move<
         internalArrayStore.startItems.value.join() !== newItems.join();
 
       // Validate if required
+      // TODO: Should we validate on touch, change and blur too?
       validateIfRequired(internalFormStore, internalArrayStore, 'input');
     });
   }

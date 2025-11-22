@@ -7,16 +7,27 @@
   "homepage": "https://formisch.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fabian-hiller/formisch"
+    "url": "https://github.com/open-circle/formisch"
   },
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@9.15.2",
+  "scripts": {
+    "check-versions": "pnpm --filter formisch-scripts check-versions",
+    "create-releases": "pnpm --filter formisch-scripts create-releases"
+  },
   "devDependencies": {
     "@babel/plugin-syntax-class-properties": "^7.12.13",
     "@babel/plugin-syntax-jsx": "^7.27.1",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "prettier": "^3.6.2",
+    "prettier-plugin-svelte": "^3.4.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "typescript": "^5.8.3"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@qwik.dev/router@2.0.0-beta.9": "patches/@qwik.dev__router@2.0.0-beta.9.patch"
+    }
   }
 }

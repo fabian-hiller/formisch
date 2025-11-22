@@ -1,0 +1,172 @@
+import { component$, useComputed$ } from '@qwik.dev/core';
+import { useDocumentHead, useLocation } from '@qwik.dev/router';
+import { FRAMEWORK_LIST } from '~/routes/plugin@framework';
+import { useTheme } from '~/routes/plugin@theme';
+import { getAreaName, getFrameworkName } from '~/utils';
+
+/**
+ * Head content with title, meta, link, script and style elements.
+ */
+export const HeadContent = component$(() => {
+  // Use head, location and theme
+  const head = useDocumentHead();
+  const location = useLocation();
+  const theme = useTheme();
+
+  // Compute document title
+  const documentTitle = useComputed$(() => {
+    // Create title variable
+    let title = '';
+
+    // Get framework, area and page from pathname
+    const [, framework, area, page] = location.url.pathname.split('/');
+
+    // Add area name if available
+    const areaName = getAreaName(area);
+    if (areaName && page) {
+      title += `${areaName}: `;
+    }
+
+    // Add actual page title
+    title += head.title;
+
+    // Add framework name if available
+    const frameworkName = getFrameworkName(framework);
+    if (frameworkName) {
+      title += ` (${frameworkName})`;
+    }
+
+    // Add suffix for non-homepage pages
+    if (location.url.pathname !== '/') {
+      title += ' | Formisch';
+    }
+
+    // Return title
+    return title;
+  });
+
+  // Compute theme color code
+  const themeColor = useComputed$(() =>
+    theme.value === 'dark' ? '#111827' : '#fff'
+  );
+
+  // Compute Open Graph type
+  const ogType = useComputed$(() =>
+    location.url.pathname === '/' || location.url.pathname === '/playground/'
+      ? 'website'
+      : 'article'
+  );
+
+  // Compute description from metadata
+  const description = useComputed$(
+    // eslint-disable-next-line qwik/valid-lexical-scope
+    () => head.meta.find((item) => item.name === 'description')?.content
+  );
+
+  // Compute Open Graph image URL
+  const imageUrl = useComputed$(() => {
+    // Create base URL
+    let imageUrl = `${location.url.origin}/og-image`;
+
+    // Add title and path to URL
+    if (location.url.pathname !== '/') {
+      // eslint-disable-next-line qwik/valid-lexical-scope
+      imageUrl += `?title=${encodeURIComponent(head.title)}&path=${
+        location.url.pathname.split('/')[1]
+      }`;
+
+      // Add description to URL
+      if (description.value) {
+        imageUrl += `&description=${encodeURIComponent(description.value)}`;
+      }
+    }
+
+    // Return image URL
+    return imageUrl;
+  });
+
+  // Compute docsearch framework
+  const docsearchFramework = useComputed$(() => {
+    const framework = location.url.pathname.split('/')[1];
+    if ((FRAMEWORK_LIST as string[]).includes(framework)) {
+      return framework;
+    }
+    return 'none';
+  });
+
+  return (
+    <>
+      {/* Document title */}
+      <title>{documentTitle.value}</title>
+
+      {/* Default metadata */}
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="theme-color" content={themeColor.value} />
+      <link rel="canonical" href={location.url.href} />
+      <link rel="manifest" href="/manifest.json" />
+
+      {/* Icon metadata */}
+      <link rel="icon" type="image/png" sizes="32x32" href="/icon-32px.png" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/icon-16px.png" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/icon-180px.jpg" />
+
+      {/* Preload fonts */}
+      <link
+        rel="preload"
+        href="/fonts/lexend-exa-600.woff2"
+        as="font"
+        type="font/woff2"
+        crossOrigin=""
+      />
+      <link
+        rel="preload"
+        href="/fonts/lexend-500.woff2"
+        as="font"
+        type="font/woff2"
+        crossOrigin=""
+      />
+      <link
+        rel="preload"
+        href="/fonts/lexend-400.woff2"
+        as="font"
+        type="font/woff2"
+        crossOrigin=""
+      />
+
+      {/* Open Graph metadata */}
+      <meta property="og:type" content={ogType.value} />
+      <meta property="og:url" content={location.url.href} />
+      <meta property="og:title" content={head.title} />
+      {description.value && (
+        <meta property="og:description" content={description.value} />
+      )}
+      <meta property="og:image" content={imageUrl.value} />
+      <meta name="twitter:card" content="summary_large_image" />
+
+      {/* Algolia DocSearch facets */}
+      <meta name="docsearch:framework" content={docsearchFramework.value} />
+
+      {/* Dynamic metadata */}
+      {head.meta.map((props) => (
+        <meta key={props.content} {...props} />
+      ))}
+
+      {/* Umami tracking script */}
+      <script
+        async
+        src="https://umami.formisch.dev/script.js"
+        data-website-id="c4666473-a1b7-4c55-8fd4-f991de13b541"
+        data-domains="formisch.dev"
+        data-strip-search="true"
+      />
+
+      {/* Temporary solution until attribute can be rendered dynamically */}
+      {theme.value === 'dark' ? (
+        <script dangerouslySetInnerHTML="document.documentElement.classList.add('dark')" />
+      ) : (
+        <script dangerouslySetInnerHTML="document.documentElement.classList.remove('dark')" />
+      )}
+    </>
+  );
+});

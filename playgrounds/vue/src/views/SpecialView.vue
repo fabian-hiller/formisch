@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Field, Form, type SubmitHandler, useForm } from '@formisch/vue';
+import { Field, Form, useForm } from '@formisch/vue';
 import * as v from 'valibot';
 import {
   Checkbox,
@@ -27,8 +27,6 @@ const SpecialFormSchema = v.object({
     item: v.optional(v.file()),
   }),
 });
-
-type SpecialFormSchema = typeof SpecialFormSchema;
 
 const specialForm = useForm({
   schema: SpecialFormSchema,

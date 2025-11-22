@@ -1,0 +1,49 @@
+---
+title: setErrors
+description: Sets or clears error messages on the form or a specific field.
+source: /packages/methods/src/setErrors/setErrors.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# setErrors
+
+Sets or clears error messages on the form or a specific field. This is useful for setting custom validation errors that don't come from schema validation.
+
+```ts
+setErrors<TSchema, TFieldPath>(form, config);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store to set errors on. The `config` parameter specifies the path and error messages to set, or can be set to null to clear existing errors.
+
+## Related
+
+### Primitives
+
+<ApiList items={[{ text: 'createForm', href: '/solid/api/createForm/' }]} />
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'getErrors', href: '../getErrors/' },
+    { text: 'getAllErrors', href: '../getAllErrors/' },
+    { text: 'validate', href: '../validate/' },
+  ]}
+/>

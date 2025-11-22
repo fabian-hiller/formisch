@@ -1,4 +1,16 @@
-export type { SubmitHandler } from '@formisch/core/solid';
+export type {
+  DeepPartial,
+  FieldElement,
+  FormConfig,
+  PartialValues,
+  PathValue,
+  RequiredPath,
+  Schema,
+  SubmitHandler,
+  ValidArrayPath,
+  ValidationMode,
+  ValidPath,
+} from '@formisch/core/solid';
 export * from '@formisch/methods/solid';
 export * from './components/index.ts';
 export * from './primitives/index.ts';

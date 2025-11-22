@@ -1,0 +1,145 @@
+---
+title: Add form fields
+description: >-
+  Learn how to add fields to your form using the Field component or useField
+  primitive. Both are headless and provide access to field state for building
+  your form UI.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Add form fields
+
+To add a field to your form, you can use the <Link href="/qwik/api/Field/">`Field`</Link> component or the <Link href="/qwik/api/useField/">`useField$`</Link> hook. Both are headless and provide access to field state for building your form UI.
+
+## Field component
+
+The <Link href="/qwik/api/Field/">`Field`</Link> component has two mandatory properties: `of` which accepts the form store, and `path` which specifies which field to connect. If you use TypeScript, you get full autocompletion for the path based on your schema.
+
+### Render prop
+
+The <Link href="/qwik/api/Field/">`Field`</Link> component uses a `render$` prop that receives the field store as its parameter. The field store includes signals for the current value, error messages, and props to spread onto your input element.
+
+```tsx
+import { Field, Form, useForm$ } from '@formisch/qwik';
+import { component$ } from '@qwik.dev/core';
+import * as v from 'valibot';
+
+const LoginSchema = v.object({
+  email: v.pipe(v.string(), v.email()),
+  password: v.pipe(v.string(), v.minLength(8)),
+});
+
+export default component$(() => {
+  const loginForm = useForm$({
+    schema: LoginSchema,
+  });
+
+  return (
+    <Form of={loginForm}>
+      <Field
+        of={loginForm}
+        path={['email']}
+        render$={(field) => (
+          <input {...field.props} value={field.input.value} type="email" />
+        )}
+      />
+      <Field
+        of={loginForm}
+        path={['password']}
+        render$={(field) => (
+          <input {...field.props} value={field.input.value} type="password" />
+        )}
+      />
+      <button type="submit">Login</button>
+    </Form>
+  );
+});
+```
+
+> **Important:** If you plan to set initial values with `initialInput` or programmatically control field values using methods like <Link href="/methods/api/setInput/">`setInput`</Link> or <Link href="/methods/api/reset/">`reset`</Link>, you must make your fields controlled by setting the appropriate attributes (like `value`, `checked`, or `selected`). See the <Link href="/qwik/guides/controlled-fields/">controlled fields</Link> guide to learn more.
+
+### Headless design
+
+The <Link href="/qwik/api/Field/">`Field`</Link> component does not render its own UI elements. It is headless and provides only the data layer of the field. This allows you to freely define your user interface. You can use HTML elements, custom components or an external UI library.
+
+### Path array
+
+The `path` property accepts an array of strings and numbers that represents the path to the field in your schema. For top-level fields, it's simply the field name wrapped in an array:
+
+```tsx
+<Field
+  of={loginForm}
+  path={['email']}
+  render$={(field) => (
+    <input {...field.props} value={field.input.value} type="email" />
+  )}
+/>
+```
+
+For nested fields, the path reflects the structure of your schema:
+
+```tsx
+// For a schema like: v.object({ user: v.object({ email: v.string() }) })
+<Field
+  of={form}
+  path={['user', 'email']}
+  render$={(field) => (
+    <input {...field.props} value={field.input.value} type="email" />
+  )}
+/>
+```
+
+### Type safety
+
+The API design of the <Link href="/qwik/api/Field/">`Field`</Link> component results in a fully type-safe form. For example, if you change your schema, TypeScript will immediately alert you if the path is invalid. The field state is also fully typed based on your schema, giving you autocompletion for properties like `field.input`.
+
+## useField$ hook
+
+For very complex forms where you create individual components for each form field, Formisch provides the <Link href="/qwik/api/useField/">`useField$`</Link> hook. It allows you to access the field state directly within your component logic.
+
+```tsx
+import { useField$ } from '@formisch/qwik';
+import type { FormStore } from '@formisch/qwik';
+import { component$ } from '@qwik.dev/core';
+import * as v from 'valibot';
+
+type EmailInputProps = {
+  form: FormStore<v.GenericSchema<{ email: string }>>;
+};
+
+export const EmailInput = component$<EmailInputProps>((props) => {
+  const field = useField$(props.form, { path: ['email'] });
+
+  return (
+    <div>
+      <input {...field.props} value={field.input.value} type="email" />
+      {field.errors.value && <div>{field.errors.value[0]}</div>}
+    </div>
+  );
+});
+```
+
+### When to use which
+
+- **Use `Field` component**: When defining multiple fields in the same component. It ensures you don't accidentally access the wrong field store.
+- **Use `useField$` hook**: When creating field components for single fields. It allows you to access field state in your component logic.
+
+The <Link href="/qwik/api/Field/">`Field`</Link> component is essentially a thin wrapper around <Link href="/qwik/api/useField/">`useField$`</Link> that allows you to access the field state within JSX code.
+
+## Field store
+
+The field store provides access to the following properties as signals:
+
+- `props`: JSX props to spread onto your input element (includes event handlers, ref callback, name attribute, and `autofocus` to automatically focus fields with errors).
+- `input`: A signal containing the current input value of the field (access with `.value`).
+- `errors`: A signal containing an array of error messages if validation fails (access with `.value`).
+- `isTouched`: A signal indicating whether the field has been touched (access with `.value`).
+- `isDirty`: A signal indicating whether the current input differs from the initial input (access with `.value`).
+- `isValid`: A signal indicating whether the field passes all validation rules (access with `.value`).
+
+## Next steps
+
+Now that you know how to add fields to your form, continue to the <Link href="/qwik/guides/input-components/">input components</Link> guide to learn about creating reusable input components for your forms.

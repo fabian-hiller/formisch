@@ -16,12 +16,24 @@ import {
 } from '@formisch/core';
 import type * as v from 'valibot';
 
+/**
+ * Replace array field config interface.
+ */
 export interface ReplaceConfig<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
 > {
+  /**
+   * The path to the field array to replace an item within.
+   */
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
+  /**
+   * The index of the item to replace.
+   */
   readonly at: number;
+  /**
+   * The partial initial input value for the replacement item.
+   */
   readonly initialInput?:
     | DeepPartial<
         PathValue<v.InferInput<TSchema>, [...TFieldArrayPath, number]>
@@ -29,6 +41,12 @@ export interface ReplaceConfig<
     | undefined;
 }
 
+/**
+ * Replaces an item in a field array at the specified index with new initial input.
+ *
+ * @param form The form store containing the field array.
+ * @param config The replace configuration specifying the path, index, and initial input.
+ */
 export function replace<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
@@ -65,6 +83,7 @@ export function replace<
       internalArrayStore.isDirty.value = true;
 
       // Validate if required
+      // TODO: Should we validate on touch, change and blur too?
       validateIfRequired(internalFormStore, internalArrayStore, 'input');
     });
   }

@@ -4,10 +4,10 @@ import {
   copyItemState,
   createId,
   type DeepPartial,
-  getFieldStore,
   initializeFieldStore,
   INTERNAL,
   type InternalArrayStore,
+  type InternalFieldStore,
   type PathKey,
   type PathValue,
   type RequiredPath,
@@ -19,12 +19,24 @@ import {
 } from '@formisch/core';
 import type * as v from 'valibot';
 
+/**
+ * Insert array field config interface.
+ */
 export interface InsertConfig<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
 > {
+  /**
+   * The path to the field array to insert into.
+   */
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
+  /**
+   * The index to insert the new item at. If undefined, appends to the end.
+   */
   readonly at?: number | undefined;
+  /**
+   * The partial initial input value for the new item.
+   */
   readonly initialInput?:
     | DeepPartial<
         PathValue<v.InferInput<TSchema>, [...TFieldArrayPath, number]>
@@ -32,6 +44,13 @@ export interface InsertConfig<
     | undefined;
 }
 
+/**
+ * Inserts a new item into a field array at the specified index. All items at
+ * or after the insertion point are shifted up by one index.
+ *
+ * @param form The form store containing the field array.
+ * @param config The insert configuration specifying the path, index, and initial value.
+ */
 export function insert<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
@@ -39,12 +58,21 @@ export function insert<
   form: BaseFormStore<TSchema>,
   config: InsertConfig<TSchema, TFieldArrayPath>
 ): void {
-  // Get internal form and array store
+  // Get internal form store
   const internalFormStore = form[INTERNAL];
-  const internalArrayStore = getFieldStore(
-    internalFormStore,
-    config.path
-  ) as InternalArrayStore;
+
+  // Walk path to get internal field store and mark all parents as having input
+  let internalFieldStore: InternalFieldStore = internalFormStore;
+  for (let index = 0; index < config.path.length; index++) {
+    // @ts-expect-error
+    internalFieldStore = internalFieldStore.children[config.path[index]];
+    if (index < config.path.length - 1) {
+      internalFieldStore.input.value = true;
+    }
+  }
+
+  // Last internal field store of path is array store
+  const internalArrayStore = internalFieldStore as InternalArrayStore;
 
   // Get current items of field array
   const items = untrack(() => internalArrayStore.items.value);
@@ -87,11 +115,15 @@ export function insert<
         );
       }
 
+      // Mark array input as present in children
+      internalArrayStore.input.value = true;
+
       // Mark field array as touched and dirty
       internalArrayStore.isTouched.value = true;
       internalArrayStore.isDirty.value = true;
 
       // Validate if required
+      // TODO: Should we validate on touch, change and blur too?
       validateIfRequired(internalFormStore, internalArrayStore, 'input');
     });
   }

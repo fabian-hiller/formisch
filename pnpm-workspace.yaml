@@ -2,4 +2,5 @@ packages:
   - 'frameworks/*'
   - 'packages/*'
   - 'playgrounds/*'
+  - 'scripts'
   - 'website'

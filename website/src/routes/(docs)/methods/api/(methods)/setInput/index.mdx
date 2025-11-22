@@ -1,0 +1,49 @@
+---
+title: setInput
+description: Sets input values for the form or a specific field.
+source: /packages/methods/src/setInput/setInput.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# setInput
+
+Sets input values for the form or a specific field programmatically.
+
+```ts
+setInput<TSchema>(form, config);
+setInput<TSchema, TFieldPath>(form, config);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store to set input on. The `config` parameter specifies the path to the field and the new input values to set.
+
+## Related
+
+### Primitives
+
+<ApiList items={[{ text: 'createForm', href: '/solid/api/createForm/' }]} />
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'getInput', href: '../getInput/' },
+    { text: 'reset', href: '../reset/' },
+  ]}
+/>

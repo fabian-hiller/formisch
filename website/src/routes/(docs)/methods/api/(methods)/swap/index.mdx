@@ -1,0 +1,58 @@
+---
+title: swap
+description: Swaps two items in a field array at the specified indices.
+source: /packages/methods/src/swap/swap.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# swap
+
+Swaps two items in a field array at the specified indices.
+
+```ts
+swap<TSchema, TFieldArrayPath>(form, config);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldArrayPath` <Property {...properties.TFieldArrayPath} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store containing the field array. The `config` parameter specifies the path to the field array and the two indices of the items to swap.
+
+## Related
+
+### Primitives
+
+<ApiList
+  items={[
+    { text: 'createForm', href: '/solid/api/createForm/' },
+    {
+      text: 'useFieldArray',
+      href: '/solid/api/useFieldArray/',
+    },
+  ]}
+/>
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'insert', href: '../insert/' },
+    { text: 'move', href: '../move/' },
+    { text: 'remove', href: '../remove/' },
+    { text: 'replace', href: '../replace/' },
+  ]}
+/>

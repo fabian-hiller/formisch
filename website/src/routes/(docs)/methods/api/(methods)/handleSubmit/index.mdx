@@ -1,0 +1,56 @@
+---
+title: handleSubmit
+description: Creates a submit event handler for the form.
+source: /packages/methods/src/handleSubmit/handleSubmit.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# handleSubmit
+
+Creates a submit event handler for the form that prevents default browser submission, validates the form input, and calls the provided handler if validation succeeds. This is designed to be used with the form's onsubmit event.
+
+```ts
+const result = handleSubmit<TSchema>(form, handler);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `handler` <Property {...properties.handler} />
+
+### Explanation
+
+The `form` parameter is the form store to handle submission for. The `handler` parameter is the submit handler function that gets called with the validated form output if validation succeeds.
+
+## Returns
+
+- `result` <Property {...properties.result} />
+
+## Related
+
+### Primitives
+
+<ApiList
+  items={[
+    { text: 'createForm', href: '/solid/api/createForm/' },
+  ]}
+/>
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'validate', href: '../validate/' },
+    { text: 'focus', href: '../focus/' },
+    { text: 'submit', href: '../submit/' },
+  ]}
+/>

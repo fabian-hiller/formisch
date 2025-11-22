@@ -1,0 +1,207 @@
+/* Tailwind CSS */
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-lexend: 'Lexend', ui-sans-serif, system-ui, sans-serif;
+  --font-lexend-exa: 'Lexend Exa', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Custom utils */
+@utility focus-ring {
+  @apply focus-visible:ring-4 focus-visible:ring-sky-600/10 focus-visible:ring-offset-[3px] focus-visible:ring-offset-white focus-visible:outline-2 focus-visible:outline-sky-600/50 dark:focus-visible:ring-sky-400/10 dark:focus-visible:ring-offset-gray-900 dark:focus-visible:outline-sky-400/50;
+}
+@utility scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Base layer */
+@layer base {
+  /* Disable tap highlight color */
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Workaround for bug in Qwik Router */
+  ::view-transition-group(root) {
+    animation: none;
+  }
+
+  /* Reset appearance */
+  @supports (-webkit-text-size-adjust: none) and (font: -apple-system-body) {
+    [type='date'] {
+      @apply flex appearance-none items-center justify-start;
+    }
+  }
+  [type='search']::-webkit-search-cancel-button {
+    @apply hidden;
+  }
+
+  /* Disable transitions */
+  .disable-transitions,
+  .disable-transitions * {
+    transition: none !important;
+  }
+
+  /* Scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-slate-300) transparent;
+  }
+  .dark,
+  .dark * {
+    scrollbar-color: var(--color-slate-700) transparent;
+  }
+
+  /* Monaco editor */
+  .monaco-editor,
+  .monaco-editor > div {
+    @apply border-0 outline-none lg:rounded-3xl;
+  }
+
+  .dark .shiki,
+  .dark .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+
+  /* Lexend 400 */
+  @font-face {
+    font-family: 'Lexend';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(/fonts/lexend-400.woff2) format('woff2');
+  }
+
+  /* Lexend 500 */
+  @font-face {
+    font-family: 'Lexend';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url(/fonts/lexend-500.woff2) format('woff2');
+  }
+
+  /* Lexend Exa 500 */
+  @font-face {
+    font-family: 'Lexend Exa';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url(/fonts/lexend-exa-600.woff2) format('woff2');
+  }
+
+  /* Typography */
+  .mdx :is(h1, h2, h3, h4) {
+    @apply scroll-mt-24 leading-normal font-medium text-slate-900 md:scroll-mt-32 lg:scroll-mt-48 dark:text-slate-200;
+  }
+  .mdx h1 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+  .mdx h2 {
+    @apply border-b-2 border-b-slate-200 pb-4 text-xl md:pb-6 md:text-2xl lg:pb-8 lg:text-3xl dark:border-b-slate-800;
+  }
+  .mdx h3 {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+  .mdx h4 {
+    @apply md:text-lg lg:text-xl;
+  }
+  .mdx :is(p, blockquote, ul, ol) {
+    @apply leading-loose md:text-lg lg:text-xl;
+  }
+  .mdx p strong {
+    @apply text-slate-800 dark:text-slate-300;
+  }
+
+  /* Blockquote */
+  .mdx blockquote p {
+    @apply border-l-4 border-l-yellow-600 pl-6 lg:pl-8 dark:border-l-yellow-400;
+  }
+
+  /* Links */
+  .mdx a {
+    @apply focus-ring rounded-md text-sky-600 underline decoration-slate-400 decoration-dashed underline-offset-[3px] focus-visible:ring-offset-[6px] focus-visible:outline-offset-4 dark:text-sky-400 dark:decoration-slate-600;
+  }
+
+  /* Images */
+  .mdx > img {
+    @apply w-auto rounded-2xl border-2 border-slate-200 lg:rounded-3xl lg:border-[3px] dark:border-slate-800;
+  }
+
+  /* Lists */
+  .mdx :is(ul, ol) {
+    @apply flex flex-col gap-2;
+  }
+  .mdx :is(ul, ol) :is(ul, ol) {
+    @apply pt-2 pl-4 lg:pl-5;
+  }
+  .mdx ul {
+    @apply list-disc;
+  }
+  .mdx ol {
+    @apply list-decimal;
+  }
+  .mdx :is(ul, ol) li {
+    @apply pl-2.5;
+  }
+
+  /* Table */
+  .mdx .table-wrapper {
+    @apply overflow-x-auto rounded-2xl border-2 border-slate-200 px-5 py-2.5 lg:rounded-3xl lg:border-[3px] lg:px-10 lg:py-7 dark:border-slate-800;
+  }
+  .mdx table {
+    @apply w-full md:text-lg lg:text-xl;
+  }
+  .mdx tbody tr {
+    @apply border-t border-t-slate-200 lg:border-t-2 dark:border-t-slate-800;
+  }
+  .mdx th {
+    @apply text-left font-medium text-slate-700 dark:text-slate-300;
+  }
+  .mdx :is(th, td) {
+    @apply py-2.5 whitespace-nowrap lg:py-3;
+  }
+  .mdx :is(th, td) + :is(th, td) {
+    @apply pl-3;
+  }
+  .mdx table strong {
+    @apply font-normal text-emerald-600 dark:text-emerald-400;
+  }
+
+  /* Code */
+  .mdx :not(pre) > code {
+    @apply rounded-lg bg-slate-100 px-2 py-1 text-slate-700 dark:bg-gray-800 dark:text-slate-300;
+  }
+  .mdx p > code {
+    @apply whitespace-nowrap;
+  }
+
+  /* Horizontal spacing */
+  .mdx > :is(h1, h2, h3, h4, p, blockquote) {
+    @apply mx-8 lg:mx-10;
+  }
+  .mdx > :is(ul, ol) {
+    @apply mr-8 ml-12 lg:mr-10 lg:ml-14;
+  }
+  .mdx > :is(img, .code-wrapper, .table-wrapper) {
+    @apply mx-3 lg:mx-10 2xl:mx-0;
+  }
+
+  /* Vertical spacing */
+  .mdx > :is(h1, h2, h3, h4, p) + p {
+    @apply mt-7 md:mt-9 lg:mt-11;
+  }
+  .mdx > * + * {
+    @apply mt-10 md:mt-12 lg:mt-14;
+  }
+  .mdx > * + h2 {
+    @apply mt-12 md:mt-14 lg:mt-16;
+  }
+}

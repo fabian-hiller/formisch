@@ -13,13 +13,27 @@ import type * as v from 'valibot';
 import type { FieldArrayStore, FormStore } from '../../types/index.ts';
 import { usePathSignal } from '../usePathSignal/usePathSignal.ts';
 
+/**
+ * Use field array config interface.
+ */
 export interface UseFieldArrayConfig<
   TSchema extends Schema = Schema,
   TFieldArrayPath extends RequiredPath = RequiredPath,
 > {
+  /**
+   * The path to the array field within the form schema.
+   */
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
 }
 
+/**
+ * Creates a reactive field array store of a specific field array within a form store.
+ *
+ * @param form The form store instance.
+ * @param config The field array configuration.
+ *
+ * @returns The field array store with reactive properties for array management.
+ */
 export function useFieldArray<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
@@ -27,6 +41,8 @@ export function useFieldArray<
   form: FormStore<TSchema>,
   config: UseFieldArrayConfig<TSchema, TFieldArrayPath>
 ): FieldArrayStore<TSchema, TFieldArrayPath>;
+
+// @__NO_SIDE_EFFECTS__
 export function useFieldArray(
   form: FormStore,
   config: UseFieldArrayConfig

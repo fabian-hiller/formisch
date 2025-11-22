@@ -1,0 +1,26 @@
+---
+title: GetFormErrorsConfig
+description: Configuration interface for retrieving form-level errors.
+source: /packages/methods/src/getErrors/getErrors.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# GetFormErrorsConfig
+
+Configuration interface for retrieving form-level errors. Used by the `getErrors` method when no specific field path is provided.
+
+## Definition
+
+- `GetFormErrorsConfig`
+  - `path` <Property {...properties.path} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'getErrors', href: '../getErrors/' }]} />

@@ -54,6 +54,6 @@ You can ask for any help or clarifications from the collaborators.
 - [Fabian Hiller](https://github.com/fabian-hiller)
 
 [fork]: https://help.github.com/articles/fork-a-repo/
-[pr]: https://github.com/fabian-hiller/formisch/compare
-[newissue]: https://github.com/fabian-hiller/formisch/issues/new
-[issues]: https://github.com/fabian-hiller/formisch/issues
+[pr]: https://github.com/open-circle/formisch/compare
+[newissue]: https://github.com/open-circle/formisch/issues/new
+[issues]: https://github.com/open-circle/formisch/issues

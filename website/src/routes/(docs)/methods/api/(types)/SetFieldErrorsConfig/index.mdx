@@ -1,0 +1,32 @@
+---
+title: SetFieldErrorsConfig
+description: Configuration interface for setting field-specific errors.
+source: /packages/methods/src/setErrors/setErrors.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# SetFieldErrorsConfig
+
+Configuration interface for setting field-specific errors. Used by the `setErrors` method when a specific field path is provided.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Definition
+
+- `SetFieldErrorsConfig`
+  - `path` <Property {...properties.path} />
+  - `errors` <Property {...properties.errors} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'setErrors', href: '../setErrors/' }]} />

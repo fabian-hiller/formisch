@@ -1,0 +1,17 @@
+{
+  "name": "formisch-scripts",
+  "version": "0.0.0",
+  "description": "Build and maintenance global scripts for Formisch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check-versions": "tsx src/check-versions.ts",
+    "create-releases": "tsx src/create-releases.ts"
+  },
+  "dependencies": {
+    "@octokit/rest": "^22.0.0",
+    "dotenv": "^16.4.7",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.3"
+  }
+}

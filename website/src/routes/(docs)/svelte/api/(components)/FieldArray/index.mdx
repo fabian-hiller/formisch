@@ -1,0 +1,68 @@
+---
+title: FieldArray
+description: Headless field array component that provides reactive properties and state for managing array fields.
+source: /frameworks/svelte/src/components/FieldArray/FieldArray.svelte
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# FieldArray
+
+Headless field array component that provides reactive properties and state for managing array fields. The field array component takes a form store, path to array field, and a snippet that receives a field array store to manage array items and handle array operations.
+
+```tsx
+<FieldArray of={…} path={…}>children</FieldArray>
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldArrayPath` <Property {...properties.TFieldArrayPath} />
+
+## Properties
+
+- `of` <Property {...properties.of} />
+- `path` <Property {...properties.path} />
+- `children` <Property {...properties.children} />
+
+### Explanation
+
+The `FieldArray` component is a headless component that doesn't render any UI itself. Instead, it provides a snippet via the `children` prop that receives a <Link href="../FieldArrayStore/">`FieldArrayStore`</Link> containing all the reactive state and methods needed to manage an array of form fields.
+
+The component automatically handles array field registration, validation, and state management through the `of` prop that references the form store.
+
+## Related
+
+### Runes
+
+<ApiList
+  items={[
+    { text: 'createForm', href: '../createForm/' },
+    { text: 'useFieldArray', href: '../useFieldArray/' },
+  ]}
+/>
+
+### Components
+
+<ApiList
+  items={[
+    { text: 'Field', href: '../Field/' },
+    { text: 'Form', href: '../Form/' },
+  ]}
+/>
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'insert', href: '/methods/api/insert/' },
+    { text: 'move', href: '/methods/api/move/' },
+    { text: 'remove', href: '/methods/api/remove/' },
+    { text: 'replace', href: '/methods/api/replace/' },
+    { text: 'swap', href: '/methods/api/swap/' },
+  ]}
+/>

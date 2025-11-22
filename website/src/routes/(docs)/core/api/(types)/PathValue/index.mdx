@@ -1,0 +1,38 @@
+---
+title: PathValue
+description: Type definition that extracts the value type at the given path.
+source: /packages/core/src/types/path.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# PathValue
+
+Conditional type that extracts the value type at the given path.
+
+## Generics
+
+- `TValue` <Property {...properties.TValue} />
+- `TPath` <Property {...properties.TPath} />
+
+## Definition
+
+- `PathValue` <Property {...properties.PathValue} />
+
+## Related
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'getInput', href: '/methods/api/getInput/' },
+    { text: 'insert', href: '/methods/api/insert/' },
+    { text: 'replace', href: '/methods/api/replace/' },
+    { text: 'reset', href: '/methods/api/reset/' },
+    { text: 'setInput', href: '/methods/api/setInput/' },
+  ]}
+/>

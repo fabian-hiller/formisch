@@ -13,15 +13,33 @@ import {
 } from '@formisch/core';
 import type * as v from 'valibot';
 
+/**
+ * Swap array field config interface.
+ */
 export interface SwapConfig<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
 > {
+  /**
+   * The path to the field array to swap items within.
+   */
   readonly path: ValidArrayPath<v.InferInput<TSchema>, TFieldArrayPath>;
+  /**
+   * The index of the first item to swap.
+   */
   readonly at: number;
+  /**
+   * The index of the second item to swap with the first.
+   */
   readonly and: number;
 }
 
+/**
+ * Swaps two items in a field array by exchanging their positions.
+ *
+ * @param form The form store containing the field array.
+ * @param config The swap configuration specifying the path and indices to swap.
+ */
 export function swap<
   TSchema extends Schema,
   TFieldArrayPath extends RequiredPath,
@@ -67,6 +85,7 @@ export function swap<
         internalArrayStore.startItems.value.join() !== newItems.join();
 
       // Validate if required
+      // TODO: Should we validate on touch, change and blur too?
       validateIfRequired(internalFormStore, internalArrayStore, 'input');
     });
   }

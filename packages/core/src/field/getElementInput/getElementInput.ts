@@ -3,17 +3,20 @@ import type { FieldElement, InternalFieldStore } from '../../types/index.ts';
 import { getFieldInput } from '../getFieldInput/index.ts';
 
 /**
- * Returns the current input of the element.
+ * Returns the current input of the element. Handles special cases for select
+ * multiple, checkbox groups, radio groups, and file inputs.
  *
  * @param element The field element.
- * @param interalFieldStore The interal field store.
+ * @param internalFieldStore The internal field store.
  *
  * @returns The element input.
  */
+// @__NO_SIDE_EFFECTS__
 export function getElementInput(
   element: FieldElement,
   internalFieldStore: InternalFieldStore
 ): unknown {
+  // If element is select with multiple option, return selected values
   // @ts-expect-error
   if (element.options && element.multiple) {
     // @ts-expect-error
@@ -21,28 +24,45 @@ export function getElementInput(
       .filter((option) => option.selected && !option.disabled)
       .map((option) => option.value);
   }
+
+  // If element is checkbox, handle single or group
   if (element.type === 'checkbox') {
+    // Get all checkboxes with same name
     const options = document.getElementsByName(element.name);
+
+    // If checkbox group, return array of checked values
     if (options.length > 1) {
       // @ts-expect-error
       return [...options]
         .filter((option) => option.checked)
         .map((option) => option.value);
     }
+
+    // Return single checkbox checked state
     // @ts-expect-error
     return element.checked;
   }
+
+  // If element is radio, handle as array
   if (element.type === 'radio') {
+    // Get previous field input without tracking
     const prevValue = untrack(
       () => getFieldInput(internalFieldStore) as unknown[]
     );
+
+    // If radio is checked, add its value to array
     // @ts-expect-error
     if (element.checked) {
       return [...prevValue, element.value];
     }
+
+    // Otherwise, remove its value from array
     return prevValue.filter((value) => value !== element.value);
   }
+
+  // If element is file input, handle single or multiple
   if (element.type === 'file') {
+    // If multiple files allowed, return files array
     // @ts-expect-error
     if (element.multiple) {
       return [
@@ -50,8 +70,12 @@ export function getElementInput(
         ...element.files,
       ];
     }
+
+    // Return single file
     // @ts-expect-error
     return element.files[0];
   }
+
+  // Return element value for all other input types
   return element.value;
 }

@@ -1,0 +1,33 @@
+---
+title: ReplaceConfig
+description: Configuration interface for replacing items in array fields.
+source: /packages/methods/src/replace/replace.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# ReplaceConfig
+
+Configuration interface for replacing items in array fields. Used by the `replace` method.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldArrayPath` <Property {...properties.TFieldArrayPath} />
+
+## Definition
+
+- `ReplaceConfig`
+  - `path` <Property {...properties.path} />
+  - `at` <Property {...properties.at} />
+  - `initialInput` <Property {...properties.initialInput} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'replace', href: '../replace/' }]} />

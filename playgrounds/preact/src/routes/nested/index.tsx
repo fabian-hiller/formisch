@@ -10,6 +10,7 @@ import {
   useForm,
 } from '@formisch/preact';
 import autoAnimate from '@formkit/auto-animate';
+import { useSignal, useSignalEffect } from '@preact/signals';
 import * as v from 'valibot';
 import {
   ColorButton,
@@ -44,6 +45,25 @@ export default function NestedPage() {
     },
   });
 
+  const listElements = useSignal<HTMLDivElement[] | null>(null);
+
+  useSignalEffect(() => {
+    if (listElements.value) {
+      listElements.value.forEach((element) => autoAnimate(element));
+      listElements.value = null;
+    }
+  });
+
+  const addListElements = (element: HTMLDivElement | null) => {
+    if (element) {
+      if (listElements.value) {
+        listElements.value = [...listElements.value, element];
+      } else {
+        listElements.value = [element];
+      }
+    }
+  };
+
   return (
     <Form
       of={nestedForm}
@@ -54,8 +74,8 @@ export default function NestedPage() {
 
       <FieldArray of={nestedForm} path={['items']}>
         {(fieldArray) => (
-          <div class="space-y-7 px-10 lg:px-12">
-            <div ref={(ref) => ref && autoAnimate(ref)} class="space-y-5">
+          <div class="space-y-7 px-8 lg:px-10">
+            <div ref={addListElements} class="space-y-5">
               {fieldArray.items.value.map((item, itemIndex) => (
                 <div
                   key={item}
@@ -95,10 +115,7 @@ export default function NestedPage() {
                     path={['items', itemIndex, 'options']}
                   >
                     {(fieldArray) => (
-                      <div
-                        ref={(ref) => ref && autoAnimate(ref)}
-                        class="space-y-5 px-6"
-                      >
+                      <div ref={addListElements} class="space-y-5 px-6">
                         {fieldArray.items.value.map((item, optionIndex) => (
                           <div key={item} class="flex space-x-5">
                             <Field

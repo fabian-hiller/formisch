@@ -1,0 +1,35 @@
+---
+title: ResetFieldConfig
+description: Configuration interface for resetting field-specific input and errors.
+source: /packages/methods/src/reset/reset.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# ResetFieldConfig
+
+Configuration interface for resetting field-specific input and errors. Used by the `reset` method when a specific field path is provided.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Definition
+
+- `ResetFieldConfig`
+  - `path` <Property {...properties.path} />
+  - `initialInput` <Property {...properties.initialInput} />
+  - `keepErrors` <Property {...properties.keepErrors} />
+  - `keepInput` <Property {...properties.keepInput} />
+  - `keepTouched` <Property {...properties.keepTouched} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'reset', href: '../reset/' }]} />

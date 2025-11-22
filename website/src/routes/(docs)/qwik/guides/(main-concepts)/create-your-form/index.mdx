@@ -1,0 +1,95 @@
+---
+title: Create your form
+description: >-
+  Learn how to create a form with the createForm primitive. It initializes
+  your form's store based on your Valibot schema for managing form state
+  and validation.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Create your form
+
+Formisch consists of hooks, components and methods. To create a form you use the <Link href="/qwik/api/useForm/">`useForm$`</Link> hook.
+
+## Form hook
+
+The <Link href="/qwik/api/useForm/">`useForm$`</Link> hook initializes and returns the store of your form. The store contains the state of the form and can be used with other Formisch hooks, components and methods to build your form.
+
+```tsx
+import { Field, Form, useForm$ } from '@formisch/qwik';
+import { component$ } from '@qwik.dev/core';
+import * as v from 'valibot';
+
+const LoginSchema = v.object({
+  email: v.pipe(v.string(), v.email()),
+  password: v.pipe(v.string(), v.minLength(8)),
+});
+
+export default component$(() => {
+  const loginForm = useForm$({
+    schema: LoginSchema,
+  });
+
+  return <Form of={loginForm}>{/* Form fields will go here */}</Form>;
+});
+```
+
+### Configuration options
+
+The <Link href="/qwik/api/useForm/">`useForm$`</Link> hook accepts a configuration object with the following options:
+
+- `schema`: Your Valibot schema that defines the form
+- `initialInput`: Initial values for your form fields (optional)
+- `validate`: When validation first occurs (optional, defaults to `'submit'`)
+- `revalidate`: When revalidation occurs after initial validation (optional, defaults to `'input'`)
+
+```tsx
+const loginForm = useForm$({
+  schema: LoginSchema,
+  initialInput: {
+    email: 'user@example.com',
+  },
+  validate: 'initial',
+  revalidate: 'input',
+});
+```
+
+### Multiple forms
+
+When a page contains multiple forms, you can create separate form stores for each one:
+
+```tsx
+import { Form, useForm$ } from '@formisch/qwik';
+import { component$ } from '@qwik.dev/core';
+import * as v from 'valibot';
+
+const LoginSchema = v.object({
+  email: v.pipe(v.string(), v.email()),
+  password: v.pipe(v.string(), v.minLength(8)),
+});
+
+const RegisterSchema = v.object({
+  username: v.pipe(v.string(), v.minLength(3)),
+  email: v.pipe(v.string(), v.email()),
+  password: v.pipe(v.string(), v.minLength(8)),
+});
+
+export default component$(() => {
+  const loginForm = useForm$({ schema: LoginSchema });
+  const registerForm = useForm$({ schema: RegisterSchema });
+
+  return (
+    <>
+      <Form of={loginForm}>{/* … */}</Form>
+      <Form of={registerForm}>{/* … */}</Form>
+    </>
+  );
+});
+```
+
+## Next steps
+
+Now that you know how to create a form, continue to the <Link href="/qwik/guides/add-form-fields/">add form fields</Link> guide to learn how to connect your input elements to the form using the <Link href="/qwik/api/Field/">`Field`</Link> component.

@@ -9,17 +9,24 @@ import { useField } from '../../composables';
 import { FieldStore, FormStore } from '../../types';
 
 /**
- * Properties of the `Field` component.
+ * Field component props interface.
  */
 export interface FieldProps<
   TSchema extends Schema = Schema,
   TFieldPath extends RequiredPath = RequiredPath,
 > {
+  /**
+   * The form store to which the field belongs.
+   */
   readonly of: FormStore<TSchema>;
+  /**
+   * The path to the field within the form schema.
+   */
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
 }
 
 defineOptions({ inheritAttrs: false });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 defineSlots<{ default(props: FieldStore<TSchema, TFieldPath>): any }>();
 const props = defineProps<FieldProps<TSchema, TFieldPath>>();
 

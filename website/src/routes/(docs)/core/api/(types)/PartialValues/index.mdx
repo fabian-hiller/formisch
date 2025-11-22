@@ -1,0 +1,28 @@
+---
+title: PartialValues
+description: Utility type that makes all value properties optional recursively.
+source: /packages/core/src/types/utils.ts
+contributors:
+  - fabian-hiller
+---
+
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# PartialValues
+
+Utility type that recursively makes all value properties optional, including nested objects and arrays.
+
+## Generics
+
+- `TValue` <Property {...properties.TValue} />
+
+## Definition
+
+- `PartialValues` <Property {...properties.PartialValues} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'getInput', href: '/methods/api/getInput/' }]} />

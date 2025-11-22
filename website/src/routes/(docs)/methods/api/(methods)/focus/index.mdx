@@ -1,0 +1,52 @@
+---
+title: focus
+description: Focuses the first input element of a field.
+source: /packages/methods/src/focus/focus.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# focus
+
+Focuses the first input element of a field. This is useful for programmatically setting focus to a specific field, such as after validation errors or user interactions.
+
+```ts
+focus<TSchema, TFieldPath>(form, config);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store containing the field to focus. The `config` parameter specifies which field to focus using the `path` property, and can optionally include additional focus options.
+
+## Related
+
+### Primitives
+
+<ApiList
+  items={[
+    { text: 'createForm', href: '/solid/api/createForm/' },
+  ]}
+/>
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'validate', href: '../validate/' },
+    { text: 'setErrors', href: '../setErrors/' },
+  ]}
+/>

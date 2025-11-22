@@ -1,0 +1,199 @@
+---
+title: Input components
+description: >-
+  Learn how to create reusable input components to make your form code more
+  readable and maintainable. Encapsulate styling and error display logic.
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+
+# Input components
+
+To make your code more readable, we recommend that you develop your own input components if you are not using a prebuilt UI library. There you can encapsulate logic to display error messages, for example.
+
+> If you're already a bit more experienced, you can use the input components we developed for our <Link href="/playground/">playground</Link> as a starting point. You can find the code in our GitHub repository <a href={`${import.meta.env.PUBLIC_GITHUB_URL}/tree/main/playgrounds/svelte/src/components`} target="\_blank" rel="noreferrer">here</a>.
+
+## Why input components?
+
+Currently, your fields might look something like this:
+
+```svelte
+<Field of={loginForm} path={['email']}>
+  {#snippet children(field)}
+    <div>
+      <label for={field.props.name}>Email</label>
+      <input
+        {...field.props}
+        id={field.props.name}
+        value={field.input}
+        type="email"
+        required
+      />
+      {#if field.errors}
+        <div>{field.errors[0]}</div>
+      {/if}
+    </div>
+  {/snippet}
+</Field>
+```
+
+If CSS and a few more functionalities are added here, the code quickly becomes confusing. In addition, you have to rewrite the same code for almost every form field.
+
+Our goal is to develop a `TextInput` component so that the code ends up looking like this:
+
+```svelte
+<Field of={loginForm} path={['email']}>
+  {#snippet children(field)}
+    <TextInput
+      {...field.props}
+      type="email"
+      label="Email"
+      input={field.input}
+      errors={field.errors}
+      required
+    />
+  {/snippet}
+</Field>
+```
+
+## Create an input component
+
+In the first step, you create a new file for the `TextInput` component and, if you use TypeScript, define its properties.
+
+```svelte
+<script lang="ts">
+  type TextInputProps = {
+    name: string;
+    type: 'text' | 'email' | 'tel' | 'password' | 'url' | 'date';
+    label?: string;
+    placeholder?: string;
+    input: string | undefined;
+    errors: [string, ...string[]] | null;
+    required?: boolean;
+    onfocus?: (event: FocusEvent) => void;
+    oninput?: (event: InputEvent) => void;
+    onchange?: (event: Event) => void;
+    onblur?: (event: FocusEvent) => void;
+  };
+
+  let {
+    name,
+    type = 'text',
+    label,
+    placeholder,
+    input,
+    errors,
+    required,
+    onfocus,
+    oninput,
+    onchange,
+    onblur,
+  } = $props<TextInputProps>();
+</script>
+```
+
+### Component markup
+
+In the next step, add the component markup to display the input and error messages.
+
+```svelte
+<script lang="ts">
+  // ... types and props definition ...
+</script>
+
+<div>
+  {#if label}
+    <label for={name}>
+      {label}
+      {#if required}<span>*</span>{/if}
+    </label>
+  {/if}
+  <input
+    {name}
+    {type}
+    {placeholder}
+    id={name}
+    value={input ?? ''}
+    aria-invalid={!!errors}
+    aria-errormessage={`${name}-error`}
+    {onfocus}
+    {oninput}
+    {onchange}
+    {onblur}
+  />
+  {#if errors}
+    <div id={`${name}-error`}>{errors[0]}</div>
+  {/if}
+</div>
+```
+
+### Next steps
+
+You can now build on this code and add CSS, for example. You can also follow the procedure to create other components such as `Checkbox`, `Slider`, `Select` and `FileInput`.
+
+### Final code
+
+Below is an overview of the entire code of the `TextInput` component.
+
+```svelte
+<script lang="ts">
+  type TextInputProps = {
+    name: string;
+    type: 'text' | 'email' | 'tel' | 'password' | 'url' | 'date';
+    label?: string;
+    placeholder?: string;
+    input: string | undefined;
+    errors: [string, ...string[]] | null;
+    required?: boolean;
+    onfocus?: (event: FocusEvent) => void;
+    oninput?: (event: InputEvent) => void;
+    onchange?: (event: Event) => void;
+    onblur?: (event: FocusEvent) => void;
+  };
+
+  let {
+    name,
+    type = 'text',
+    label,
+    placeholder,
+    input,
+    errors,
+    required,
+    onfocus,
+    oninput,
+    onchange,
+    onblur,
+  } = $props<TextInputProps>();
+</script>
+
+<div>
+  {#if label}
+    <label for={name}>
+      {label}
+      {#if required}<span>*</span>{/if}
+    </label>
+  {/if}
+  <input
+    {name}
+    {type}
+    {placeholder}
+    id={name}
+    value={input ?? ''}
+    aria-invalid={!!errors}
+    aria-errormessage={`${name}-error`}
+    {onfocus}
+    {oninput}
+    {onchange}
+    {onblur}
+  />
+  {#if errors}
+    <div id={`${name}-error`}>{errors[0]}</div>
+  {/if}
+</div>
+```
+
+## Next steps
+
+Now that you know how to create reusable input components, continue to the <Link href="/svelte/guides/handle-submission/">handle submission</Link> guide to learn how to process form data when the user submits the form.

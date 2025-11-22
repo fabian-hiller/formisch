@@ -6,22 +6,34 @@ import {
   validateFormInput,
 } from '@formisch/core';
 
+/**
+ * Creates a submit event handler for the form that prevents default browser
+ * submission, validates the form input, and calls the provided handler if
+ * validation succeeds. This is designed to be used with the form's onsubmit event.
+ *
+ * @param form The form store to handle submission for.
+ * @param handler The submit handler function called with validated output if validation succeeds.
+ *
+ * @returns A submit event handler function to attach to the form element.
+ */
 export function handleSubmit<TSchema extends Schema>(
   form: BaseFormStore<TSchema>,
   handler: SubmitHandler<TSchema>
 ): (event: SubmitEvent) => void;
+
+// @__NO_SIDE_EFFECTS__
 export function handleSubmit(
   form: BaseFormStore,
   handler: SubmitHandler<Schema>
 ): (event: SubmitEvent) => void {
   return async (event: SubmitEvent) => {
-    // Prevent default behavior of browser
+    // Prevent default browser form submission
     event.preventDefault();
 
     // Get internal form store
     const internalFormStore = form[INTERNAL];
 
-    // Update submit state of form
+    // Mark form as submitted and submitting
     internalFormStore.isSubmitted.value = true;
     internalFormStore.isSubmitting.value = true;
 
@@ -30,6 +42,7 @@ export function handleSubmit(
       const result = await validateFormInput(internalFormStore, {
         shouldFocus: true,
       });
+
       if (result.success) {
         await handler(result.output, event);
       }
@@ -42,7 +55,7 @@ export function handleSubmit(
           : 'An unknown error has occurred.',
       ];
 
-      // Finally set submitting back to "false"
+      // Finally reset submitting state
     } finally {
       internalFormStore.isSubmitting.value = false;
     }

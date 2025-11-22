@@ -1,0 +1,29 @@
+---
+title: Schema
+description: Type definition for any Valibot schema (synchronous or asynchronous) used with form validation.
+source: /packages/core/src/types/schema.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# Schema
+
+Schema type definition that represents any Valibot schema that can be used with Formisch.
+
+## Definition
+
+- `Schema` <Property {...properties.Schema} />
+
+## Related
+
+### Primitives
+
+<ApiList items={[{ text: 'createForm', href: '/solid/api/createForm/' }]} />
+
+### Methods
+
+<ApiList items={[{ text: 'validate', href: '/methods/api/validate/' }]} />

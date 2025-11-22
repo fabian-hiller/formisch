@@ -1,0 +1,32 @@
+---
+title: SetFieldInputConfig
+description: Configuration interface for setting field-specific input.
+source: /packages/methods/src/setInput/setInput.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# SetFieldInputConfig
+
+Configuration interface for setting field-specific input. Used by the `setInput` method when a specific field path is provided.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Definition
+
+- `SetFieldInputConfig`
+  - `path` <Property {...properties.path} />
+  - `input` <Property {...properties.input} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'setInput', href: '../setInput/' }]} />

@@ -1,13 +1,13 @@
 {
   "name": "@formisch/solid",
   "description": "The modular and type-safe form library for SolidJS",
-  "version": "0.2.0",
+  "version": "0.6.1",
   "license": "MIT",
   "author": "Fabian Hiller",
   "homepage": "https://formisch.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fabian-hiller/formisch"
+    "url": "https://github.com/open-circle/formisch"
   },
   "keywords": [
     "solidjs",

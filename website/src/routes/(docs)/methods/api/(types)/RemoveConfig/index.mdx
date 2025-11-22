@@ -1,0 +1,32 @@
+---
+title: RemoveConfig
+description: Configuration interface for removing items from array fields.
+source: /packages/methods/src/remove/remove.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# RemoveConfig
+
+Configuration interface for removing items from array fields. Used by the `remove` method.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldArrayPath` <Property {...properties.TFieldArrayPath} />
+
+## Definition
+
+- `RemoveConfig`
+  - `path` <Property {...properties.path} />
+  - `at` <Property {...properties.at} />
+
+## Related
+
+### Methods
+
+<ApiList items={[{ text: 'remove', href: '../remove/' }]} />

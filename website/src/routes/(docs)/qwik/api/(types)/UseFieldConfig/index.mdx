@@ -1,0 +1,25 @@
+---
+title: UseFieldConfig
+description: Configuration object for creating a field store with useField.
+source: /frameworks/qwik/src/hooks/useField/useField.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { Property } from '~/components';
+import { properties } from './properties';
+
+# UseFieldConfig
+
+Configuration object for creating a field store with <Link href="../useField/">`useField`</Link>.
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldPath` <Property {...properties.TFieldPath} />
+
+## Definition
+
+- `UseFieldConfig`
+  - `path` <Property {...properties.path} />

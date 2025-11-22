@@ -11,20 +11,50 @@ import {
 } from '@formisch/core';
 import type * as v from 'valibot';
 
+/**
+ * Get form input config interface.
+ */
 export interface GetFormInputConfig {
+  /**
+   * The path to a field. Leave undefined to get the entire form input.
+   */
   readonly path?: undefined;
 }
 
+/**
+ * Get field input config interface.
+ */
 export interface GetFieldInputConfig<
   TSchema extends Schema,
   TFieldPath extends RequiredPath,
 > {
+  /**
+   * The path to the field to retrieve input from.
+   */
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
 }
 
+/**
+ * Retrieves the current input value of a specific field or the entire form.
+ * Returns a partial object as not all fields may have been set.
+ *
+ * @param form The form store to retrieve input from.
+ *
+ * @returns The partial input values of the form or the specified field.
+ */
 export function getInput<TSchema extends Schema>(
   form: BaseFormStore<TSchema>
 ): PartialValues<v.InferInput<TSchema>>;
+
+/**
+ * Retrieves the current input value of a specific field or the entire form.
+ * Returns a partial object as not all fields may have been set.
+ *
+ * @param form The form store to retrieve input from.
+ * @param config The get input configuration.
+ *
+ * @returns The partial input values of the form or the specified field.
+ */
 export function getInput<
   TSchema extends Schema,
   TFieldPath extends RequiredPath | undefined = undefined,
@@ -38,6 +68,8 @@ export function getInput<
     ? PathValue<v.InferInput<TSchema>, TFieldPath>
     : v.InferInput<TSchema>
 >;
+
+// @__NO_SIDE_EFFECTS__
 export function getInput(
   form: BaseFormStore,
   config?: GetFormInputConfig | GetFieldInputConfig<Schema, RequiredPath>

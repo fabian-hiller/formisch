@@ -1,0 +1,58 @@
+---
+title: insert
+description: Inserts a new item into a field array at the specified index.
+source: /packages/methods/src/insert/insert.ts
+contributors:
+  - fabian-hiller
+---
+
+import { Link } from '@qwik.dev/router';
+import { ApiList, Property } from '~/components';
+import { properties } from './properties';
+
+# insert
+
+Inserts a new item into a field array at the specified index. All items at or after the insertion point are shifted up by one index.
+
+```ts
+insert<TSchema, TFieldArrayPath>(form, config);
+```
+
+## Generics
+
+- `TSchema` <Property {...properties.TSchema} />
+- `TFieldArrayPath` <Property {...properties.TFieldArrayPath} />
+
+## Parameters
+
+- `form` <Property {...properties.form} />
+- `config` <Property {...properties.config} />
+
+### Explanation
+
+The `form` parameter is the form store containing the field array. The `config` parameter specifies the path to the field array, the index where to insert the new item, and optional initial input values for the new item.
+
+## Related
+
+### Primitives
+
+<ApiList
+  items={[
+    { text: 'createForm', href: '/solid/api/createForm/' },
+    {
+      text: 'useFieldArray',
+      href: '/solid/api/useFieldArray/',
+    },
+  ]}
+/>
+
+### Methods
+
+<ApiList
+  items={[
+    { text: 'move', href: '../move/' },
+    { text: 'remove', href: '../remove/' },
+    { text: 'replace', href: '../replace/' },
+    { text: 'swap', href: '../swap/' },
+  ]}
+/>

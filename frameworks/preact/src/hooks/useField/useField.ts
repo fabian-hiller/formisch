@@ -17,13 +17,27 @@ import type * as v from 'valibot';
 import type { FieldStore, FormStore } from '../../types/index.ts';
 import { usePathSignal } from '../usePathSignal/index.ts';
 
+/**
+ * Use field config interface.
+ */
 export interface UseFieldConfig<
   TSchema extends Schema = Schema,
   TFieldPath extends RequiredPath = RequiredPath,
 > {
+  /**
+   * The path to the field within the form schema.
+   */
   readonly path: ValidPath<v.InferInput<TSchema>, TFieldPath>;
 }
 
+/**
+ * Creates a reactive field store of a specific field within a form store.
+ *
+ * @param form The form store instance.
+ * @param config The field configuration.
+ *
+ * @returns The field store with reactive properties and element props.
+ */
 export function useField<
   TSchema extends Schema,
   TFieldPath extends RequiredPath,
@@ -31,10 +45,13 @@ export function useField<
   form: FormStore<TSchema>,
   config: UseFieldConfig<TSchema, TFieldPath>
 ): FieldStore<TSchema, TFieldPath>;
+
+// @__NO_SIDE_EFFECTS__
 export function useField(form: FormStore, config: UseFieldConfig): FieldStore {
   const pathSignal = usePathSignal(config.path);
+  const internalFormStore = form[INTERNAL];
   const internalFieldStore = useComputed(() =>
-    getFieldStore(form[INTERNAL], pathSignal.value)
+    getFieldStore(internalFormStore, pathSignal.value)
   );
 
   useSignalEffect(() => {
@@ -72,24 +89,37 @@ export function useField(form: FormStore, config: UseFieldConfig): FieldStore {
         },
         onFocus() {
           setFieldBool(internalFieldStore.value, 'isTouched', true);
-          validateIfRequired(form[INTERNAL], internalFieldStore.value, 'touch');
+          validateIfRequired(
+            internalFormStore,
+            internalFieldStore.value,
+            'touch'
+          );
         },
         onInput(event) {
           setFieldInput(
-            internalFieldStore.value,
+            internalFormStore,
+            pathSignal.value,
             getElementInput(event.currentTarget, internalFieldStore.value)
           );
-          validateIfRequired(form[INTERNAL], internalFieldStore.value, 'input');
+          validateIfRequired(
+            internalFormStore,
+            internalFieldStore.value,
+            'input'
+          );
         },
         onChange() {
           validateIfRequired(
-            form[INTERNAL],
+            internalFormStore,
             internalFieldStore.value,
             'change'
           );
         },
         onBlur() {
-          validateIfRequired(form[INTERNAL], internalFieldStore.value, 'blur');
+          validateIfRequired(
+            internalFormStore,
+            internalFieldStore.value,
+            'blur'
+          );
         },
       },
     }),
